@@ -57,4 +57,11 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+
+    // JUnit for unit testing
+    testImplementation ("junit:junit:4.13.2")
+
+    // Mockito for mocking
+    testImplementation ("org.mockito:mockito-core:3.9.0")
 }
