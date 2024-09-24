@@ -14,30 +14,9 @@
         android:theme="@style/Theme.DishDash"
         tools:targetApi="31">
         <activity
-            android:name=".splashscreen.view.SplashScreenActivity"
-            android:exported="false" />
-        <activity
-            android:name=".searchrecipes.view.SearchRecipesActivity"
-            android:exported="false"
-            android:theme="@style/Theme.DishDash" />
-        <activity
-            android:name=".mealplan.view.MealPlanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".foryour.view.ForYouActivity"
-            android:exported="false" />
-        <activity
-            android:name=".favrecipes.view.FavRecipesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".detailsrecipes.view.DetailsRecipesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".addtoplan.view.AddToPlanActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
