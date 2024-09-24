@@ -1,4 +1,4 @@
-package com.example.dishdash.foryou;
+package com.example.dishdash.foryou.view;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

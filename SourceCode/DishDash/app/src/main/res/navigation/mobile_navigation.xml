@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.dishdash.foryou.ForYouFragment"
+        android:name="com.example.dishdash.foryou.view.ForYouFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 

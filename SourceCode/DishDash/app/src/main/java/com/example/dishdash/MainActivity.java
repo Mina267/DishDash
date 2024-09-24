@@ -3,6 +3,11 @@ package com.example.dishdash;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.dishdash.model.Categories;
+import com.example.dishdash.model.FilterMeals;
+import com.example.dishdash.model.ListAllArea;
+import com.example.dishdash.model.ListAllCategories;
+import com.example.dishdash.model.ListAllIngredient;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.network.MealRemoteDataSource;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
@@ -19,11 +24,10 @@ import com.example.dishdash.databinding.ActivityMainBinding;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NetworkDelegate {
+public class MainActivity extends AppCompatActivity{
 
     private ActivityMainBinding binding;
     private static final String TAG = "MainActivity";
-    MealRemoteDataSource mealRemoteDataSource;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,22 +46,10 @@ public class MainActivity extends AppCompatActivity implements NetworkDelegate {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
 
-        mealRemoteDataSource = MealRemoteDataSourceImpl.getInstance();
-        mealRemoteDataSource.searchMealsByName("Arrabiata", this);
-        mealRemoteDataSource.searchMealsByFirstLetter('a', this);
-    }
-
-
-    @Override
-    public void onSuccessResult(List<Meal> mealsList) {
-        Log.i(TAG, "onSuccessResult: " + mealsList);
-        Log.i(TAG, "onSuccessResult: " + mealsList.get(0).getStrCategory());
 
     }
 
-    @Override
-    public void onFailureResult(String errorMsg) {
-        Log.i(TAG, "onFailureResult: ");
-    }
+
+
 
 }
