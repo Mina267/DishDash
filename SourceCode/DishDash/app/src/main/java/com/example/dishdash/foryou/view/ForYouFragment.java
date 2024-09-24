@@ -5,14 +5,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.dishdash.R;
 import com.example.dishdash.databinding.FragmentHomeBinding;
+import com.example.dishdash.db.FavoriteMealLocalDataSource;
+import com.example.dishdash.db.FavoriteMealLocalDataSourceImpl;
+import com.example.dishdash.db.MealPlanLocalDataSource;
 import com.example.dishdash.model.Categories;
+import com.example.dishdash.model.FavoriteMeal;
 import com.example.dishdash.model.FilterMeals;
 import com.example.dishdash.model.ListAllArea;
 import com.example.dishdash.model.ListAllCategories;
@@ -28,7 +37,12 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
     private static final String TAG = "ForYouFragment";
     private FragmentHomeBinding binding;
     MealRemoteDataSource mealRemoteDataSource;
-    
+    ImageView imageView;
+    ImageView imageView2;
+    FavoriteMealLocalDataSource favoriteMealLocalDataSource;
+    MealPlanLocalDataSource mealPlanLocalDataSource;
+    FavoriteMeal favoriteMeal;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ForYouViewModel forYouViewModel =
@@ -54,11 +68,12 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
         mealRemoteDataSource.listAllAreas(this);
         mealRemoteDataSource.listAllCategoriesSimple(this);
         mealRemoteDataSource.listAllIngredients(this);
-        
 
-        
-        
-        
+
+        imageView = root.findViewById(R.id.imageView);
+        imageView2 = root.findViewById(R.id.imageView2);
+
+
         return root;
     }
 
@@ -68,13 +83,26 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
         binding = null;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        favoriteMealLocalDataSource = FavoriteMealLocalDataSourceImpl.getInstance(getContext());
 
+
+    }
 
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
         Log.i(TAG, "onSuccessMeals: " + mealsList);
         Log.i(TAG, "onSuccessMeals: " + mealsList.get(0).getStrCategory());
 
+        Glide.with(getContext())
+                .load(mealsList.get(0).getStrMealThumb())
+                .apply(new RequestOptions().override(200, 200)
+                        .placeholder(R.drawable.nophotoavailable)
+                        .error(R.drawable.ic_launcher_foreground))
+                .into(imageView);
+        //favoriteMealLocalDataSource.insertFavorite(mealsList.get(0));
     }
 
     @Override
@@ -82,6 +110,7 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
         Log.i(TAG, "onSuccessCategories: ");
         Log.i(TAG, "onSuccessCategories: " + categoriesList);
         Log.i(TAG, "onSuccessCategories: " + categoriesList.get(0).getStrCategory());
+
     }
 
     @Override
@@ -110,6 +139,13 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
         Log.i(TAG, "onSuccessFilteredMeals: ");
         Log.i(TAG, "onSuccessFilteredMeals: " + FilterMealsList);
         Log.i(TAG, "onSuccessFilteredMeals: " + FilterMealsList.get(0).getStrMeal());
+
+        Glide.with(getContext())
+                .load(FilterMealsList.get(0).getStrMealThumb())
+                .apply(new RequestOptions().override(200, 200)
+                        .placeholder(R.drawable.nophotoavailable)
+                        .error(R.drawable.ic_launcher_foreground))
+                .into(imageView2);
     }
 
     @Override

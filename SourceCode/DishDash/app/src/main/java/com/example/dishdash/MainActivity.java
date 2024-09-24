@@ -3,7 +3,11 @@ package com.example.dishdash;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.dishdash.db.FavoriteMealLocalDataSource;
+import com.example.dishdash.db.FavoriteMealLocalDataSourceImpl;
+import com.example.dishdash.db.MealPlanLocalDataSource;
 import com.example.dishdash.model.Categories;
+import com.example.dishdash.model.FavoriteMeal;
 import com.example.dishdash.model.FilterMeals;
 import com.example.dishdash.model.ListAllArea;
 import com.example.dishdash.model.ListAllCategories;
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity{
 
     private ActivityMainBinding binding;
     private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
