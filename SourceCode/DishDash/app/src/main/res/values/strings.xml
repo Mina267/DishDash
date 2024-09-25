@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">DishDash</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dashboard">SEARCH</string>
+    <string name="title_notifications">MEAL PLAN</string>
     <string name="foryou">FOR YOU</string>
     <string name="search">SEARCH</string>
     <string name="mealplan">MEAL PLAN</string>
+    <string name="dishdash">DishDash</string>
 </resources>
