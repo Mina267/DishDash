@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 
-//@Entity(tableName = "Meal_table")
-@Entity(tableName = "FavMeals_table")
+@Entity(tableName = "meal_table")
 public class Meal {
 
     @PrimaryKey

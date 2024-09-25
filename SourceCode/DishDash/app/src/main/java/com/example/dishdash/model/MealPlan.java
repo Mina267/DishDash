@@ -1,25 +1,32 @@
 package com.example.dishdash.model;
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-@Entity(tableName = "MealPlan_table")
-public class MealPlan extends Meal{
+@Entity(tableName = "mealplan_table")
+public class MealPlan {
+
+    @PrimaryKey(autoGenerate = true)
+    public int idDay;
+    public String dayName;
 
 
 
-    private String week;
-
-    public String getWeek() {
-        return week;
+    public int getIdDay() {
+        return idDay;
     }
 
-    public void setWeek(String week) {
-        this.week = week;
+    public String getDayName() {
+        return dayName;
     }
 
+    public void setIdDay(int idDay) {
+        this.idDay = idDay;
+    }
 
-
-
-
-
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
+    }
 }
+
+

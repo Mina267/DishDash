@@ -1,21 +1,7 @@
 package com.example.dishdash;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import com.example.dishdash.db.FavoriteMealLocalDataSource;
-import com.example.dishdash.db.FavoriteMealLocalDataSourceImpl;
-import com.example.dishdash.db.MealPlanLocalDataSource;
-import com.example.dishdash.model.Categories;
-import com.example.dishdash.model.FavoriteMeal;
-import com.example.dishdash.model.FilterMeals;
-import com.example.dishdash.model.ListAllArea;
-import com.example.dishdash.model.ListAllCategories;
-import com.example.dishdash.model.ListAllIngredient;
-import com.example.dishdash.model.Meal;
-import com.example.dishdash.network.MealRemoteDataSource;
-import com.example.dishdash.network.MealRemoteDataSourceImpl;
-import com.example.dishdash.network.NetworkDelegate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.dishdash.databinding.ActivityMainBinding;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 

@@ -11,22 +11,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dishdash.R;
 import com.example.dishdash.databinding.FragmentHomeBinding;
-import com.example.dishdash.db.FavoriteMealLocalDataSource;
-import com.example.dishdash.db.FavoriteMealLocalDataSourceImpl;
+import com.example.dishdash.db.MealLocalDataSource;
+import com.example.dishdash.db.MealLocalDataSourceImpl;
 import com.example.dishdash.db.MealPlanLocalDataSource;
+import com.example.dishdash.db.MealPlanLocalDataSourceImpl;
 import com.example.dishdash.model.Categories;
-import com.example.dishdash.model.FavoriteMeal;
 import com.example.dishdash.model.FilterMeals;
 import com.example.dishdash.model.ListAllArea;
 import com.example.dishdash.model.ListAllCategories;
 import com.example.dishdash.model.ListAllIngredient;
 import com.example.dishdash.model.Meal;
+import com.example.dishdash.model.MealPlan;
+import com.example.dishdash.model.MealPlanJunction;
 import com.example.dishdash.network.MealRemoteDataSource;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 import com.example.dishdash.network.NetworkDelegate;
@@ -39,9 +42,8 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
     MealRemoteDataSource mealRemoteDataSource;
     ImageView imageView;
     ImageView imageView2;
-    FavoriteMealLocalDataSource favoriteMealLocalDataSource;
+    MealLocalDataSource mealLocalDataSource;
     MealPlanLocalDataSource mealPlanLocalDataSource;
-    FavoriteMeal favoriteMeal;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -86,7 +88,8 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        favoriteMealLocalDataSource = FavoriteMealLocalDataSourceImpl.getInstance(getContext());
+        mealLocalDataSource = MealLocalDataSourceImpl.getInstance(getContext());
+        mealPlanLocalDataSource = MealPlanLocalDataSourceImpl.getInstance(getContext());
 
 
     }
@@ -102,7 +105,22 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
                         .placeholder(R.drawable.nophotoavailable)
                         .error(R.drawable.ic_launcher_foreground))
                 .into(imageView);
-        //favoriteMealLocalDataSource.insertFavorite(mealsList.get(0));
+        //favoriteMeal = new FavoriteMeal(mealsList.get(0)) ;
+        mealLocalDataSource.insertMeal(mealsList.get(0));
+
+
+        MealPlan mealPlan = new MealPlan();
+        mealPlan.setDayName("Monday");
+        mealPlanLocalDataSource.insertPlanMealForDay(mealPlan);
+
+        MealPlanJunction junction = new MealPlanJunction(mealPlan.getIdDay(), mealsList.get(0).getIdMeal());
+
+        mealPlanLocalDataSource.insertMealDayJunction(junction);
+
+        LiveData<List<Meal>> mealss = mealPlanLocalDataSource.getMealsOfTheDay(mealPlan.idDay);
+
+        //Log.i(TAG, "onSuccessMeals: " + mealsList.get(0).getStrCategory());
+
     }
 
     @Override
@@ -153,3 +171,4 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
         Log.i(TAG, "onFailureResult: ");
     }
 }
+

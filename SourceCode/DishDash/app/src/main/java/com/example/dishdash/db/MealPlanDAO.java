@@ -8,7 +8,9 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealPlan;
+import com.example.dishdash.model.MealPlanJunction;
 
 import java.util.List;
 
@@ -18,12 +20,22 @@ public interface MealPlanDAO {
     @Query("SELECT * FROM MealPlan_table")
     LiveData<List<MealPlan>> getAllMealPlans();
 
-    @Query("SELECT * FROM MealPlan_table WHERE week = :week")
-    LiveData<List<MealPlan>> getMealsForWeek(String week);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMeal(MealPlan meal);
-
     @Delete
-    void deleteMeal(MealPlan meal);
+    void deleteMeal(MealPlan mealPlan);
+
+
+    // Meal Plan table
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertDay(MealPlan mealPlan);
+
+    // Meal-Day Junction table
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertDayMealJunction(MealPlanJunction mealPlanJunction);
+
+    @Query("SELECT meal_table.* FROM meal_table " +
+            "JOIN plan_junction_table ON meal_table.idMeal = plan_junction_table.idMeal " +
+            "JOIN mealplan_table ON plan_junction_table.idDay = mealplan_table.idDay\n" +
+            "WHERE mealplan_table.idDay = :idDay")
+    LiveData<List<Meal>> getMealsOfDay(int idDay);
+
 }

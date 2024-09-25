@@ -5,7 +5,9 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealPlan;
+import com.example.dishdash.model.MealPlanJunction;
 
 import java.util.List;
 
@@ -32,9 +34,19 @@ public class MealPlanLocalDataSourceImpl implements MealPlanLocalDataSource {
         return storedMealPlans;
     }
 
+    public void insertMealDayJunction(MealPlanJunction mealPlanJunction)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mealPlanDAO.insertDayMealJunction(mealPlanJunction);
+            }
+        }).start();
+    }
+
     @Override
-    public LiveData<List<MealPlan>> getStoredWeekMeals(String week) {
-        return mealPlanDAO.getMealsForWeek(week);
+    public LiveData<List<Meal>> getMealsOfTheDay(int day) {
+        return mealPlanDAO.getMealsOfDay(day);
     }
 
     @Override
@@ -48,11 +60,11 @@ public class MealPlanLocalDataSourceImpl implements MealPlanLocalDataSource {
     }
 
     @Override
-    public void insertMeal(MealPlan mealPlan) {
+    public void insertPlanMealForDay(MealPlan mealPlan) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mealPlanDAO.insertMeal(mealPlan);
+                mealPlanDAO.insertDay(mealPlan);
             }
         }).start();
     }
