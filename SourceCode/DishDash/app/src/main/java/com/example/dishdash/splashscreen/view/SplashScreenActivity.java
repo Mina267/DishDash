@@ -30,7 +30,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, 20000);
+        handler.postDelayed(runnable, 2000);
     }
 
     @Override

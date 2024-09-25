@@ -24,8 +24,7 @@ public class MealPlanFragment extends Fragment {
         binding = FragmentMealplanBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
         return root;
     }
 

@@ -53,8 +53,6 @@ public class ForYouFragment extends Fragment  implements NetworkDelegate {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        forYouViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
 
 

@@ -1,10 +1,19 @@
 <resources>
     <string name="app_name">DishDash</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">SEARCH</string>
-    <string name="title_notifications">MEAL PLAN</string>
+    <string name="title_home">For You</string>
+    <string name="title_dashboard">Search</string>
+    <string name="title_notifications">Meal Plan</string>
     <string name="foryou">FOR YOU</string>
     <string name="search">SEARCH</string>
     <string name="mealplan">MEAL PLAN</string>
     <string name="dishdash">DishDash</string>
+    <string name="dailyinspiration">Daily Inspiration</string>
+    <string name="thisweek">This Week</string>
+    <string name="recipe">RECIPE</string>
+    <string name="country">Country</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="steps">Steps</string>
+    <string name="add_fav">Add To Favorite</string>
+    <string name="addtoplan">ADD TO PLAN</string>
+
 </resources>
