@@ -16,6 +16,7 @@ import com.example.dishdash.R;
 public class SplashScreenActivity extends AppCompatActivity {
     private Handler handler;
     private Runnable runnable;
+    private static final int SPLASH_SCREEN_TIME_IN_SEC = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, 2000);
+        handler.postDelayed(runnable, SPLASH_SCREEN_TIME_IN_SEC * 1000);
     }
 
     @Override

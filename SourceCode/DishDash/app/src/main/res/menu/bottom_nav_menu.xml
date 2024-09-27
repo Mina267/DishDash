@@ -15,5 +15,9 @@
         android:id="@+id/navigation_mealplan"
         android:icon="@drawable/baseline_calendar_today_24"
         android:title="@string/mealplan" />
+    <item
+        android:id="@+id/navigation_fav"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="@string/favourite" />
 
 </menu>

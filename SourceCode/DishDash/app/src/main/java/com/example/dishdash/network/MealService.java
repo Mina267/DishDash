@@ -13,50 +13,47 @@ import retrofit2.http.Query;
 
 public interface MealService {
 
-    // Search meals by name
+    /* Search meals by name */
     @GET("search.php")
     Call<MealsRoot> searchMealsByName(@Query("s") String mealName);
 
-    // Search meals by first letter
+    /* Search meals by first letter */
     @GET("search.php")
     Call<MealsRoot> searchMealsByFirstLetter(@Query("f") char firstLetter);
 
-    // Lookup full meal details by ID
+    /* Lookup full meal details by ID */
     @GET("lookup.php")
     Call<MealsRoot> lookupMealById(@Query("i") String mealId);
 
-    // Lookup a random meal
+    /* Lookup a random meal */
     @GET("random.php")
     Call<MealsRoot> lookupRandomMeal();
 
-    // List all meal categories
+    /* List all meal categories */
     @GET("categories.php")
     Call<CategoriesRoot> listAllCategories();
-
-
-
-    /*****/
-    // List all meal categories (simple list)
+    
+    /* List all meal categories */
     @GET("list.php?c=list")
     Call<ListAllCategoriesRoot> listAllCategoriesSimple();
 
-    // List all areas
+    /* List all areas */
     @GET("list.php?a=list")
     Call<ListAllAreaRoot> listAllAreas();
 
-    // List all ingredients
+    /* List all ingredients */
     @GET("list.php?i=list")
     Call<ListAllIngredientRoot> listAllIngredients();
 
-    // Filter meals by category
+    /* Filter meals by category */
     @GET("filter.php")
     Call<FilterMealsRoot> filterMealsByCategory(@Query("c") String category);
 
-    // Filter meals by area
+    /* Filter meals by area */
     @GET("filter.php")
     Call<FilterMealsRoot> filterMealsByArea(@Query("a") String area);
 
-    // Filter meals by main ingredient
+    /* Filter meals by main ingredient */
     @GET("filter.php")
     Call<FilterMealsRoot> filterMealsByIngredient(@Query("i") String ingredient);
 }

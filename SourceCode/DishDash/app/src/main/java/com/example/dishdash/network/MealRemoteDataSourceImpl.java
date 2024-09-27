@@ -168,7 +168,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             @Override
             public void onResponse(Call<ListAllAreaRoot> call, Response<ListAllAreaRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
-                    Log.i(TAG, "Simple Categories found: " + response.body().getMeals().size());
+                    Log.i(TAG, "listAllAreas found: " + response.body().getMeals().size());
                     networkCallback.onSuccessArea(response.body().getMeals());
                 } else {
                     networkCallback.onFailureResult("No categories found.");
@@ -188,7 +188,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             @Override
             public void onResponse(Call<ListAllIngredientRoot> call, Response<ListAllIngredientRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
-                    Log.i(TAG, "Simple Categories found: " + response.body().getMeals().size());
+                    Log.i(TAG, "listAllIngredients found: " + response.body().getMeals().size());
                     networkCallback.onSuccessIngredients(response.body().getMeals());
                 } else {
                     networkCallback.onFailureResult("No categories found.");
@@ -208,7 +208,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             @Override
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
-                    Log.i(TAG, "Simple Categories found: " + response.body().getMeals().size());
+                    Log.i(TAG, "filterMealsByCategory found: " + response.body().getMeals().size());
                     networkCallback.onSuccessFilteredMeals(response.body().getMeals());
                 } else {
                     networkCallback.onFailureResult("No categories found.");
@@ -229,7 +229,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             @Override
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
-                    Log.i(TAG, "Simple Categories found: " + response.body().getMeals().size());
+                    Log.i(TAG, "filterMealsByArea found: " + response.body().getMeals().size());
                     networkCallback.onSuccessFilteredMeals(response.body().getMeals());
                 } else {
                     networkCallback.onFailureResult("No categories found.");
@@ -249,7 +249,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             @Override
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
-                    Log.i(TAG, "Simple Categories found: " + response.body().getMeals().size());
+                    Log.i(TAG, "filterMealsByIngredient found: " + response.body().getMeals().size());
                     networkCallback.onSuccessFilteredMeals(response.body().getMeals());
                 } else {
                     networkCallback.onFailureResult("No categories found.");
