@@ -1,11 +1,10 @@
-package com.example.dishdash.foryou.view;
+package com.example.dishdash.favrecipes.view;
 
 
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,30 +24,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder> {
+public class FavRecipesAdapter extends RecyclerView.Adapter<FavRecipesAdapter.ViewHolder> {
     private static final String TAG = "AllMealsAdapter";
     private Context context;
     private List<Meal> mealsList;
-    private OnMealClickListener listener;
-    private OnItemClickListener onItemClickListener;
+    private OnFavoriteClickListener listener;
 
-    public ForYouAdapter(Context context, List<Meal> mealsList, OnMealClickListener listener, OnItemClickListener onItemClickListener) {
+    public FavRecipesAdapter(Context context, List<Meal> mealsList, OnFavoriteClickListener listener) {
         this.context = context;
         this.mealsList = mealsList;
         this.listener = listener;
-        this.onItemClickListener = onItemClickListener;
     }
 
-    // Define an interface for the click listener
-    public interface OnItemClickListener {
-        void onItemClick(Meal meal, int position);
-    }
+
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_recipe, parent, false);
+                .inflate(R.layout.card_fav, parent, false);
         return new ViewHolder(view);
     }
 
@@ -67,27 +61,22 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
                 .into(holder.img_card);
         holder.txt_card.setText(meal.getStrMeal());
 
-
         holder.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onForYouMealClick(meal);
+                listener.onFavMealClick(meal);
             }
         });
-
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (onItemClickListener != null) {
-                    Log.i(TAG, "onClick: "  + mealsList.get(currentPosition).getStrMeal());
-                    onItemClickListener.onItemClick(meal, currentPosition);
-                }
+
                 NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment_activity_main);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("meal", meal); // Pass the Meal object using a Bundle
-                navController.navigate(R.id.action_navigation_home_to_detailsRecipesFragment, bundle);
+                navController.navigate(R.id.action_navigation_fav_to_detailsRecipesFragment, bundle);
 
 
 
@@ -111,13 +100,12 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
         private TextView txt_card;
         private FloatingActionButton floatingActionButton;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img_card = itemView.findViewById(R.id.img_card);
             txt_card = itemView.findViewById(R.id.txt_card);
-            floatingActionButton = itemView.findViewById(R.id.fab_add_favorite);
-
-
+            floatingActionButton = itemView.findViewById(R.id.fab_remove_favorite);
         }
     }
 }

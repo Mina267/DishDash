@@ -1,5 +1,7 @@
 package com.example.dishdash.network;
 
+import android.graphics.Bitmap;
+
 import com.example.dishdash.model.Categories;
 import com.example.dishdash.model.FilterMeals;
 import com.example.dishdash.model.ListAllArea;
@@ -17,6 +19,7 @@ public interface NetworkDelegate {
     void onSuccessArea(List<ListAllArea> AreaList);
     void onSuccessIngredients(List<ListAllIngredient> IngredientsList);
     void onSuccessFilteredMeals(List<FilterMeals> FilterMealsList);
+    void onSuccessIngredientImage(Bitmap bitmap);
 
 
 

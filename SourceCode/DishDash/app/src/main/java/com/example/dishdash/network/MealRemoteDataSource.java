@@ -12,4 +12,5 @@ public interface MealRemoteDataSource {
     void filterMealsByCategory(String category, NetworkDelegate networkCallback);
     void filterMealsByArea(String area, NetworkDelegate networkCallback);
     void filterMealsByIngredient(String ingredient, NetworkDelegate networkCallback);
-}
+    void fetchIngredientImage(String ingredientName, NetworkDelegate networkCallback);
+    }

@@ -1,5 +1,7 @@
 package com.example.dishdash.network;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.dishdash.model.CategoriesRoot;
@@ -9,6 +11,7 @@ import com.example.dishdash.model.ListAllCategoriesRoot;
 import com.example.dishdash.model.ListAllIngredientRoot;
 import com.example.dishdash.model.MealsRoot;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -260,6 +263,32 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             public void onFailure(Call<FilterMealsRoot> call, Throwable throwable) {
                 networkCallback.onFailureResult(throwable.getMessage());
 
+            }
+        });
+    }
+
+
+    public void fetchIngredientImage(String ingredientName, NetworkDelegate networkCallback) {
+        String imageUrl = "https://www.themealdb.com/images/ingredients/" + ingredientName + "-Small.png";
+
+        mealService.getIngredientImage(imageUrl).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    ResponseBody body = response.body();
+                    if (body != null) {
+                        Bitmap bitmap = BitmapFactory.decodeStream(body.byteStream());
+                        networkCallback.onSuccessIngredientImage(bitmap);
+                    }
+                } else {
+                    Log.e("MealRepository", "Failed to fetch image: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                Log.e("MealRepository", "Error: " + throwable.getMessage());
+                networkCallback.onFailureResult(throwable.getMessage());
             }
         });
     }

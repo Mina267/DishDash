@@ -1,5 +1,6 @@
 package com.example.dishdash.foryou.presenter;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.example.dishdash.foryou.view.ForYouView;
@@ -38,6 +39,11 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     }
 
+    @Override
+    public void addToFavourite(Meal meal) {
+        mealRepository.insertMeal(meal);
+    }
+
 
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
@@ -73,6 +79,11 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     @Override
     public void onSuccessFilteredMeals(List<FilterMeals> FilterMealsList) {
+
+    }
+
+    @Override
+    public void onSuccessIngredientImage(Bitmap bitmap) {
 
     }
 

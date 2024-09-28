@@ -32,7 +32,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
+
+
 
 dependencies {
 
@@ -71,6 +74,16 @@ dependencies {
     implementation ("com.airbnb.android:lottie:6.1.0")
 
     implementation ("com.google.android.material:material:1.3.0")
+
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
+    implementation ("com.airbnb.android:lottie:latest_version")
+    implementation ("com.google.firebase:firebase-firestore:25.1.0")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.8.1")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.8.1")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation ("com.furkanakdemir:surroundcardview:1.0.6")
+    implementation ("com.google.android.material:material:1.4.0")
 
 
 }

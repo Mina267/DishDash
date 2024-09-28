@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_fav">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.dishdash.foryou.view.ForYouFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_detailsRecipesFragment"
+            app:destination="@id/detailsRecipesFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -26,5 +30,14 @@
         android:id="@+id/navigation_fav"
         android:name="com.example.dishdash.favrecipes.view.FavRecipesFragment"
         android:label="Favourite"
-        tools:layout="@layout/fragment_fav_recipes" />
+        tools:layout="@layout/fragment_fav_recipes" >
+        <action
+            android:id="@+id/action_navigation_fav_to_detailsRecipesFragment"
+            app:destination="@id/detailsRecipesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsRecipesFragment"
+        android:name="com.example.dishdash.detailsrecipes.view.DetailsRecipesFragment"
+        android:label="fragment_details_recipes"
+        tools:layout="@layout/fragment_details_recipes" />
 </navigation>

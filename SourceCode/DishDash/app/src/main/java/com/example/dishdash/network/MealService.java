@@ -7,9 +7,11 @@ import com.example.dishdash.model.ListAllCategoriesRoot;
 import com.example.dishdash.model.ListAllIngredientRoot;
 import com.example.dishdash.model.MealsRoot;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface MealService {
 
@@ -56,4 +58,8 @@ public interface MealService {
     /* Filter meals by main ingredient */
     @GET("filter.php")
     Call<FilterMealsRoot> filterMealsByIngredient(@Query("i") String ingredient);
+
+
+    @GET
+    Call<ResponseBody> getIngredientImage(@Url String imageUrl);
 }

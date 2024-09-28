@@ -105,7 +105,8 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
 
-    LiveData<List<MealPlan>> getStoredMealsPlan() {
+    @Override
+    public LiveData<List<MealPlan>> getStoredMealsPlan() {
         return mealPlanLocalDataSource.getStoredMeals();
     }
 
@@ -114,13 +115,21 @@ public class MealRepositoryImpl implements MealRepository {
         return mealPlanLocalDataSource.getMealsOfTheDay(day);
     }
 
-    void deleteMealPlan(MealPlan mealPlan) {
+    @Override
+    public void deleteMealPlan(MealPlan mealPlan) {
         mealPlanLocalDataSource.deleteMeal(mealPlan);
     }
 
-    void insertPlanMealForDay(MealPlan mealPlan) {
+    @Override
+    public void insertPlanMealForDay(MealPlan mealPlan) {
         mealPlanLocalDataSource.insertPlanMealForDay(mealPlan);
     }
+
+    @Override
+    public void getIngredientImg(String ingredientName, NetworkDelegate networkCallback) {
+        mealRemoteDataSource.fetchIngredientImage(ingredientName, networkCallback);
+    }
+
 
 
 

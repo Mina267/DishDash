@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -92,6 +93,9 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
 
         foryouRecyclerView. setAdapter(forYouAdapter);
+
+
+
         forYouPresenter.getRandomProduct();
 
 
@@ -113,12 +117,16 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
     @Override
     public void showErrMsg(String error) {
+        foryouRecyclerView.setVisibility(View.GONE);
 
+        Log.i(TAG, "onFailureResult: ");
+        Toast.makeText(getContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onForYouMealClick(Meal product) {
-
+    public void onForYouMealClick(Meal meal) {
+        forYouPresenter.addToFavourite(meal);
+        Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Addded to Favorites", Toast.LENGTH_SHORT).show();
     }
 }
 
