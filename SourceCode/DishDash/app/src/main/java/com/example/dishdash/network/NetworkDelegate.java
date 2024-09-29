@@ -12,14 +12,15 @@ import com.example.dishdash.model.Meal;
 import java.util.List;
 
 public interface NetworkDelegate {
+    void onSuccessMealId(Meal meal);
     void onSuccessMeals(List<Meal> mealsList);
     void onSuccessCategories(List<Categories> categoriesList);
 
     void onSuccessCategoriesSimple(List<ListAllCategories> categoriesList);
     void onSuccessArea(List<ListAllArea> AreaList);
-    void onSuccessIngredients(List<ListAllIngredient> IngredientsList);
-    void onSuccessFilteredMeals(List<FilterMeals> FilterMealsList);
-    void onSuccessIngredientImage(Bitmap bitmap);
+    void onSuccessIngredients(List<ListAllIngredient> ingredientsngredientsList);
+    void onSuccessFilteredMeals(List<FilterMeals> filterMealsList);
+    void onSuccessIngredientImage(Bitmap bitmap, String ingredientName);
 
 
 

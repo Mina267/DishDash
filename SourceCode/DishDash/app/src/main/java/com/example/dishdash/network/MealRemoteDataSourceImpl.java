@@ -88,7 +88,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             public void onResponse(Call<MealsRoot> call, Response<MealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
                     Log.i(TAG, "Meal found with ID: " + mealId);
-                    networkCallback.onSuccessMeals(response.body().getMeals());
+                    networkCallback.onSuccessMealId(response.body().getMeals().get(0));
                 } else {
                     networkCallback.onFailureResult("No meal found.");
                 }
@@ -125,6 +125,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     // method to list all meal categories
     @Override
     public void listAllCategories(NetworkDelegate networkCallback) {
+        Log.i(TAG, "listAllCategories: ");
         mealService.listAllCategories().enqueue(new Callback<CategoriesRoot>() {
             @Override
             public void onResponse(Call<CategoriesRoot> call, Response<CategoriesRoot> response) {
@@ -278,7 +279,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
                     ResponseBody body = response.body();
                     if (body != null) {
                         Bitmap bitmap = BitmapFactory.decodeStream(body.byteStream());
-                        networkCallback.onSuccessIngredientImage(bitmap);
+                        networkCallback.onSuccessIngredientImage(bitmap, ingredientName);
                     }
                 } else {
                     Log.e("MealRepository", "Failed to fetch image: " + response.message());

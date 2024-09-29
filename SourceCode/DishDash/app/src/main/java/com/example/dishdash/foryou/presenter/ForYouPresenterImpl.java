@@ -46,6 +46,11 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
 
     @Override
+    public void onSuccessMealId(Meal meal) {
+
+    }
+
+    @Override
     public void onSuccessMeals(List<Meal> mealsList) {
         Log.i(TAG, "onSuccessMeals: " + mealsList.get(0) + " randomRecipesCnt = "+ randomRecipesCnt);
         randomMealsList.add(mealsList.get(0));
@@ -73,19 +78,21 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     }
 
     @Override
-    public void onSuccessIngredients(List<ListAllIngredient> IngredientsList) {
+    public void onSuccessIngredients(List<ListAllIngredient> ingredientsngredientsList) {
 
     }
 
     @Override
-    public void onSuccessFilteredMeals(List<FilterMeals> FilterMealsList) {
+    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList) {
 
     }
 
     @Override
-    public void onSuccessIngredientImage(Bitmap bitmap) {
+    public void onSuccessIngredientImage(Bitmap bitmap, String ingredientName) {
 
     }
+
+
 
     @Override
     public void onFailureResult(String errorMsg) {

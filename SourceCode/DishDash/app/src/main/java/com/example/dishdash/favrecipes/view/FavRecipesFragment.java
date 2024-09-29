@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ public class FavRecipesFragment extends Fragment implements FavRecipesView, OnFa
     private FragmentFavRecipesBinding binding;
     FavRecipesAdapter favRecipesAdapter;
     RecyclerView favRecyclerView;
-    LinearLayoutManager layoutManager;
+    GridLayoutManager gridLayoutManager;
     FragmentManager mgr;
     FavRecipesPresenter favRecipesPresenter;
 
@@ -66,21 +67,26 @@ public class FavRecipesFragment extends Fragment implements FavRecipesView, OnFa
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        favRecyclerView = (RecyclerView) view.findViewById(R.id.favRecyclerView);
+        favRecyclerView = view.findViewById(R.id.favRecyclerView);
 
         favRecipesAdapter = new FavRecipesAdapter(getContext(), new ArrayList<>(), this);
-        layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.VERTICAL, false);
 
-        favRecipesPresenter = new FavRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
+        /* 2 columns grid */
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        favRecyclerView.setLayoutManager(gridLayoutManager);
 
-        favRecyclerView.setLayoutManager(layoutManager);
+        favRecyclerView.setAdapter(favRecipesAdapter);
 
-        favRecyclerView. setAdapter(favRecipesAdapter);
+        favRecipesPresenter = new FavRecipesPresenterImpl(
+                this, MealRepositoryImpl.getInstance(
+                MealRemoteDataSourceImpl.getInstance(),
+                MealLocalDataSourceImpl.getInstance(getContext()),
+                MealPlanLocalDataSourceImpl.getInstance(getContext())
+        )
+        );
 
         favRecipesPresenter.getFavProducts();
-
     }
-    
     
     
 
@@ -92,16 +98,14 @@ public class FavRecipesFragment extends Fragment implements FavRecipesView, OnFa
 
     @Override
     public void showData(LiveData<List<Meal>> meals) {
-        // Observe the LiveData from the repository
         Observer<List<Meal>> observer = new Observer<List<Meal>>() {
             @Override
             public void onChanged(List<Meal> meals) {
-                favRecipesAdapter.updateData(meals);  // Update the adapter with the new list
-                favRecipesAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
+                favRecipesAdapter.updateData(meals);
+                favRecipesAdapter.notifyDataSetChanged();
             }
         };
 
-        // Attach observer to the LiveData object
         meals.observe(this, observer);
     }
 

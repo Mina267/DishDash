@@ -19,7 +19,11 @@
         android:id="@+id/navigation_search"
         android:name="com.example.dishdash.search.view.SearchFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_mealplan"
@@ -38,6 +42,15 @@
     <fragment
         android:id="@+id/detailsRecipesFragment"
         android:name="com.example.dishdash.detailsrecipes.view.DetailsRecipesFragment"
-        android:label="fragment_details_recipes"
+        android:label="Recipe Details"
         tools:layout="@layout/fragment_details_recipes" />
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.example.dishdash.searchresult.view.SearchResultFragment"
+        android:label="Results"
+        tools:layout="@layout/fragment_search_result" >
+        <action
+            android:id="@+id/action_searchResultFragment_to_detailsRecipesFragment"
+            app:destination="@id/detailsRecipesFragment" />
+    </fragment>
 </navigation>

@@ -1,5 +1,7 @@
 package com.example.dishdash.model;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 
 import com.example.dishdash.db.MealLocalDataSource;
@@ -15,7 +17,7 @@ public class MealRepositoryImpl implements MealRepository {
     MealPlanLocalDataSource mealPlanLocalDataSource;
     private static MealRepository repo;
 
-
+    private static final String TAG = "MealRepositoryImpl";
     public static MealRepository getInstance(MealRemoteDataSource mealRemoteDataSource, MealLocalDataSource mealLocalDataSourceImpl, MealPlanLocalDataSource mealPlanLocalDataSourceImpl) {
         if (repo == null) {
             repo = new MealRepositoryImpl(mealRemoteDataSource, mealLocalDataSourceImpl, mealPlanLocalDataSourceImpl);
@@ -55,6 +57,7 @@ public class MealRepositoryImpl implements MealRepository {
     }
     @Override
     public void getAllCategories(NetworkDelegate networkCallback) {
+        Log.i(TAG, "getAllCategories: ");
         mealRemoteDataSource.listAllCategories(networkCallback);
 
     }

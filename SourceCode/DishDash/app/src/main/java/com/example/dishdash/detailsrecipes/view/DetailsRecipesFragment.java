@@ -6,9 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.telecom.Call;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +24,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dishdash.R;
@@ -27,27 +32,37 @@ import com.example.dishdash.db.MealLocalDataSourceImpl;
 import com.example.dishdash.db.MealPlanLocalDataSourceImpl;
 import com.example.dishdash.detailsrecipes.presenter.DetailsRecipesPresenter;
 import com.example.dishdash.detailsrecipes.presenter.DetailsRecipesPresenterImpl;
-import com.example.dishdash.favrecipes.view.FavRecipesView;
+import com.example.dishdash.model.Ingredients;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepositoryImpl;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 
-public class DetailsRecipesFragment extends Fragment implements DetailsRecipesView {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+public class DetailsRecipesFragment extends Fragment implements DetailsRecipesView {
+    private static final String TAG = "DetailsRecipesFragment";
     private ImageView imageMeal;
     private TextView textRecipeTitle;
     private TextView textCountry;
     private TextView textRecipeDescription;
     private TextView textStepsDescription;
-    private RecyclerView recyclerViewIngredients;
     private Button btnAddToPlan;
     private Button btnAddToFavorites;
     private WebView webViewDetails;
     private Meal meal;
     private DetailsRecipesPresenter detailsRecipesPresenter;
+    private List<Ingredients> ListIngredients  = new ArrayList<>();;
+
+    private Map<String, Bitmap> bitmapList;
 
 
-    private ImageView imageViewtest;
+    private DetailsIngredientAdapter detailsIngredientAdapter;
+    private RecyclerView recyclerViewIngredients;
+    LinearLayoutManager layoutManager;
+    FragmentManager mgr;
 
     public DetailsRecipesFragment() {
         // Required empty public constructor
@@ -63,7 +78,9 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details_recipes, container, false);
 
-        // Retrieve the meal passed from the previous fragment
+        /*
+         * Retrieve the meal passed from the previous fragment
+         */
         meal = getArguments().getParcelable("meal");
 
         btnAddToFavorites = view.findViewById(R.id.btnAddToFavorites);
@@ -76,8 +93,6 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         btnAddToPlan = view.findViewById(R.id.btnAddToPlan);
         btnAddToFavorites = view.findViewById(R.id.btnAddToFavorites);
         webViewDetails = view.findViewById(R.id.webViewDetails);
-
-        imageViewtest = view.findViewById(R.id.imageViewtest);
 
         webViewDetails = view.findViewById(R.id.webViewDetails);
         WebSettings webSettings = webViewDetails.getSettings();
@@ -94,6 +109,10 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
                 onCiclkDetailsRecipesAddToFav(meal);
             }
         });
+
+
+        /* get Fragment manager */
+        mgr = getChildFragmentManager();
 
         return view;
     }
@@ -137,7 +156,26 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
 
         detailsRecipesPresenter = new DetailsRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
 
-        detailsRecipesPresenter.getImgOfIngredient("Lime");
+
+
+
+        detailsIngredientAdapter = new DetailsIngredientAdapter(getContext(), new ArrayList<>(), new HashMap<>());
+
+
+
+        recyclerViewIngredients = (RecyclerView) view.findViewById(R.id.recyclerViewIngredients);
+        layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.VERTICAL, false);
+
+
+        detailsRecipesPresenter = new DetailsRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
+
+        recyclerViewIngredients.setLayoutManager(layoutManager);
+        recyclerViewIngredients. setAdapter(detailsIngredientAdapter);
+
+        createIngredientList();
+        detailsRecipesPresenter.getImgOfIngredient(ListIngredients);
+
+
     }
 
     @Override
@@ -160,7 +198,85 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
     }
 
     @Override
-    public void onGetImgOfIngredient(Bitmap bitmap) {
-        imageViewtest.setImageBitmap(bitmap);
+    public void onGetImgOfIngredient(Map<String, Bitmap> ingredientBitmapMap) {
+        if (ingredientBitmapMap != null) {
+            bitmapList = ingredientBitmapMap;
+            detailsIngredientAdapter.updateData(ListIngredients, bitmapList);
+            detailsIngredientAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+
+
+
+
+
+    private void createIngredientList() {
+
+        ListIngredients.clear();
+
+        if (meal.getStrIngredient1() != null && !meal.getStrIngredient1().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient1(), meal.getStrMeasure1()));
+        }
+        if (meal.getStrIngredient2() != null && !meal.getStrIngredient2().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient2(), meal.getStrMeasure2()));
+        }
+        if (meal.getStrIngredient3() != null && !meal.getStrIngredient3().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient3(), meal.getStrMeasure3()));
+        }
+        if (meal.getStrIngredient4() != null && !meal.getStrIngredient4().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient4(), meal.getStrMeasure4()));
+        }
+        if (meal.getStrIngredient5() != null && !meal.getStrIngredient5().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient5(), meal.getStrMeasure5()));
+        }
+        if (meal.getStrIngredient6() != null && !meal.getStrIngredient6().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient6(), meal.getStrMeasure6()));
+        }
+        if (meal.getStrIngredient7() != null && !meal.getStrIngredient7().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient7(), meal.getStrMeasure7()));
+        }
+        if (meal.getStrIngredient8() != null && !meal.getStrIngredient8().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient8(), meal.getStrMeasure8()));
+        }
+        if (meal.getStrIngredient9() != null && !meal.getStrIngredient9().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient9(), meal.getStrMeasure9()));
+        }
+        if (meal.getStrIngredient10() != null && !meal.getStrIngredient10().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient10(), meal.getStrMeasure10()));
+        }
+        if (meal.getStrIngredient11() != null && !meal.getStrIngredient11().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient11(), meal.getStrMeasure11()));
+        }
+        if (meal.getStrIngredient12() != null && !meal.getStrIngredient12().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient12(), meal.getStrMeasure12()));
+        }
+        if (meal.getStrIngredient13() != null && !meal.getStrIngredient13().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient13(), meal.getStrMeasure13()));
+        }
+        if (meal.getStrIngredient14() != null && !meal.getStrIngredient14().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient14(), meal.getStrMeasure14()));
+        }
+        if (meal.getStrIngredient15() != null && !meal.getStrIngredient15().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient15(), meal.getStrMeasure15()));
+        }
+        if (meal.getStrIngredient16() != null && !meal.getStrIngredient16().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient16(), meal.getStrMeasure16()));
+        }
+        if (meal.getStrIngredient17() != null && !meal.getStrIngredient17().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient17(), meal.getStrMeasure17()));
+        }
+        if (meal.getStrIngredient18() != null && !meal.getStrIngredient18().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient18(), meal.getStrMeasure18()));
+        }
+        if (meal.getStrIngredient19() != null && !meal.getStrIngredient19().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient19(), meal.getStrMeasure19()));
+        }
+        if (meal.getStrIngredient20() != null && !meal.getStrIngredient20().isEmpty()) {
+            ListIngredients.add(new Ingredients(meal.getStrIngredient20(), meal.getStrMeasure20()));
+        }
+
+        Log.i(TAG, "createIngredientList: " + ListIngredients);
     }
 }
