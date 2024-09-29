@@ -29,7 +29,7 @@
                 android:fontFamily="@font/poppins_bold_italic"
                 android:text="@string/thisweek"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/COLOR_text"
                 android:textSize="26sp"
                 android:textStyle="bold" />
         </LinearLayout>

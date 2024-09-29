@@ -39,7 +39,7 @@
                 android:padding="16dp"
                 android:text="Super Quick White Chicken Chili"
                 android:textAlignment="center"
-                android:textColor="@android:color/white"
+                android:textColor="@color/light_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/img_card"
@@ -48,11 +48,11 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_remove_favorite"
+                android:id="@+id/fab_add_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:src="@drawable/remove"
+                android:src="@drawable/bookmark"
                 android:tint="@android:color/white"
                 app:backgroundTint="@color/material_on_primary_emphasis_medium"
                 app:fabSize="mini"

@@ -90,7 +90,7 @@ public class DetailsRecipesPresenterImpl implements DetailsRecipesPresenter, Net
     public void onSuccessArea(List<ListAllArea> AreaList) {}
 
     @Override
-    public void onSuccessIngredients(List<ListAllIngredient> ingredientsngredientsList) {}
+    public void onSuccessIngredients(List<ListAllIngredient> ingredientsList) {}
 
     @Override
     public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList) {}

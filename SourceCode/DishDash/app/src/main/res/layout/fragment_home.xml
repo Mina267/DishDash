@@ -16,7 +16,7 @@
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/dailyinspiration"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/COLOR_text"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

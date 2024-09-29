@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dishdash.R;
-import com.example.dishdash.favrecipes.view.OnFavoriteClickListener;
 import com.example.dishdash.model.Meal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -43,7 +42,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_fav, parent, false);
+                .inflate(R.layout.card_result, parent, false);
         return new ViewHolder(view);
     }
 
@@ -106,7 +105,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             super(itemView);
             img_card = itemView.findViewById(R.id.img_card);
             txt_card = itemView.findViewById(R.id.txt_card);
-            floatingActionButton = itemView.findViewById(R.id.fab_remove_favorite);
+            floatingActionButton = itemView.findViewById(R.id.fab_add_favorite);
         }
     }
 }

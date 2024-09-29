@@ -18,7 +18,7 @@ public interface NetworkDelegate {
 
     void onSuccessCategoriesSimple(List<ListAllCategories> categoriesList);
     void onSuccessArea(List<ListAllArea> AreaList);
-    void onSuccessIngredients(List<ListAllIngredient> ingredientsngredientsList);
+    void onSuccessIngredients(List<ListAllIngredient> ingredientsList);
     void onSuccessFilteredMeals(List<FilterMeals> filterMealsList);
     void onSuccessIngredientImage(Bitmap bitmap, String ingredientName);
 

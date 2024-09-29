@@ -78,7 +78,7 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     }
 
     @Override
-    public void onSuccessIngredients(List<ListAllIngredient> ingredientsngredientsList) {
+    public void onSuccessIngredients(List<ListAllIngredient> ingredientsList) {
 
     }
 

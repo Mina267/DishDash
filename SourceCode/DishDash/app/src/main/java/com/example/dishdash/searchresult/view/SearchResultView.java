@@ -7,6 +7,6 @@ import com.example.dishdash.model.Meal;
 import java.util.List;
 
 public interface SearchResultView {
-    void showData(LiveData<List<Meal>> meals);;
-
+    void showSearchResult(List<Meal> meals);;
+    void onFailureSearch(String errorMsg);
 }

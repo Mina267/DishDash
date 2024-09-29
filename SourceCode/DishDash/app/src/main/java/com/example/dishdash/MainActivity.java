@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(NavController controller, androidx.navigation.NavDestination destination, Bundle arguments) {
                 /* Check if the destination is the detailsRecipesFragment */
-                if (destination.getId() == R.id.detailsRecipesFragment || destination.getId() == R.id.searchResultFragment) {
+                if (destination.getId() == R.id.detailsRecipesFragment ||
+                        destination.getId() == R.id.searchResultFragment ||
+                        destination.getId() == R.id.ingredientsFragment) {
                     /* Hide BottomNavigationView when on the detailed fragment */
                     navView.setVisibility(View.GONE);
                 } else {

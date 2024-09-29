@@ -51,19 +51,15 @@ public class DetailsIngredientAdapter extends RecyclerView.Adapter<DetailsIngred
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Ingredients ingredient = ListIngredients.get(position);
 
-        // Get the bitmap associated with the ingredient name from the map
+        /* Get the bitmap associated with the ingredient name from the map */
         Bitmap bitmap = bitmapList.get(ingredient.getIngredientName());
         holder.imgIngredient.setImageBitmap(bitmap);
 
-
-
-        // Set the ingredient details
         holder.txtIngredient.setText(ingredient.getIngredientMeasure() + " - " + ingredient.getIngredientName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Handle click events if needed
             }
         });
     }

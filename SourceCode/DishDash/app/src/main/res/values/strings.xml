@@ -24,5 +24,8 @@
     <string name="categories">Categories</string>
     <string name="result">Result</string>
     <string name="results">Results</string>
+    <string name="viewall">view all</string>
+    <string name="search_hint">Enter your Meal name</string>
+    <string name="noresult">No Search Result</string>
 
 </resources>

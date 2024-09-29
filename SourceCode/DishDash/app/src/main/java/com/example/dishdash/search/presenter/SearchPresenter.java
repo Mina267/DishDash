@@ -12,4 +12,7 @@ public interface SearchPresenter {
     public void getMealByIngredient(String ingredient);
 
     public void getMealByArea(String area);
+
+    public void getMealByName(String mealName);
+
 }

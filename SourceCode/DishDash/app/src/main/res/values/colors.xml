@@ -13,13 +13,26 @@
     <color name="light_green_background">#E9EFEC</color>
     <color name="Dark_teal_background">#16423C</color>
     <color name="yellow">#FFFF00</color>
+    <color name="light_gray">#E0E0E0</color>
+    <color name="dark_gray">#333333</color>
+
+    <color name="card_background">#FFFFFF</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="primaryTextColor">#212121</color>
 
 
-    <color name="MYAPP_background">#E9EFEC</color>
-    <color name="Top_background">#FF018786</color>
+    <color name="MYAPP_background">#F5F5F7</color>
+    <color name="Top_bar_background">#01404F</color>
 
-    <color name="MENU_COLOR">#436850</color>
+    <color name="MENU_COLOR">#01404F</color>
     <color name="MENU_ICON_COLOR">#E3E1D9</color>
+    <color name="COLOR_text">#01404F</color>
+    <color name="COLOR_text2">#025063</color>
+
+    <color name="COLOR_DARK_GREEN">#01404F</color>
+
+
+
 
 
 </resources>
