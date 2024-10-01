@@ -1,5 +1,6 @@
 package com.example.dishdash.detailsrecipes.view;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ import com.example.dishdash.detailsrecipes.presenter.DetailsRecipesPresenter;
 import com.example.dishdash.detailsrecipes.presenter.DetailsRecipesPresenterImpl;
 import com.example.dishdash.model.Ingredients;
 import com.example.dishdash.model.Meal;
+import com.example.dishdash.model.MealMapper;
 import com.example.dishdash.model.MealRepositoryImpl;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 
@@ -131,15 +133,26 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Enable back arrow in the action bar
-        if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+
 
         // Handle back button action
         setHasOptionsMenu(true);
 
-        // Load meal image with Glide
+
+
+        btnAddToPlan = view.findViewById(R.id.btnAddToPlan);
+        btnAddToPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+                Bundle bundle = new Bundle();
+                /* Pass the MealPlan object using a Bundle */
+                bundle.putParcelable("meal", meal);
+                navController.navigate(R.id.action_detailsRecipesFragment_to_selectDayFragment, bundle);
+            }
+        });
+
+        /* meal image */
         Glide.with(getContext())
                 .load(meal.getStrMealThumb())
                 .apply(new RequestOptions().override(200, 200)
@@ -147,18 +160,19 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
                         .error(R.drawable.ic_launcher_foreground))
                 .into(imageMeal);
 
-        // Set text values from the meal object
+        /* meal text */
         textRecipeTitle.setText(meal.getStrMeal());
         textCountry.setText(meal.getStrArea());
-        textRecipeDescription.setText(meal.getStrCategory() + " - " + meal.getStrTags());
+        if (meal.getStrTags() == null){
+            textRecipeDescription.setText(meal.getStrCategory());
+        }
+        else {
+            textRecipeDescription.setText(meal.getStrCategory() + " - " + meal.getStrTags());
+        }
         textStepsDescription.setText(meal.getStrInstructions());
 
 
         detailsRecipesPresenter = new DetailsRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
-
-
-
-
         detailsIngredientAdapter = new DetailsIngredientAdapter(getContext(), new ArrayList<>(), new HashMap<>());
 
 

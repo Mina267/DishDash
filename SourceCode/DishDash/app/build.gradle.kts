@@ -84,6 +84,7 @@ dependencies {
 
     implementation ("com.furkanakdemir:surroundcardview:1.0.6")
     implementation ("com.google.android.material:material:1.4.0")
+    implementation ("com.google.android.material:material:1.9.0")
 
 
 

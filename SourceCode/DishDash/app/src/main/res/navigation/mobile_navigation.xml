@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_detailsRecipesFragment"
             app:destination="@id/detailsRecipesFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_selectDayFragment"
+            app:destination="@id/selectDayFragment" />
     </fragment>
 
     <fragment
@@ -32,7 +35,11 @@
         android:id="@+id/navigation_mealplan"
         android:name="com.example.dishdash.mealplan.view.MealPlanFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_mealplan" />
+        tools:layout="@layout/fragment_mealplan" >
+        <action
+            android:id="@+id/action_navigation_mealplan_to_detailsRecipesFragment"
+            app:destination="@id/detailsRecipesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_fav"
         android:name="com.example.dishdash.favrecipes.view.FavRecipesFragment"
@@ -46,7 +53,11 @@
         android:id="@+id/detailsRecipesFragment"
         android:name="com.example.dishdash.detailsrecipes.view.DetailsRecipesFragment"
         android:label="Recipe Details"
-        tools:layout="@layout/fragment_details_recipes" />
+        tools:layout="@layout/fragment_details_recipes" >
+        <action
+            android:id="@+id/action_detailsRecipesFragment_to_selectDayFragment"
+            app:destination="@id/selectDayFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchResultFragment"
         android:name="com.example.dishdash.searchresult.view.SearchResultFragment"
@@ -65,4 +76,9 @@
             android:id="@+id/action_ingredientsFragment_to_searchResultFragment"
             app:destination="@id/searchResultFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/selectDayFragment"
+        android:name="com.example.dishdash.selectday.view.SelectDayFragment"
+        android:label="Plan Your Meals"
+        tools:layout="@layout/fragment_select_day" />
 </navigation>

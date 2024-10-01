@@ -8,11 +8,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -68,6 +71,9 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
 
         /* Get Fragment manager*/
         mgr = getChildFragmentManager();
+
+        // Handle back button action
+        setHasOptionsMenu(true);
 
         return view;
     }
@@ -173,5 +179,22 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
     public void onMealMarkClick(Meal meal) {
         searchResultPresenter.addToFav(meal);
         Toast.makeText(getContext(), meal.getStrMeal() + "Add to Favorite", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Check if the clicked item is the back arrow (home button)
+        if (item.getItemId() == android.R.id.home) {
+            // Handle back arrow press - navigate up
+            NavController navController = Navigation.findNavController(getView());
+            navController.navigateUp();
+            return true; // Indicate that the event was handled
+        }
+        return super.onOptionsItemSelected(item); // Let other menu items be handled normally
     }
 }

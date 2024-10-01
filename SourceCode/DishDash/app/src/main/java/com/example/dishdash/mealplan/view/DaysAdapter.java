@@ -1,11 +1,10 @@
-package com.example.dishdash.foryou.view;
+package com.example.dishdash.mealplan.view;
 
 
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,29 +20,30 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dishdash.R;
 import com.example.dishdash.model.Meal;
+import com.example.dishdash.model.MealMapper;
+import com.example.dishdash.model.MealPlan;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder> {
+public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
     private static final String TAG = "AllMealsAdapter";
     private Context context;
-    private List<Meal> mealsList;
-    private OnMealClickListener listener;
+    private List<MealPlan> mealsList;
+    private OnMealPlanClickListener listener;
 
-    public ForYouAdapter(Context context, List<Meal> mealsList, OnMealClickListener listener) {
+    public DaysAdapter(Context context, List<MealPlan> mealsList, OnMealPlanClickListener listener) {
         this.context = context;
         this.mealsList = mealsList;
         this.listener = listener;
     }
 
-
-
+    
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_recipe, parent, false);
+                .inflate(R.layout.card_mealplan, parent, false);
         return new ViewHolder(view);
     }
 
@@ -52,45 +52,35 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int currentPosition = holder.getAdapterPosition();
-        Meal meal = mealsList.get(currentPosition);
+        MealPlan meal = mealsList.get(currentPosition);
 
         Glide.with(context)
                 .load(meal.getStrMealThumb())
                 .apply(new RequestOptions().override(200, 200)
                         .placeholder(R.drawable.nophotoavailable)
                         .error(R.drawable.ic_launcher_foreground))
-                .into(holder.img_card);
-        holder.txt_card.setText(meal.getStrMeal());
+                .into(holder.img_card_mealplan);
+        holder.txt_card_mealplan.setText(meal.getStrMeal());
 
 
-        holder.floatingActionButtonFav.setOnClickListener(new View.OnClickListener() {
+        holder.mealplan_remove_favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onForYouMealClick(meal);
+                listener.onMealPlanClick(meal);
             }
         });
-
-        holder.floatingActionButtonMealPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment_activity_main);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("meal", meal); // Pass the Meal object using a Bundle
-                navController.navigate(R.id.action_navigation_home_to_selectDayFragment, bundle);
-            }
-        });
+        
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                
                 NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment_activity_main);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("meal", meal); // Pass the Meal object using a Bundle
-                navController.navigate(R.id.action_navigation_home_to_detailsRecipesFragment, bundle);
-
-
-
+                /* Pass the MealPlan object using a Bundle */
+                Meal detailMeal = MealMapper.mapWeekPlanToApi(meal);
+                bundle.putParcelable("meal", detailMeal);
+                navController.navigate(R.id.action_navigation_mealplan_to_detailsRecipesFragment, bundle);
             }
         });
     }
@@ -100,28 +90,23 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
         return mealsList.size();
     }
 
-    public void updateData(List<Meal> mealsList) {
+    public void updateData(List<MealPlan> mealsList) {
         this.mealsList.clear();  // Clear the old data
         this.mealsList.addAll(mealsList);  // Add the new data
         notifyDataSetChanged();  // Notify the adapter to refresh the view
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView img_card;
-        private TextView txt_card;
-        private FloatingActionButton floatingActionButtonFav;
-        private FloatingActionButton floatingActionButtonMealPlan;
+        private ImageView img_card_mealplan;
+        private TextView txt_card_mealplan;
+        private FloatingActionButton mealplan_remove_favorite;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            img_card = itemView.findViewById(R.id.img_card);
-            txt_card = itemView.findViewById(R.id.txt_card);
-            floatingActionButtonFav = itemView.findViewById(R.id.fab_add_favorite);
-            floatingActionButtonMealPlan = itemView.findViewById(R.id.fab_add_mealplan);
-
-
-
+            img_card_mealplan = itemView.findViewById(R.id.img_card_mealplan);
+            txt_card_mealplan = itemView.findViewById(R.id.txt_card_mealplan);
+            mealplan_remove_favorite = itemView.findViewById(R.id.mealplan_remove_favorite);
         }
     }
 }

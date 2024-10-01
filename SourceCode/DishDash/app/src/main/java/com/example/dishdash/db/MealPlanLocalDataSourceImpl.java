@@ -1,13 +1,10 @@
 package com.example.dishdash.db;
 
-
 import android.content.Context;
-
 import androidx.lifecycle.LiveData;
-
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealPlan;
-import com.example.dishdash.model.MealPlanJunction;
+import com.example.dishdash.model.MealMapper;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ public class MealPlanLocalDataSourceImpl implements MealPlanLocalDataSource {
     private MealPlanLocalDataSourceImpl(Context context) {
         AppDataBase db = AppDataBase.getInstance(context.getApplicationContext());
         mealPlanDAO = db.getMealPlanDAO();
-        storedMealPlans = (LiveData<List<MealPlan>>) mealPlanDAO.getAllMealPlans();
+        storedMealPlans = mealPlanDAO.getAllMealPlans();
     }
 
     public static MealPlanLocalDataSource getInstance(Context context) {
@@ -34,38 +31,22 @@ public class MealPlanLocalDataSourceImpl implements MealPlanLocalDataSource {
         return storedMealPlans;
     }
 
-    public void insertMealDayJunction(MealPlanJunction mealPlanJunction)
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mealPlanDAO.insertDayMealJunction(mealPlanJunction);
-            }
-        }).start();
-    }
-
     @Override
-    public LiveData<List<Meal>> getMealsOfTheDay(int day) {
-        return mealPlanDAO.getMealsOfDay(day);
+    public LiveData<List<MealPlan>> getMealsOfTheDay(String date) {
+        return mealPlanDAO.getMealsOfDay(date);
     }
 
     @Override
     public void deleteMeal(MealPlan mealPlan) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mealPlanDAO.deleteMeal(mealPlan);
-            }
-        }).start();
+        new Thread(() -> mealPlanDAO.deleteMeal(mealPlan)).start();
     }
 
+    // Use MealMapper to map Meal to MealPlan and insert with date
     @Override
-    public void insertPlanMealForDay(MealPlan mealPlan) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mealPlanDAO.insertDay(mealPlan);
-            }
+    public void insertPlanMealForDay(Meal meal, String date) {
+        new Thread(() -> {
+            MealPlan mealPlan = MealMapper.mapApiToWeekPlan(meal, date); // Map Meal to MealPlan
+            mealPlanDAO.insertDay(mealPlan);
         }).start();
     }
 }

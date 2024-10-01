@@ -75,12 +75,7 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
         foryouRecyclerView = (RecyclerView) view.findViewById(R.id.foryou_recycler);
 
-        forYouAdapter = new ForYouAdapter(getContext(), new ArrayList<>(), this, new ForYouAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Meal meal, int position) {
-
-            }
-        });
+        forYouAdapter = new ForYouAdapter(getContext(), new ArrayList<>(), this);
         layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
 
         forYouPresenter = new ForYouPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
@@ -99,6 +94,7 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         forYouPresenter.getRandomProduct();
 
 
+
     }
 
 
@@ -109,6 +105,7 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         Log.i(TAG, "showData: " + Meal);
         for (int i = 0; i  < 10 ; i++)
             Log.i(TAG, "showData: mael " + i  + ":  "+ Meal.get(i).getStrCategory());
+
 
         forYouAdapter.updateData(Meal);
         forYouAdapter.notifyDataSetChanged();

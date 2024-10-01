@@ -49,11 +49,8 @@ public class IngredientsSearchAdapter extends RecyclerView.Adapter<IngredientsSe
         int currentPosition = holder.getAdapterPosition();
         ListAllIngredient ingredient = this.ingredientsList.get(currentPosition);
 
-        String ingredientName = ingredient.getStrIngredient();
-        String imageUrl = "https://www.themealdb.com/images/ingredients/" + ingredientName + "-Small.png";
-
         Glide.with(context)
-                .load(imageUrl)
+                .load("https://www.themealdb.com/images/ingredients/" + ingredient.getStrIngredient() + "-Small.png")
                 .apply(new RequestOptions().override(200, 200)
                         .placeholder(R.drawable.nophotoavailable)
                         .error(R.drawable.ic_launcher_foreground))

@@ -35,11 +35,11 @@ public interface MealRepository {
 
     void insertMeal(Meal meal);
 
-    LiveData<List<Meal>> getMealsOfTheDay(int day);
+    LiveData<List<MealPlan>> getMealsOfTheDay(String day);
 
-    public LiveData<List<MealPlan>> getStoredMealsPlan();
-    public void deleteMealPlan(MealPlan mealPlan);
-    public void insertPlanMealForDay(MealPlan mealPlan);
+    LiveData<List<MealPlan>> getStoredMealsPlan();
+    void deleteMealPlan(MealPlan mealPlan);
+    void insertPlanMealForDay(Meal meal, String date);
 
 
     void getIngredientImg(String ingredientName, NetworkDelegate networkCallback);

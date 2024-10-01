@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "mealplan_table",  primaryKeys = {"Date", "idMeal"})
-public class MealPlan extends Meal {
+@Entity(tableName = "weekplan_table",  primaryKeys = {"Date", "idMeal"})
+public class WeekPlan extends Meal {
     @NonNull
     String Date;
     public String getDate() {

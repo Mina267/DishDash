@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 /* Check if the destination is the detailsRecipesFragment */
                 if (destination.getId() == R.id.detailsRecipesFragment ||
                         destination.getId() == R.id.searchResultFragment ||
-                        destination.getId() == R.id.ingredientsFragment) {
+                        destination.getId() == R.id.ingredientsFragment ||
+                        destination.getId() == R.id.selectDayFragment){
                     /* Hide BottomNavigationView when on the detailed fragment */
                     navView.setVisibility(View.GONE);
                 } else {
