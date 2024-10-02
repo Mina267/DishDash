@@ -40,11 +40,12 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
     private Meal meal;
     String dayName;
     SelectDayPresenter selectDayPresenter;
+    Communicator communicator;
+    Calendar calendar;
+
     public SelectDayFragment() {
         // Required empty public constructor
     }
-    Calendar calendar;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
                 .into(img_selectDay);
         txt_selectDay.setText(meal.getStrMeal());
 
-
+        communicator = (Communicator) getActivity();
         /* Continue */
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +101,7 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
                 selectDayPresenter.addToMealPlan(meal, mealSelectedDate);
 
                 Toast.makeText(getContext(), "Meal added to " + dayName + ", "+ mealSelectedDate, Toast.LENGTH_SHORT).show();
-
+                communicator.viewData(mealSelectedDate);
                 /* Close the fragment and return to previous fragment */
                 getParentFragmentManager().popBackStack();
             }

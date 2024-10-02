@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base Theme of your App -->
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your app theme here -->
+        <item name="colorPrimary">@color/shrine_pink_100</item>
+        <item name="colorOnSurface">@color/shrine_pink_900</item>
+
+        <!-- Apply the custom Snackbar styles -->
+        <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/Widget.App.SnackbarButton</item>
+    </style>
+
+    <!-- Custom Snackbar Style -->
+    <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <!-- Set the material theme overlay to isolate Snackbar style -->
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
+        <item name="actionTextColorAlpha">1</item> <!-- Make action text fully opaque -->
+    </style>
+
+    <!-- Custom Snackbar Button Style -->
+    <style name="Widget.App.SnackbarButton" parent="Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/shrine_pink_100</item> <!-- Set custom action button text color -->
+    </style>
+
+    <!-- Snackbar Theme Overlay to style only the Snackbar component -->
+    <style name="ThemeOverlay.App.Snackbar" parent="">
+        <item name="colorPrimary">@color/shrine_pink_100</item> <!-- Set background color -->
+        <item name="colorOnSurface">@color/shrine_pink_900</item> <!-- Set text color -->
+    </style>
+
+</resources>

@@ -5,6 +5,7 @@ package com.example.dishdash.mealplan.view;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
                 NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment_activity_main);
                 Bundle bundle = new Bundle();
                 /* Pass the MealPlan object using a Bundle */
-                Meal detailMeal = MealMapper.mapWeekPlanToApi(meal);
+                Meal detailMeal = MealMapper.mapMealPlanToMeal(meal);
                 bundle.putParcelable("meal", detailMeal);
                 navController.navigate(R.id.action_navigation_mealplan_to_detailsRecipesFragment, bundle);
             }
@@ -94,6 +95,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
         this.mealsList.clear();  // Clear the old data
         this.mealsList.addAll(mealsList);  // Add the new data
         notifyDataSetChanged();  // Notify the adapter to refresh the view
+        Log.i(TAG, "updateData: " + mealsList);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

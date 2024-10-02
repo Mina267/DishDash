@@ -45,7 +45,7 @@ public class MealPlanLocalDataSourceImpl implements MealPlanLocalDataSource {
     @Override
     public void insertPlanMealForDay(Meal meal, String date) {
         new Thread(() -> {
-            MealPlan mealPlan = MealMapper.mapApiToWeekPlan(meal, date); // Map Meal to MealPlan
+            MealPlan mealPlan = MealMapper.mapMealToMealPlan(meal, date); // Map Meal to MealPlan
             mealPlanDAO.insertDay(mealPlan);
         }).start();
     }

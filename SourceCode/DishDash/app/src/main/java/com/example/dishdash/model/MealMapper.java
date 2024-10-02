@@ -6,7 +6,7 @@ public class MealMapper {
 
 
     // Method to map MealPlan (which extends Meal) to a database MealPlan entity
-    public static MealPlan mapApiToWeekPlan(Meal response, String date) {
+    public static MealPlan mapMealToMealPlan(Meal response, String date) {
         MealPlan mealPlan = new MealPlan();
         mealPlan.setIdMeal(response.getIdMeal());
         mealPlan.setStrMeal(response.getStrMeal());
@@ -75,7 +75,7 @@ public class MealMapper {
 
 
     // Method to map MealPlan entity to a Meal object
-    public static Meal mapWeekPlanToApi(MealPlan mealPlan) {
+    public static Meal mapMealPlanToMeal(MealPlan mealPlan) {
         Meal meal = new Meal();
 
         meal.setIdMeal(mealPlan.getIdMeal());

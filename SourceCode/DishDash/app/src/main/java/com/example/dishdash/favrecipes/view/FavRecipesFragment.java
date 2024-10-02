@@ -136,4 +136,7 @@ public class FavRecipesFragment extends Fragment implements FavRecipesView, OnFa
         snackbar.show();
     }
 
+
+
+
 }

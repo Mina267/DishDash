@@ -10,145 +10,186 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_bold_italic"
                 android:text="@string/thisweek"
                 android:textAlignment="center"
                 android:textColor="@color/COLOR_text"
                 android:textSize="34sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/firstDay"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/COLOR_text2"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView3"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFirstDay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstDay" />
 
             <TextView
                 android:id="@+id/secondDay"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/COLOR_text2"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewFirstDay"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewSecondDay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secondDay" />
 
             <TextView
                 android:id="@+id/thirdDay"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/COLOR_text2"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:layout_editor_absoluteX="-188dp"
-                tools:layout_editor_absoluteY="677dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewSecondDay"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewThirdDay"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/thirdDay" />
 
             <TextView
                 android:id="@+id/fourthDay"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/COLOR_text2"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:layout_editor_absoluteX="-188dp"
-                tools:layout_editor_absoluteY="704dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewThirdDay"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFourthDay"
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fourthDay" />
 
             <TextView
                 android:id="@+id/fivethDay"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/COLOR_text2"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:layout_editor_absoluteX="-188dp"
-                tools:layout_editor_absoluteY="731dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewFourthDay"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewFivethDay"
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fivethDay" />
 
             <TextView
                 android:id="@+id/sixthDay"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/COLOR_text2"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:layout_editor_absoluteX="-188dp"
-                tools:layout_editor_absoluteY="758dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewFivethDay"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewSixthDay"
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sixthDay" />
 
             <TextView
                 android:id="@+id/seventhDay"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/COLOR_text2"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:layout_editor_absoluteX="-188dp"
-                tools:layout_editor_absoluteY="785dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewSixthDay"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewSeventhDay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/seventhDay" />
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

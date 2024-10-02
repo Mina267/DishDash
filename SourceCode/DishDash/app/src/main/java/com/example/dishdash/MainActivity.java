@@ -1,19 +1,24 @@
 package com.example.dishdash;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.example.dishdash.selectday.view.Communicator;
+import com.example.dishdash.selectday.view.SelectDayFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.dishdash.databinding.ActivityMainBinding;
+import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Communicator {
 
     private ActivityMainBinding binding;
     private static final String TAG = "MainActivity";
@@ -37,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
 
-
         /* Create and set an OnDestinationChangedListener */
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -56,4 +60,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public void viewData(String info) {
+        // Get the root view for the Snackbar to attach
+        View rootView = findViewById(android.R.id.content);
+
+        // Show Snackbar with action to navigate to MealPlanFragment
+        Snackbar.make(rootView, "Meal added to " + info, Snackbar.LENGTH_LONG)
+                .setAction("view meal plan", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_activity_main);
+                        NavOptions navOptions = new NavOptions.Builder()
+                                .setPopUpTo(R.id.navigation_home, true)
+                                .build();
+
+                        navController.navigate(R.id.navigation_mealplan, null, navOptions);
+
+
+                    }
+                }).setBackgroundTint(getResources().getColor(R.color.cyan_900)) // Set custom background color
+                .setActionTextColor(getResources().getColor(R.color.blue_grey_50)) // Set custom action text color
+                .show();
+    }
+
 }

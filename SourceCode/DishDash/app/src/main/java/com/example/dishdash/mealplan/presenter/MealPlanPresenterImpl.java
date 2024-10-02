@@ -3,6 +3,8 @@ package com.example.dishdash.mealplan.presenter;
 import androidx.lifecycle.LiveData;
 
 import com.example.dishdash.mealplan.view.MealPlanView;
+import com.example.dishdash.model.Meal;
+import com.example.dishdash.model.MealMapper;
 import com.example.dishdash.model.MealPlan;
 import com.example.dishdash.model.MealRepository;
 
@@ -22,6 +24,12 @@ public class MealPlanPresenterImpl implements MealPlanPresenter {
     public void deleteMealPlan(MealPlan mealPlan) {
         mealRepository.deleteMealPlan(mealPlan);
     }
+
+    @Override
+    public void addToMealPlan(MealPlan mealPlan) {
+        mealRepository.insertPlanMealForDay(MealMapper.mapMealPlanToMeal(mealPlan), mealPlan.getDate());
+    }
+
 
     @Override
     public LiveData<List<MealPlan>> getMealPlanByDate(String date) {

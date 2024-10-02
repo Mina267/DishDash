@@ -20,16 +20,11 @@ import com.example.dishdash.db.MealLocalDataSourceImpl;
 import com.example.dishdash.db.MealPlanLocalDataSourceImpl;
 import com.example.dishdash.mealplan.presenter.MealPlanPresenter;
 import com.example.dishdash.mealplan.presenter.MealPlanPresenterImpl;
-import com.example.dishdash.mealplan.view.adapters.FirstDayAdapter;
-import com.example.dishdash.mealplan.view.adapters.FivethDayAdapter;
-import com.example.dishdash.mealplan.view.adapters.FourthDayAdapter;
-import com.example.dishdash.mealplan.view.adapters.SecondDayAdapter;
-import com.example.dishdash.mealplan.view.adapters.SeventhDayAdapter;
-import com.example.dishdash.mealplan.view.adapters.SixthDayAdapter;
-import com.example.dishdash.mealplan.view.adapters.ThirdDayAdapter;
+
 import com.example.dishdash.model.MealPlan;
 import com.example.dishdash.model.MealRepositoryImpl;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,9 +91,9 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        daysAdapters.clear();
 
         /* First Day */
-
         setupRecyclerView(recyclerViewFirstDay);
         setupRecyclerView(recyclerViewSecondDay);
         setupRecyclerView(recyclerViewThirdDay);
@@ -107,18 +102,11 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         setupRecyclerView(recyclerViewSixthDay);
         setupRecyclerView(recyclerViewSeventhDay);
 
-
-
-
-
         /* Presenter */
         mealPlanPresenter = new MealPlanPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
 
 
         fetchMealPlansForSevenDays();
-
-
-
 
     }
 
@@ -127,14 +115,6 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         super.onDestroyView();
         binding = null;
     }
-
-
-
-
-
-
-
-
 
 
     private void setDayNames() {
@@ -184,11 +164,14 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
             int indx = i;
             mealPlanPresenter.getMealPlanByDate(date).observe(getViewLifecycleOwner(), mealPlans -> {
                 Log.i(TAG, "fetchMealPlansForSevenDays:   "  + mealPlans);
+
                 daysAdapters.get(indx).updateData(mealPlans);
                 daysAdapters.get(indx).notifyDataSetChanged();
 
-
             });
+
+
+
 
             /* the next day */
             calendar.add(Calendar.DAY_OF_YEAR, 1);
@@ -199,7 +182,27 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
 
         @Override
     public void onMealPlanClick(MealPlan mealPlan) {
-        mealPlanPresenter.deleteMealPlan(mealPlan);
+            mealPlanPresenter.deleteMealPlan(mealPlan);
+
+            /* Show a Snackbar with undo option */
+            Snackbar snackbar = Snackbar.make(getView(), mealPlan.getStrMeal() + " Deleted", Snackbar.LENGTH_LONG);
+
+            snackbar.setAction("Undo", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /* Undo the delete action  */
+                    mealPlanPresenter.addToMealPlan(mealPlan);
+
+                }
+            });
+
+            /* Display the Snackbar */
+            snackbar.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
     }
 }
