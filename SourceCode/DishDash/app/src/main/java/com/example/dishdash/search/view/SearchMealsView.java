@@ -14,4 +14,8 @@ public interface SearchMealsView {
 
     public void showSearchResult(List<Meal> meal);
 
+    void onStartNoNetwork();
+    void newtworkAvailable();
+    void networkLost();
+
 }

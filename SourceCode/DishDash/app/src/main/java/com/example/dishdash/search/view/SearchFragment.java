@@ -2,13 +2,16 @@ package com.example.dishdash.search.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -133,7 +137,7 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
         ingredientsLayoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
 
         /* new instance of presenter */
-        searchPresenter = new SearchPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
+        searchPresenter = new SearchPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ), getContext());
 
         /* Set recycler views layout managers */
         recyclerViewCategories.setLayoutManager(categoriesLayoutManager);
@@ -191,6 +195,56 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
         navController.navigate(R.id.action_navigation_search_to_searchResultFragment, bundle);
     }
 
+    @Override
+    public void onStartNoNetwork() {
+        Toast.makeText(getContext(), "No Connection", Toast.LENGTH_SHORT).show();
+        showAlertDialog();
+
+    }
+
+    void showAlertDialog() {
+        /* Use the view to find the NavController The
+         * propose of using  NavController to navigate to Meal Plan if there is no network connection */
+        NavController navController = Navigation.findNavController(requireView());
+
+        /* Create an AlertDialog That */
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("No Network Connection")
+                .setMessage("You are offline. Do you want to view your meal plan or open Wi-Fi settings?")
+                .setPositiveButton("Meal Plan", (dialog, which) -> {
+                    /* Navigate to the Meal Plan fragment */
+                    NavOptions navOptions = new NavOptions.Builder()
+                            .setPopUpTo(R.id.navigation_home, true)
+                            .build();
+                    navController.navigate(R.id.navigation_mealplan, null, navOptions);
+                })
+                .setNegativeButton("Wi-Fi Settings", (dialog, which) -> {
+                    // Open Wi-Fi settings
+                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+
+
+
+    @Override
+    public void newtworkAvailable() {
+        Toast.makeText(getContext().getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+        /* start fetching data */
+        searchPresenter.getMealCategories();
+        searchPresenter.getMealAreas();
+        searchPresenter.getMealIngredients();
+
+    }
+
+    @Override
+    public void networkLost() {
+        Toast.makeText(getContext().getApplicationContext(), "Network Lost", Toast.LENGTH_SHORT).show();
+
+    }
+
     /* Listener CallBack */
     @Override
     public void onAreaClickListener(String area) {
@@ -209,5 +263,19 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
         searchPresenter.getMealByCategory(category);
     }
 
+    /* Utils onResume and onPuase to make sure that it will check for Network every time return to fragment */
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: ");
+        searchPresenter.startMonitoringNetwork();
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: ");
+        searchPresenter.stopMonitoringNetwork();
+    }
 }

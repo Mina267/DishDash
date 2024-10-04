@@ -1,9 +1,13 @@
 package com.example.dishdash;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
+import com.example.dishdash.network.NetworkConnectionStatus;
 import com.example.dishdash.selectday.view.Communicator;
 import com.example.dishdash.selectday.view.SelectDayFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
     private ActivityMainBinding binding;
     private static final String TAG = "MainActivity";
+    NetworkConnectionStatus connectionStatus;
+
     NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 }
             }
         });
+
+
     }
 
 
@@ -83,5 +91,12 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 .setActionTextColor(getResources().getColor(R.color.blue_grey_50)) // Set custom action text color
                 .show();
     }
+
+
+
+
+
+
+
 
 }

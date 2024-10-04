@@ -11,6 +11,10 @@ public interface ForYouView {
     void markSavedMeals(LiveData<List<Meal>> meals);
     void showResult(List<Meal> mealsList);
     void showErrMsg(String error);
+
+    void onStartNoNetwork();
+    void newtworkAvailable();
+    void networkLost();
 }
 
 

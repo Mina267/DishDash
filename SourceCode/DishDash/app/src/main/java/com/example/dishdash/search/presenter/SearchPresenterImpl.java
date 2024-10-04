@@ -1,5 +1,6 @@
 package com.example.dishdash.search.presenter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -10,6 +11,7 @@ import com.example.dishdash.model.ListAllCategories;
 import com.example.dishdash.model.ListAllIngredient;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepository;
+import com.example.dishdash.network.NetworkConnectionStatus;
 import com.example.dishdash.network.NetworkDelegate;
 import com.example.dishdash.search.view.SearchMealsView;
 
@@ -26,40 +28,90 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     List<FilterMeals> filterMealsList;
     private int fetchedCount = 0;
 
+    NetworkConnectionStatus connectionStatus;
+    private Boolean startNetworkStatus = false;
 
 
-    public SearchPresenterImpl(SearchMealsView _view, MealRepository mealRepository) {
+
+    public SearchPresenterImpl(SearchMealsView _view, MealRepository mealRepository, Context context) {
         this._view = _view;
         this.mealRepository = mealRepository;
+        this.connectionStatus = NetworkConnectionStatus.getInstance(context);
+
     }
 
 
     @Override
     public void getMealCategories() {
-        Log.i(TAG, "getMealCategories: ");
-        mealRepository.getAllCategories(this);
+        if (connectionStatus.isNetworkAvailable())
+        {
+            mealRepository.getAllCategories(this);
+        }
     }
 
     @Override
     public void getMealAreas() {
-        mealRepository.getAllAreas(this);
+        if (connectionStatus.isNetworkAvailable()) {
+            mealRepository.getAllAreas(this);
+        }
     }
 
     @Override
     public void getMealIngredients() {
-        mealRepository.getAllIngredients(this);
+        if (connectionStatus.isNetworkAvailable())
+        {
+            mealRepository.getAllIngredients(this);
+        }
     }
 
 
     public void getMealByArea(String area) {
-        mealRepository.getMealsByArea(area, this);
+        if (connectionStatus.isNetworkAvailable())
+        {
+            mealRepository.getMealsByArea(area, this);
+        }
     }
 
     @Override
     public void getMealByName(String mealName) {
-        mealRepository.getMealsByName(mealName, this);
+        if (connectionStatus.isNetworkAvailable())
+        {
+            mealRepository.getMealsByName(mealName, this);
+        }
+
     }
 
+    public void startMonitoringNetwork() {
+        if (!connectionStatus.isNetworkAvailable())
+        {
+            startNetworkStatus = true;
+            _view.onStartNoNetwork();
+        }
+
+        connectionStatus.registerNetworkCallback(new NetworkConnectionStatus.NetworkChangeListener() {
+            @Override
+            public void onNetworkAvailable() {
+                if (startNetworkStatus)
+                {
+                    _view.newtworkAvailable();
+                    startNetworkStatus = false;
+
+                }
+            }
+
+            @Override
+            public void onNetworkLost() {
+                _view.networkLost();
+            }
+        });
+    }
+
+
+
+
+    public void stopMonitoringNetwork() {
+        connectionStatus.unregisterNetworkCallback();
+    }
     @Override
     public void getMealByIngredient(String ingredient) {
         mealRepository.getMealsByIngredient(ingredient,this);
@@ -67,22 +119,35 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
 
     @Override
     public void getMealByCategory(String category) {
-        mealRepository.getMealsByCategory(category, this);
-    }
-
-    @Override
-    public void onSuccessMealId(Meal meal) {
-        Meals.add(meal);
-        fetchedCount++;
-        if (fetchedCount == filterMealsList.size()) {
-            _view.showSearchResult(Meals);
+        if (connectionStatus.isNetworkAvailable())
+        {
+            mealRepository.getMealsByCategory(category, this);
         }
 
     }
 
     @Override
+    public void onSuccessMealId(Meal meal) {
+        if (meal != null) {
+            Meals.add(meal);
+            fetchedCount++;
+            if (fetchedCount == filterMealsList.size()) {
+                if (Meals != null) {
+                    _view.showSearchResult(Meals);
+                }
+            }
+        }
+
+
+    }
+
+    @Override
     public void onSuccessMeals(List<Meal> mealsList) {
-        _view.showSearchResult(mealsList);
+        if (mealsList != null)
+        {
+            _view.showSearchResult(mealsList);
+
+        }
 
     }
 
@@ -94,7 +159,10 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     @Override
     public void onSuccessCategories(List<Categories> categoriesList) {
         // TO DO
-        _view.showAllCategories(categoriesList);
+        if (categoriesList != null)
+        {
+            _view.showAllCategories(categoriesList);
+        }
     }
 
     @Override
@@ -104,14 +172,22 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
 
     @Override
     public void onSuccessArea(List<ListAllArea> AreaList) {
-        _view.showAllAreas(AreaList);
+        if (AreaList != null)
+        {
+            _view.showAllAreas(AreaList);
+        }
     }
 
     @Override
     public void onSuccessIngredients(List<ListAllIngredient> ingredientsList) {
-        ArrayList<ListAllIngredient> newPartialList = new ArrayList<>(ingredientsList.subList(0, 20));
 
-        _view.showAllIngredients(newPartialList);
+        if (ingredientsList != null)
+        {
+            ArrayList<ListAllIngredient> newPartialList = new ArrayList<>(ingredientsList.subList(0, 20));
+
+            _view.showAllIngredients(newPartialList);
+        }
+
     }
 
     @Override
@@ -119,10 +195,14 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
         /* Filtered meal get id from it and fetch them
          * Filtered meal list is repose from request to get id of meals according to the filtered type (Area, Ingredient, Category)
          */
-        this.filterMealsList = filterMealsList;
-        for (FilterMeals meal : filterMealsList) {
-            mealRepository.getMealById(meal.getIdMeal(), this);
+        if (filterMealsList != null)
+        {
+            this.filterMealsList = filterMealsList;
+            for (FilterMeals meal : filterMealsList) {
+                mealRepository.getMealById(meal.getIdMeal(), this);
+            }
         }
+
     }
 
     @Override
@@ -136,10 +216,11 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     public void onFailureResult(String errorMsg) {
         fetchedCount++;
         if (filterMealsList != null && fetchedCount == filterMealsList.size()) {
-            _view.showSearchResult(Meals);
-        } else if (filterMealsList == null) {
-            Log.e(TAG, "Error: filterMealsList is null: " + errorMsg);
-            _view.showSearchResult(Meals);
+            if (Meals != null) {
+                _view.showSearchResult(Meals);
+            }
         }
+        Log.e(TAG, "Error: filterMealsList is null: " + errorMsg);
+
     }
 }

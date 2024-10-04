@@ -1,6 +1,7 @@
 package com.example.dishdash.searchresult.presenter;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.example.dishdash.favrecipes.view.FavRecipesView;
 import com.example.dishdash.model.Categories;
@@ -28,9 +29,22 @@ public class SearchResultPresenterImpl implements SearchResultPresenter, Network
 
 
     @Override
-    public void addToFav(Meal meal) {
-        mealRepository.insertMeal(meal);
+    public void addToFavourite(Meal meal) {
+        if (meal != null)
+        {
+            mealRepository.insertMeal(meal);
+        }
     }
+
+    @Override
+    public void getSavedMeals() {
+
+        _view.markSavedMeals(mealRepository.getStoredMeals());
+    }
+
+    @Override
+    public void deleteMeal(Meal meal) { if (meal != null) {mealRepository.deleteMeal(meal);}}
+
 
     @Override
     public void getMealByName(String mealName) {

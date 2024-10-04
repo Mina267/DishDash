@@ -100,7 +100,6 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
             public void onClick(View view) {
                 selectDayPresenter.addToMealPlan(meal, mealSelectedDate);
 
-                Toast.makeText(getContext(), "Meal added to " + dayName + ", "+ mealSelectedDate, Toast.LENGTH_SHORT).show();
                 communicator.viewData(mealSelectedDate);
                 /* Close the fragment and return to previous fragment */
                 getParentFragmentManager().popBackStack();

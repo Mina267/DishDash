@@ -141,7 +141,10 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
         this.savedMeals.addAll(savedMeals);
         notifyDataSetChanged();
     }
-
+    public void clearData() {
+        this.mealsList.clear();
+        notifyDataSetChanged();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView img_card;

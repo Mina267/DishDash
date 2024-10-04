@@ -69,10 +69,10 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
         holder.txtContent.setText(meal.getStrArea() + ", " + meal.getStrCategory());
         if (savedMeals.contains(meal)) {
             Log.i(TAG, "onBindViewHolder: onAddFromFavoriteClick");
-            holder.fab_add_banner.setImageResource(R.drawable.bookmarkadded); // Set the 'saved' bookmark icon
+            holder.fab_add_banner.setImageResource(R.drawable.bookmarkadded);
         } else {
             Log.i(TAG, "onBindViewHolder: bookmarkadd");
-            holder.fab_add_banner.setImageResource(R.drawable.bookmarkadd); // Set the 'add' bookmark icon
+            holder.fab_add_banner.setImageResource(R.drawable.bookmarkadd);
         }
 
 
@@ -104,7 +104,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
             public void onClick(View v) {
                 NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment_activity_main);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("meal", meal); // Pass the Meal object using a Bundle
+                bundle.putParcelable("meal", meal);
                 navController.navigate(R.id.action_navigation_home_to_selectDayFragment, bundle);
             }
         });
@@ -134,6 +134,12 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
         this.mealsList.addAll(mealsList);
         notifyDataSetChanged();
     }
+
+    public void clearData() {
+        this.mealsList.clear();
+        notifyDataSetChanged();
+    }
+
 
     public void updateDataMeal(Meal meal) {
         this.mealsList.add(meal);

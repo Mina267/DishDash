@@ -6,10 +6,12 @@ import com.example.dishdash.model.Meal;
 import java.util.List;
 
 public interface DetailsRecipesPresenter {
-    void getImgOfIngredient(List<Ingredients> ingredients);
+    void getImgOfIngredient(Meal meal);
 
     void AddMealToFav(Meal meal);
     void getSavedMeals();
     void deleteMeal(Meal meal);
+
+
 
 }

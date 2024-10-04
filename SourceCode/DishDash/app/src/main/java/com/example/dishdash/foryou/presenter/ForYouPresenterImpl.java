@@ -1,7 +1,11 @@
 package com.example.dishdash.foryou.presenter;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.example.dishdash.foryou.view.ForYouView;
@@ -12,6 +16,7 @@ import com.example.dishdash.model.ListAllCategories;
 import com.example.dishdash.model.ListAllIngredient;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepository;
+import com.example.dishdash.network.NetworkConnectionStatus;
 import com.example.dishdash.network.NetworkDelegate;
 
 import java.util.ArrayList;
@@ -22,24 +27,60 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     private static final String TAG = "ForYouPresenterImpl";
     private ForYouView view;
     private MealRepository mealRepository;
-    private int randomRecipesCnt;
     private static final int MAX_RANDOM_MEAL = 10;
-    private List<Meal> randomMealsList = new ArrayList<>();
+    NetworkConnectionStatus connectionStatus;
+    private Boolean startNetworkStatus = false;
 
 
-
-    public ForYouPresenterImpl(ForYouView view, MealRepository mealRepository) {
+    public ForYouPresenterImpl(ForYouView view, MealRepository mealRepository, Context context) {
         this.view = view;
         this.mealRepository = mealRepository;
+        this.connectionStatus = NetworkConnectionStatus.getInstance(context);
+
     }
+
+
+    public void startMonitoringNetwork() {
+        if (!connectionStatus.isNetworkAvailable())
+        {
+            startNetworkStatus = true;
+            view.onStartNoNetwork();
+        }
+
+        connectionStatus.registerNetworkCallback(new NetworkConnectionStatus.NetworkChangeListener() {
+            @Override
+            public void onNetworkAvailable() {
+                if (startNetworkStatus)
+                {
+                    view.newtworkAvailable();
+                    startNetworkStatus = false;
+
+                }
+            }
+
+            @Override
+            public void onNetworkLost() {
+                view.networkLost();
+            }
+        });
+    }
+
+
+
+
+    public void stopMonitoringNetwork() {
+        connectionStatus.unregisterNetworkCallback();
+    }
+
 
     @Override
     public void getRandomProduct() {
-        for (int i = 0; i  < MAX_RANDOM_MEAL ; i++)
-        {
-            mealRepository.getOneRandomMeal(this);
+        if (connectionStatus.isNetworkAvailable()) {
+            for (int i = 0; i  < MAX_RANDOM_MEAL ; i++)
+            {
+                mealRepository.getOneRandomMeal(this);
+            }
         }
-
     }
 
     @Override
@@ -48,14 +89,6 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
         {
             Log.i(TAG, "addToFavourite: " + meal.getStrMeal());
             mealRepository.insertMeal(meal);
-        }
-    }
-
-    @Override
-    public void addToMealPlan(Meal meal, String day) {
-        if (meal != null)
-        {
-            mealRepository.insertPlanMealForDay(meal, day);
         }
     }
 
@@ -70,9 +103,11 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     @Override
     public void getMealByName(String mealName) {
-        mealRepository.getMealsByName(mealName, this);
-    }
+        if (connectionStatus.isNetworkAvailable()) {
+            mealRepository.getMealsByName(mealName, this);
 
+        }
+    }
 
     @Override
     public void onSuccessMealId(Meal meal) {

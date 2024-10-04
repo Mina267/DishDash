@@ -9,4 +9,6 @@ import java.util.List;
 public interface SearchResultView {
     void showSearchResult(List<Meal> meals);;
     void onFailureSearch(String errorMsg);
+    void markSavedMeals(LiveData<List<Meal>> meals);
+
 }

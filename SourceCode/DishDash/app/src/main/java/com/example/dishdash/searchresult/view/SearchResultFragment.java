@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -97,27 +99,19 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                searchResultPresenter.getMealByName(query);
-                searchView.setQuery("", false);
-                /* Close the keyboard after search */
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                return false;
+                /* Check if the input is not empty before making a network call */
+                if (!newText.isEmpty()) {
+                    // Call the presenter to fetch meals as the user types
+                    searchResultPresenter.getMealByName(newText);
+                }
+                return true; // Return true to indicate the query has been handled
             }
         });
-
-
-
-
-
-
 
 
 
@@ -150,6 +144,9 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
                 MealLocalDataSourceImpl.getInstance(getContext()),
                 MealPlanLocalDataSourceImpl.getInstance(getContext())
         ));
+
+        searchResultPresenter.getSavedMeals();
+
     }
 
     @Override
@@ -175,11 +172,24 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
 
     }
 
-    @Override
-    public void onMealMarkClick(Meal meal) {
-        searchResultPresenter.addToFav(meal);
-        Toast.makeText(getContext(), meal.getStrMeal() + "Add to Favorite", Toast.LENGTH_SHORT).show();
+    public void markSavedMeals(LiveData<List<Meal>> meals) {
+        /* Update the adapter with the saved meals */
+        Observer<List<Meal>> observer = new Observer<List<Meal>>() {
+            @Override
+            public void onChanged(List<Meal> mealsList) {
+                Log.i(TAG, "onChanged: ");
+                if (mealsList != null)
+                {
+                    searchResultAdapter.setSavedMeals(mealsList);
+                }
+
+            }
+        };
+
+        meals.observe(this, observer);
     }
+
+
 
 
 
@@ -196,5 +206,17 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
             return true; // Indicate that the event was handled
         }
         return super.onOptionsItemSelected(item); // Let other menu items be handled normally
+    }
+
+    @Override
+    public void onAddToFavoriteClick(Meal meal) {
+        searchResultPresenter.addToFavourite(meal);
+        Toast.makeText(getContext(), meal.getStrMeal() + "Add to Favorite", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveFromFavoriteClick(Meal meal) {
+        searchResultPresenter.deleteMeal(meal);
+        Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Removed from Favorites", Toast.LENGTH_SHORT).show();
     }
 }

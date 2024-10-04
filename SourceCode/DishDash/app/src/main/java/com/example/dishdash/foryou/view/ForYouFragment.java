@@ -1,8 +1,12 @@
 package com.example.dishdash.foryou.view;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,25 +20,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dishdash.MainActivity;
 import com.example.dishdash.R;
 import com.example.dishdash.databinding.FragmentHomeBinding;
 import com.example.dishdash.db.MealLocalDataSourceImpl;
 import com.example.dishdash.db.MealPlanLocalDataSourceImpl;
 import com.example.dishdash.foryou.presenter.ForYouPresenter;
 import com.example.dishdash.foryou.presenter.ForYouPresenterImpl;
-import com.example.dishdash.mealplan.view.DaysAdapter;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepositoryImpl;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ForYouFragment extends Fragment  implements OnMealClickListener, ForYouView {
     private static final String TAG = "ForYouFragment";
@@ -59,15 +63,11 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-
+        foryouRecyclerView = view.findViewById(R.id.foryou_recycler);
+        foryou_recycler_recommended = view.findViewById(R.id.foryou_recycler_recommended);
 
         /* get Fragment manager */
         mgr = getChildFragmentManager();
-
-
-
-
-
         return view;
     }
 
@@ -82,31 +82,29 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         super.onViewCreated(view, savedInstanceState);
 
 
-        foryouRecyclerView = view.findViewById(R.id.foryou_recycler);
-        foryou_recycler_recommended = view.findViewById(R.id.foryou_recycler_recommended);
 
-
-
+        /* banner adapter */
         bannerAdapter = new BannerAdapter(getContext(), new ArrayList<>(), this);
         layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
+        /* Initialize presenter */
+        forYouPresenter = new ForYouPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ), getContext());
 
-        forYouPresenter = new ForYouPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
-
-
+        /* set recycler banner view Adapter */
         foryouRecyclerView.setLayoutManager(layoutManager);
         foryouRecyclerView. setAdapter(bannerAdapter);
 
 
-
+        /* set recycler foryou view Adapter init */
         setupRecyclerView(foryou_recycler_recommended);
 
-
+        /* start fetching data */
         forYouPresenter.getMealByName("Al");
         forYouPresenter.getRandomProduct();
         forYouPresenter.getSavedMeals();
 
 
     }
+
 
 
 
@@ -124,6 +122,7 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
     }
 
     public void markSavedMeals(LiveData<List<Meal>> meals) {
+        /* Update the adapter with the saved meals */
         Observer<List<Meal>> observer = new Observer<List<Meal>>() {
             @Override
             public void onChanged(List<Meal> mealsList) {
@@ -133,8 +132,6 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
                     bannerAdapter.setSavedMeals(mealsList);
                     forYouAdapter.setSavedMeals(mealsList);
                 }
-
-                meals.removeObserver(this);
             }
         };
 
@@ -149,8 +146,10 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
             for (Meal meal : mealsList)
             {
                 Log.i(TAG, "showResult: " + meal.getStrMeal());
-                forYouAdapter.updateData(mealsList);
             }
+
+            forYouAdapter.updateData(mealsList);
+
         }
     }
 
@@ -161,6 +160,55 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
         Log.i(TAG, "onFailureResult: ");
         Toast.makeText(getContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStartNoNetwork() {
+        Toast.makeText(getContext(), "No Connection", Toast.LENGTH_SHORT).show();
+        showAlertDialog();
+
+    }
+
+    void showAlertDialog() {
+        /* Use the view to find the NavController The
+         * propose of using  NavController to navigate to Meal Plan if there is no network connection */
+        NavController navController = Navigation.findNavController(requireView());
+
+        /* Create an AlertDialog That */
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("No Network Connection")
+                .setMessage("You are offline. Do you want to view your meal plan or open Wi-Fi settings?")
+                .setPositiveButton("Meal Plan", (dialog, which) -> {
+                    /* Navigate to the Meal Plan fragment */
+                    NavOptions navOptions = new NavOptions.Builder()
+                            .setPopUpTo(R.id.navigation_home, true)
+                            .build();
+                    navController.navigate(R.id.navigation_mealplan, null, navOptions);
+                })
+                .setNegativeButton("Wi-Fi Settings", (dialog, which) -> {
+                    // Open Wi-Fi settings
+                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+
+
+
+    @Override
+    public void newtworkAvailable() {
+        Toast.makeText(getContext().getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+        /* start fetching data */
+        forYouPresenter.getMealByName("Al");
+        forYouPresenter.getRandomProduct();
+
+    }
+
+    @Override
+    public void networkLost() {
+        Toast.makeText(getContext().getApplicationContext(), "Network Lost", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -183,25 +231,27 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         forYouAdapter = adapter;
     }
 
+    /* Utils onResume and onPuase to make sure that it will check for Network every time return to fragment */
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: ");
+        forYouPresenter.startMonitoringNetwork();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.i(TAG, "onPause: ");
+        forYouPresenter.stopMonitoringNetwork();
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: ");
     }
 }
 

@@ -15,4 +15,7 @@ public interface SearchPresenter {
 
     public void getMealByName(String mealName);
 
+    void startMonitoringNetwork();
+    void stopMonitoringNetwork();
+
 }
