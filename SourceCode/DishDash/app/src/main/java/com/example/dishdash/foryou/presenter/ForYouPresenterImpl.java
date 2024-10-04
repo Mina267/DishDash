@@ -3,6 +3,7 @@ package com.example.dishdash.foryou.presenter;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+
 import com.example.dishdash.foryou.view.ForYouView;
 import com.example.dishdash.model.Categories;
 import com.example.dishdash.model.FilterMeals;
@@ -19,11 +20,14 @@ import java.util.List;
 public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     private static final String TAG = "ForYouPresenterImpl";
-    ForYouView view;
-    MealRepository mealRepository;
+    private ForYouView view;
+    private MealRepository mealRepository;
     private int randomRecipesCnt;
     private static final int MAX_RANDOM_MEAL = 10;
-    List<Meal> randomMealsList = new ArrayList<>();
+    private List<Meal> randomMealsList = new ArrayList<>();
+    /* Meals List that fetched using Id according to the filtered type (Area, Ingredient, Category) */
+    private final List<Meal> Meals = new ArrayList<>();
+
 
     public ForYouPresenterImpl(ForYouView view, MealRepository mealRepository) {
         this.view = view;
@@ -49,6 +53,20 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
         mealRepository.insertPlanMealForDay(meal, day);
     }
 
+    @Override
+    public void getSavedMeals() {
+
+        view.markSavedMeals(mealRepository.getStoredMeals());
+    }
+
+    @Override
+    public void deleteMeal(Meal meal) {mealRepository.deleteMeal(meal);}
+
+    @Override
+    public void getMealByName(String mealName) {
+        mealRepository.getMealsByName(mealName, this);
+    }
+
 
     @Override
     public void onSuccessMealId(Meal meal) {
@@ -57,13 +75,17 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
+         view.showResult(mealsList);
+    }
+
+    @Override
+    public void onSuccessRandomMeals(List<Meal> mealsList) {
         Log.i(TAG, "onSuccessMeals: " + mealsList.get(0) + " randomRecipesCnt = "+ randomRecipesCnt);
         randomMealsList.add(mealsList.get(0));
         randomRecipesCnt++;
         if (randomRecipesCnt >= MAX_RANDOM_MEAL) {
             view.showData(randomMealsList);
-            randomMealsList.clear();
-            randomRecipesCnt = 0;
+
         }
     }
 
@@ -88,10 +110,9 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     }
 
     @Override
-    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList) {
+    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList, String filterType) {
 
     }
-
     @Override
     public void onSuccessIngredientImage(Bitmap bitmap, String ingredientName) {
 
@@ -101,6 +122,6 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     @Override
     public void onFailureResult(String errorMsg) {
-        view.showErrMsg(errorMsg);
+        Log.e(TAG, "Error: " + errorMsg);
     }
 }

@@ -24,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DetailsIngredientAdapter extends RecyclerView.Adapter<DetailsIngredientAdapter.ViewHolder> {
     private static final String TAG = "AllMealsAdapter";
     private Context context;
-    private List<Ingredients> ListIngredients  = new ArrayList<>();;
+    private List<Ingredients> ListIngredients  = new ArrayList<>();
     private Map<String, Bitmap> bitmapList;
 
 
@@ -70,17 +70,16 @@ public class DetailsIngredientAdapter extends RecyclerView.Adapter<DetailsIngred
     }
 
     public void updateData(List<Ingredients> ListIngredients, Map<String, Bitmap> bitmapList) {
-        this.ListIngredients.clear();  // Clear the old data
-        this.ListIngredients.addAll(ListIngredients);  // Add the new data
-        this.bitmapList.clear();  // Clear the old data
-        this.bitmapList = bitmapList;  // Add the new data
-        notifyDataSetChanged();  // Notify the adapter to refresh the view
+        this.ListIngredients.clear();
+        this.ListIngredients.addAll(ListIngredients);
+        this.bitmapList.clear();
+        this.bitmapList = bitmapList;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView imgIngredient;
         private TextView txtIngredient;
-        //private ImageView imgIngredient;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

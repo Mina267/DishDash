@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +40,7 @@ import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealMapper;
 import com.example.dishdash.model.MealRepositoryImpl;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,13 +54,13 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
     private TextView textCountry;
     private TextView textRecipeDescription;
     private TextView textStepsDescription;
+    private FloatingActionButton floatingActionButtonFav;
     private Button btnAddToPlan;
-    private Button btnAddToFavorites;
     private WebView webViewDetails;
     private Meal meal;
     private DetailsRecipesPresenter detailsRecipesPresenter;
     private List<Ingredients> ListIngredients  = new ArrayList<>();;
-
+    private List<Meal> savedMeals = new ArrayList<>();
     private Map<String, Bitmap> bitmapList;
 
 
@@ -85,7 +88,6 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
          */
         meal = getArguments().getParcelable("meal");
 
-        btnAddToFavorites = view.findViewById(R.id.btnAddToFavorites);
         imageMeal = view.findViewById(R.id.imageMeal);
         textRecipeTitle = view.findViewById(R.id.textRecipeTitle);
         textCountry = view.findViewById(R.id.textCountry);
@@ -93,8 +95,8 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         recyclerViewIngredients = view.findViewById(R.id.recyclerViewIngredients);
         textStepsDescription = view.findViewById(R.id.textStepsDescription);
         btnAddToPlan = view.findViewById(R.id.btnAddToPlan);
-        btnAddToFavorites = view.findViewById(R.id.btnAddToFavorites);
         webViewDetails = view.findViewById(R.id.webViewDetails);
+        floatingActionButtonFav = view.findViewById(R.id.fab_add_details);
 
         webViewDetails = view.findViewById(R.id.webViewDetails);
         WebSettings webSettings = webViewDetails.getSettings();
@@ -105,12 +107,6 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         webViewDetails.loadUrl(youtubeEmbedUrl);
 
 
-        btnAddToFavorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onCiclkDetailsRecipesAddToFav(meal);
-            }
-        });
 
 
         /* get Fragment manager */
@@ -190,6 +186,41 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         detailsRecipesPresenter.getImgOfIngredient(ListIngredients);
 
 
+
+
+        if (savedMeals.contains(meal)) {
+            Log.i(TAG, "onBindViewHolder: onAddFromFavoriteClick");
+            floatingActionButtonFav.setImageResource(R.drawable.bookmarkadded); // Set the 'saved' bookmark icon
+        } else {
+            Log.i(TAG, "onBindViewHolder: bookmarkadd");
+            floatingActionButtonFav.setImageResource(R.drawable.bookmarkadd); // Set the 'add' bookmark icon
+        }
+
+
+        floatingActionButtonFav.setOnClickListener(v -> {
+            for (Meal savedmeal : savedMeals) {
+                Log.i(TAG, "setOnClick saved: " + savedmeal.getStrMeal());
+            }
+            Log.i(TAG, "meal: " + meal.getStrMeal());
+            if (savedMeals.contains(meal)) {
+                /* Meal is already saved, remove it from favorites */
+                detailsRecipesPresenter.deleteMeal(meal);
+                floatingActionButtonFav.setImageResource(R.drawable.bookmarkadd);
+                Log.i(TAG, "this.savedMeals.remove(meal); ");
+                this.savedMeals.remove(meal);
+
+            } else {
+                /* Meal is not saved, add it to favorites to add to favorites */
+                detailsRecipesPresenter.AddMealToFav(meal);
+                floatingActionButtonFav.setImageResource(R.drawable.bookmarkadded);
+                Log.i(TAG, "this.savedMeals.add(meal); ");
+                this.savedMeals.add(meal);
+
+
+            }
+        });
+
+
     }
 
     @Override
@@ -221,9 +252,20 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
 
     }
 
+    @Override
+    public void markSavedMeals(LiveData<List<Meal>> meals) {
+        Observer<List<Meal>> observer = new Observer<List<Meal>>() {
+            @Override
+            public void onChanged(List<Meal> mealsList) {
+                Log.i(TAG, "onChanged: ");
+                savedMeals = mealsList;
 
+                meals.removeObserver(this);
+            }
+        };
 
-
+        meals.observe(this, observer);
+    }
 
 
     private void createIngredientList() {

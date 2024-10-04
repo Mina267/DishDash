@@ -14,6 +14,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -73,7 +76,6 @@ dependencies {
 
     implementation ("com.airbnb.android:lottie:6.1.0")
 
-    implementation ("com.google.android.material:material:1.3.0")
 
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
     implementation ("com.airbnb.android:lottie:latest_version")
@@ -83,7 +85,6 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
     implementation ("com.furkanakdemir:surroundcardview:1.0.6")
-    implementation ("com.google.android.material:material:1.4.0")
     implementation ("com.google.android.material:material:1.9.0")
 
 

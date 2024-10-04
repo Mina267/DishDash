@@ -5,7 +5,7 @@ import com.example.dishdash.model.Meal;
 public interface FavRecipesPresenter {
     void deleteMeal(Meal meal);
 
-    void getFavProducts();
+    void getFavMeals();
 
     void addToFav(Meal meal);
 }

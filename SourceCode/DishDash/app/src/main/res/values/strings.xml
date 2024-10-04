@@ -29,5 +29,10 @@
     <string name="noresult">No Search Result</string>
     <string name="daytorecipe">What day should we add this recipe to?</string>
     <string name="continuebtn">Continue</string>
+    <string name="recipedetail">RECIPE</string>
+    <string name="recipedetails">RECIPE</string>
+    <string name="recommended">Recommended</string>
+    <string name="vegan">Vegan</string>
+    <string name="egyptian">Egyptian</string>
 
 </resources>

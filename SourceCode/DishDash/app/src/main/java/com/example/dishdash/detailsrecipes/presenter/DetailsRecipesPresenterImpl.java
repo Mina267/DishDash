@@ -38,6 +38,17 @@ public class DetailsRecipesPresenterImpl implements DetailsRecipesPresenter, Net
     }
 
     @Override
+    public void getSavedMeals() {
+        _view.markSavedMeals(mealRepository.getStoredMeals());
+
+    }
+
+    @Override
+    public void deleteMeal(Meal meal) {
+        mealRepository.deleteMeal(meal);
+    }
+
+    @Override
     public void getImgOfIngredient(List<Ingredients> ingredients) {
         this.ingredients = ingredients;
         fetchedCount = 0;
@@ -81,6 +92,11 @@ public class DetailsRecipesPresenterImpl implements DetailsRecipesPresenter, Net
     public void onSuccessMeals(List<Meal> mealsList) {}
 
     @Override
+    public void onSuccessRandomMeals(List<Meal> mealsList) {
+
+    }
+
+    @Override
     public void onSuccessCategories(List<Categories> categoriesList) {}
 
     @Override
@@ -93,5 +109,5 @@ public class DetailsRecipesPresenterImpl implements DetailsRecipesPresenter, Net
     public void onSuccessIngredients(List<ListAllIngredient> ingredientsList) {}
 
     @Override
-    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList) {}
+    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList, String filterType) {}
 }

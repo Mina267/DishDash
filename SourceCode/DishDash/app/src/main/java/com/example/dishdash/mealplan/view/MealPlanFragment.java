@@ -91,7 +91,6 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        daysAdapters.clear();
 
         /* First Day */
         setupRecyclerView(recyclerViewFirstDay);
@@ -170,9 +169,6 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
 
             });
 
-
-
-
             /* the next day */
             calendar.add(Calendar.DAY_OF_YEAR, 1);
 
@@ -201,8 +197,14 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        daysAdapters.clear();
 
     }
 }

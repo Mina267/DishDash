@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -85,7 +83,7 @@ public class FavRecipesFragment extends Fragment implements FavRecipesView, OnFa
         )
         );
 
-        favRecipesPresenter.getFavProducts();
+        favRecipesPresenter.getFavMeals();
     }
     
     

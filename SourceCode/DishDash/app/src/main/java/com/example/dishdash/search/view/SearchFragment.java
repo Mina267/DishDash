@@ -40,29 +40,28 @@ import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchMealsView, onSearchClickListener {
     private static final String TAG = "SearchFragment";
+    /* Recycler Views */
     private RecyclerView recyclerViewCountries;
     private RecyclerView recyclerViewCategories;
     private RecyclerView recyclerViewIngredients;
-    private SearchPresenter searchPresenter;
+    /* Adapters */
     private CategoriesSearchAdapter categoriesSearchAdapter;
     private AreasSearchAdapter areasSearchAdapter;
     private IngredientsSearchAdapter ingredientsSearchAdapter;
+    /* Layout Managers */
     private LinearLayoutManager categoriesLayoutManager;
     private LinearLayoutManager areasLayoutManager;
     private LinearLayoutManager ingredientsLayoutManager;
 
+    private SearchPresenter searchPresenter;
+
     private SearchView  searchView;
     private TextView txtViewAllSearch;
-
-
     FragmentManager mgr;
-    
     private FragmentSearchBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SearchViewModel searchViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
@@ -80,6 +79,8 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        /* SearchView
+         */
         searchView = view.findViewById(R.id.search_view);
 
             /* Keep SearchView expanded by default */
@@ -94,8 +95,8 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
                 searchPresenter.getMealByName(query);
                 searchView.setQuery("", false);
                 /* Close the keyboard after search */
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                 return true;
             }
 
@@ -110,38 +111,41 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
         txtViewAllSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* Navigate to SearchFragment */
                 NavController navController = Navigation.findNavController((Activity) getActivity(), R.id.nav_host_fragment_activity_main);
                 navController.navigate(R.id.action_navigation_search_to_ingredientsFragment);
             }
         });
 
-
+        /* new instance of adapters */
         categoriesSearchAdapter = new CategoriesSearchAdapter(getContext(), new ArrayList<>(), this);
         areasSearchAdapter = new AreasSearchAdapter(getContext(), new ArrayList<>(), this);
         ingredientsSearchAdapter = new IngredientsSearchAdapter(getContext(), new ArrayList<>(), this);
 
-
+        /* Recycler Views */
         recyclerViewCategories = view.findViewById(R.id.recyclerViewSearchCategories);
         recyclerViewCountries = view.findViewById(R.id.recyclerViewSearchCountries);
         recyclerViewIngredients = view.findViewById(R.id.recyclerViewSearchIngredients);
 
-
+        /* new instance of layout managers */
         categoriesLayoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
         areasLayoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
         ingredientsLayoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
 
-
+        /* new instance of presenter */
         searchPresenter = new SearchPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
 
+        /* Set recycler views layout managers */
         recyclerViewCategories.setLayoutManager(categoriesLayoutManager);
         recyclerViewCountries.setLayoutManager(areasLayoutManager);
         recyclerViewIngredients.setLayoutManager(ingredientsLayoutManager);
 
-
+        /* Set recycler views adapters */
         recyclerViewCategories. setAdapter(categoriesSearchAdapter);
         recyclerViewCountries. setAdapter(areasSearchAdapter);
         recyclerViewIngredients.setAdapter(ingredientsSearchAdapter);
 
+        /* Get Data from API */
         searchPresenter.getMealCategories();
         searchPresenter.getMealAreas();
         searchPresenter.getMealIngredients();
@@ -154,23 +158,32 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
         binding = null;
     }
 
+
+    /* View CallBack */
     @Override
     public void showAllCategories(List<Categories> categoriesList) {
+        /* Update the adapter with the new data of categories */
         categoriesSearchAdapter.updateData(categoriesList);
     }
 
+    /* View CallBack */
     @Override
     public void showAllAreas(List<ListAllArea> areasList) {
+        /* Update the adapter with the new data of Areas */
         areasSearchAdapter.updateData(areasList);
     }
 
+    /* View CallBack */
     @Override
     public void showAllIngredients(List<ListAllIngredient> ingredientList) {
+        /* Update the adapter with the new data of Ingredients */
         ingredientsSearchAdapter.updateData(ingredientList);
     }
 
+    /* View CallBack */
     @Override
     public void showSearchResult(List<Meal> meals) {
+        /* Navigate to SearchResultFragment to result of search */
         Log.i(TAG, "showSearchResult: ");
         NavController navController = Navigation.findNavController((Activity) getActivity(), R.id.nav_host_fragment_activity_main);
         Bundle bundle = new Bundle();
@@ -178,16 +191,19 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
         navController.navigate(R.id.action_navigation_search_to_searchResultFragment, bundle);
     }
 
+    /* Listener CallBack */
     @Override
     public void onAreaClickListener(String area) {
         searchPresenter.getMealByArea(area);
     }
 
+    /* Listener CallBack */
     @Override
     public void onIngredientClickListener(String ingredient) {
         searchPresenter.getMealByIngredient(ingredient);
     }
 
+    /* Listener CallBack */
     @Override
     public void onCategoryClickListener(String category) {
         searchPresenter.getMealByCategory(category);

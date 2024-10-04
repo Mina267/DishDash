@@ -24,6 +24,9 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     private static final String BASE_URL = "https://www.themealdb.com/api/json/v1/1/";
     private static MealRemoteDataSource client = null;
     private MealService mealService;
+    public static final String CATOGERY_TYPE = "CATOGERY";
+    public static final String AREA_TYPE = "AREA";
+    public static final String INGREDIENT_TYPE = "INGREDIENT";
 
     private MealRemoteDataSourceImpl() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -109,7 +112,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             public void onResponse(Call<MealsRoot> call, Response<MealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
                     Log.i(TAG, "Random meal found");
-                    networkCallback.onSuccessMeals(response.body().getMeals());
+                    networkCallback.onSuccessRandomMeals(response.body().getMeals());
                 } else {
                     networkCallback.onFailureResult("No random meal found.");
                 }
@@ -213,7 +216,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
                     Log.i(TAG, "filterMealsByCategory found: " + response.body().getMeals().size());
-                    networkCallback.onSuccessFilteredMeals(response.body().getMeals());
+                    networkCallback.onSuccessFilteredMeals(response.body().getMeals(), CATOGERY_TYPE);
                 } else {
                     networkCallback.onFailureResult("No categories found.");
                 }
@@ -234,7 +237,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
                     Log.i(TAG, "filterMealsByArea found: " + response.body().getMeals().size());
-                    networkCallback.onSuccessFilteredMeals(response.body().getMeals());
+                    networkCallback.onSuccessFilteredMeals(response.body().getMeals(), AREA_TYPE);
                 } else {
                     networkCallback.onFailureResult("No categories found.");
                 }
@@ -254,7 +257,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
                 if (response.body() != null && response.body().getMeals() != null) {
                     Log.i(TAG, "filterMealsByIngredient found: " + response.body().getMeals().size());
-                    networkCallback.onSuccessFilteredMeals(response.body().getMeals());
+                    networkCallback.onSuccessFilteredMeals(response.body().getMeals(), INGREDIENT_TYPE);
                 } else {
                     networkCallback.onFailureResult("No categories found.");
                 }

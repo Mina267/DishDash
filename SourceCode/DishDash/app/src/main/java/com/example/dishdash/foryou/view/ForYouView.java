@@ -1,12 +1,16 @@
 package com.example.dishdash.foryou.view;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.dishdash.model.Meal;
 
 import java.util.List;
 
 public interface ForYouView {
-    public void showData(List<Meal> Meal);
-    public void showErrMsg(String error);
+    void showData(List<Meal> Meal);
+    void markSavedMeals(LiveData<List<Meal>> meals);
+    void showResult(List<Meal> mealsList);
+    void showErrMsg(String error);
 }
 
 

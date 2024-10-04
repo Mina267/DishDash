@@ -1,70 +1,71 @@
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="250dp"
+    android:layout_width="255dp"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/MYAPP_background"
     app:cardCornerRadius="25dp"
-    app:cardElevation="6dp">
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="0dp">
 
-        <!-- Meal Image -->
-        <ImageView
+        <!-- Meal Image with Rounded Corners -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_card"
             android:layout_width="0dp"
-            android:layout_height="270dp"
+            android:layout_height="155dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedBottomCorners"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <!-- Favorite Button -->
+        <!-- Favorite Floating Button (Top right inside image) -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|top"
-            android:layout_margin="16dp"
-            android:src="@drawable/bookmark"
+            android:layout_margin="8dp"
+            android:src="@drawable/bookmarkadd"
             android:tint="@android:color/white"
             app:backgroundTint="@color/material_on_primary_emphasis_medium"
             app:fabSize="mini"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/img_card"
+            app:layout_constraintTop_toTopOf="@id/img_card" />
 
-        <!-- Add to Meal Plan Button -->
+        <!-- Add to Meal Plan Floating Button (Half inside image, half below) -->
+
+        <!-- Meal Title -->
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_mealplan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_marginBottom="10dp"
-            android:foregroundTint="@color/MYAPP_background"
+            android:layout_marginStart="10dp"
             android:src="@drawable/baseline_add_24"
-            android:tint="@color/white"
-            app:backgroundTint="@color/MYAPP_background"
+            android:tint="@android:color/transparent"
+            app:backgroundTint="@color/material_on_primary_emphasis_medium"
             app:fabSize="mini"
-            app:layout_constraintBottom_toTopOf="@+id/txt_card"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.958"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fab_add_favorite" />
 
-        <!-- Meal Title -->
         <TextView
             android:id="@+id/txt_card"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/poppins_bold_italic"
-            android:text="Super Quick White Chicken Chili"
-            android:textAlignment="viewStart"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_slab_medium"
+            android:text="Meal Title"
             android:textColor="@color/COLOR_DARK_GREEN"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -74,4 +75,5 @@
             app:layout_constraintTop_toBottomOf="@id/img_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

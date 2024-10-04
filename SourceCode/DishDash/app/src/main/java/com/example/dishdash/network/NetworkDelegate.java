@@ -14,12 +14,13 @@ import java.util.List;
 public interface NetworkDelegate {
     void onSuccessMealId(Meal meal);
     void onSuccessMeals(List<Meal> mealsList);
+    void onSuccessRandomMeals(List<Meal> mealsList);
     void onSuccessCategories(List<Categories> categoriesList);
 
     void onSuccessCategoriesSimple(List<ListAllCategories> categoriesList);
     void onSuccessArea(List<ListAllArea> AreaList);
     void onSuccessIngredients(List<ListAllIngredient> ingredientsList);
-    void onSuccessFilteredMeals(List<FilterMeals> filterMealsList);
+    void onSuccessFilteredMeals(List<FilterMeals> filterMealsList, String filterType);
     void onSuccessIngredientImage(Bitmap bitmap, String ingredientName);
 
 

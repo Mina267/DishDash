@@ -10,6 +10,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 
 @Entity(tableName = "meal_table")
 public class Meal implements Parcelable {
@@ -681,4 +683,18 @@ public class Meal implements Parcelable {
             return new Meal[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Meal meal = (Meal) o;
+        return strMeal.equals(meal.strMeal); 
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(strMeal);
+    }
+
 }

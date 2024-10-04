@@ -20,8 +20,9 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     private static final String TAG = "SearchPresenterImpl";
     SearchMealsView _view;
     MealRepository mealRepository;
-
+    /* Meals List that fetched using Id according to the filtered type (Area, Ingredient, Category) */
     private final List<Meal> Meals = new ArrayList<>();
+    /* List acquire id from to fetch them */
     List<FilterMeals> filterMealsList;
     private int fetchedCount = 0;
 
@@ -59,10 +60,12 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
         mealRepository.getMealsByName(mealName, this);
     }
 
+    @Override
     public void getMealByIngredient(String ingredient) {
         mealRepository.getMealsByIngredient(ingredient,this);
     }
 
+    @Override
     public void getMealByCategory(String category) {
         mealRepository.getMealsByCategory(category, this);
     }
@@ -80,6 +83,11 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
         _view.showSearchResult(mealsList);
+
+    }
+
+    @Override
+    public void onSuccessRandomMeals(List<Meal> mealsList) {
 
     }
 
@@ -107,7 +115,10 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     }
 
     @Override
-    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList) {
+    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList, String filterType) {
+        /* Filtered meal get id from it and fetch them
+         * Filtered meal list is repose from request to get id of meals according to the filtered type (Area, Ingredient, Category)
+         */
         this.filterMealsList = filterMealsList;
         for (FilterMeals meal : filterMealsList) {
             mealRepository.getMealById(meal.getIdMeal(), this);

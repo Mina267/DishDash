@@ -49,6 +49,11 @@ public class SearchResultPresenterImpl implements SearchResultPresenter, Network
     }
 
     @Override
+    public void onSuccessRandomMeals(List<Meal> mealsList) {
+
+    }
+
+    @Override
     public void onSuccessCategories(List<Categories> categoriesList) {
 
     }
@@ -69,7 +74,7 @@ public class SearchResultPresenterImpl implements SearchResultPresenter, Network
     }
 
     @Override
-    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList) {
+    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList, String filterType) {
 
     }
 

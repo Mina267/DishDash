@@ -66,6 +66,11 @@ public class IngredientsPresenterImpl implements NetworkDelegate, IngredientsPre
     }
 
     @Override
+    public void onSuccessRandomMeals(List<Meal> mealsList) {
+
+    }
+
+    @Override
     public void onSuccessCategories(List<Categories> categoriesList) {
 
     }
@@ -87,7 +92,7 @@ public class IngredientsPresenterImpl implements NetworkDelegate, IngredientsPre
     }
 
     @Override
-    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList) {
+    public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList, String filterType) {
         this.filterMealsList = filterMealsList;
         for (FilterMeals meal : filterMealsList) {
             mealRepository.getMealById(meal.getIdMeal(), this);

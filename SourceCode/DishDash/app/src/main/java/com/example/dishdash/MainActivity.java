@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
     private ActivityMainBinding binding;
     private static final String TAG = "MainActivity";
-
+    NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +37,9 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 R.id.navigation_home, R.id.navigation_search, R.id.navigation_mealplan, R.id.navigation_fav)
                 .build();
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
 
         /* Create and set an OnDestinationChangedListener */
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -72,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 .setAction("view meal plan", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_activity_main);
                         NavOptions navOptions = new NavOptions.Builder()
                                 .setPopUpTo(R.id.navigation_home, true)
                                 .build();

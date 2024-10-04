@@ -18,7 +18,7 @@ public class FavRecipesPresenterImpl implements FavRecipesPresenter {
     public void deleteMeal(Meal meal) {mealRepository.deleteMeal(meal);}
 
     @Override
-    public void getFavProducts() {_view.showData(mealRepository.getStoredMeals());}
+    public void getFavMeals() {_view.showData(mealRepository.getStoredMeals());}
 
     @Override
     public void addToFav(Meal meal) {mealRepository.insertMeal(meal);}

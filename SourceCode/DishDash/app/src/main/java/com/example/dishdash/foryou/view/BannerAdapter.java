@@ -26,7 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder> {
+public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder> {
     private static final String TAG = "AllMealsAdapter";
     private Context context;
     private List<Meal> mealsList;
@@ -34,7 +34,7 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
     private List<Meal> savedMeals = new ArrayList<>();
 
 
-    public ForYouAdapter(Context context, List<Meal> mealsList, OnMealClickListener listener) {
+    public BannerAdapter(Context context, List<Meal> mealsList, OnMealClickListener listener) {
         this.context = context;
         this.mealsList = mealsList;
         this.listener = listener;
@@ -46,7 +46,7 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_recipe, parent, false);
+                .inflate(R.layout.card_banners, parent, false);
         return new ViewHolder(view);
     }
 
@@ -62,19 +62,19 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
                 .apply(new RequestOptions().override(200, 200)
                         .placeholder(R.drawable.nophotoavailable)
                         .error(R.drawable.ic_launcher_foreground))
-                .into(holder.img_card);
-        holder.txt_card.setText(meal.getStrMeal());
-        Log.i(TAG, "meal: " + meal.getStrMeal() + " savedMeals: " + savedMeals.get(10).getStrMeal());
+                .into(holder.bannerImage);
+        holder.txtTitle.setText(meal.getStrMeal());
+        holder.txtContent.setText(meal.getStrArea() + ", " + meal.getStrCategory());
         if (savedMeals.contains(meal)) {
-            Log.i(TAG, "onBindViewHolder: bookmarkadded ForYouAdapter");
-            holder.floatingActionButtonFav.setImageResource(R.drawable.bookmarkadded); // Set the 'saved' bookmark icon
+            Log.i(TAG, "onBindViewHolder: onAddFromFavoriteClick");
+            holder.fab_add_banner.setImageResource(R.drawable.bookmarkadded); // Set the 'saved' bookmark icon
         } else {
-            Log.i(TAG, "onBindViewHolder: bookmarkadd ForYouAdapter");
-            holder.floatingActionButtonFav.setImageResource(R.drawable.bookmarkadd); // Set the 'add' bookmark icon
+            Log.i(TAG, "onBindViewHolder: bookmarkadd");
+            holder.fab_add_banner.setImageResource(R.drawable.bookmarkadd); // Set the 'add' bookmark icon
         }
 
 
-        holder.floatingActionButtonFav.setOnClickListener(v -> {
+        holder.fab_add_banner.setOnClickListener(v -> {
             for (Meal savedmeal : savedMeals) {
                 Log.i(TAG, "setOnClick saved: " + savedmeal.getStrMeal());
             }
@@ -82,14 +82,14 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
             if (savedMeals.contains(meal)) {
                 /* Meal is already saved, remove it from favorites */
                 listener.onRemoveFromFavoriteClick(meal);
-                holder.floatingActionButtonFav.setImageResource(R.drawable.bookmarkadd);
+                holder.fab_add_banner.setImageResource(R.drawable.bookmarkadd);
                 Log.i(TAG, "this.savedMeals.remove(meal); ");
                 this.savedMeals.remove(meal);
 
             } else {
                 /* Meal is not saved, add it to favorites to add to favorites */
                 listener.onAddToFavoriteClick(meal);
-                holder.floatingActionButtonFav.setImageResource(R.drawable.bookmarkadded);
+                holder.fab_add_banner.setImageResource(R.drawable.bookmarkadded);
                 Log.i(TAG, "this.savedMeals.add(meal); ");
                 this.savedMeals.add(meal);
 
@@ -97,7 +97,7 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
             }
         });
 
-        holder.floatingActionButtonMealPlan.setOnClickListener(new View.OnClickListener() {
+        holder.fab_add_mealplan_banner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavController navController = Navigation.findNavController((Activity) context, R.id.nav_host_fragment_activity_main);
@@ -145,18 +145,22 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView img_card;
-        private TextView txt_card;
-        private FloatingActionButton floatingActionButtonFav;
-        private FloatingActionButton floatingActionButtonMealPlan;
+        private ImageView bannerImage;
+        private TextView txtTitle;
+        private TextView txtContent;
+
+        private FloatingActionButton fab_add_banner;
+        private FloatingActionButton fab_add_mealplan_banner;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            img_card = itemView.findViewById(R.id.img_card);
-            txt_card = itemView.findViewById(R.id.txt_card);
-            floatingActionButtonFav = itemView.findViewById(R.id.fab_add_favorite);
-            floatingActionButtonMealPlan = itemView.findViewById(R.id.fab_add_mealplan);
+            bannerImage = itemView.findViewById(R.id.bannerImage);
+            txtTitle = itemView.findViewById(R.id.txtTitle);
+            txtContent = itemView.findViewById(R.id.txtContent);
+
+            fab_add_banner = itemView.findViewById(R.id.fab_add_banner);
+            fab_add_mealplan_banner = itemView.findViewById(R.id.fab_add_mealplan_banner);
 
 
 
