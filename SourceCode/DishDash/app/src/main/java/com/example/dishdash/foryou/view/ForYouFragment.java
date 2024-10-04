@@ -42,18 +42,13 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
     BannerAdapter bannerAdapter;
     RecyclerView foryouRecyclerView;
-    RecyclerView foryou_recycler_egptian;
-    RecyclerView foryou_recycler_vegan;
     RecyclerView foryou_recycler_recommended;
 
 
     LinearLayoutManager layoutManager;
     FragmentManager mgr;
     ForYouPresenter forYouPresenter;
-    private static final int EGY_ADAPTER = 0;
-    private static final int VEG_ADAPTER = 1;
-    private static final int REC_ADAPTER = 2;
-    List<ForYouAdapter> forYouAdapter = new ArrayList<ForYouAdapter>();;
+    ForYouAdapter forYouAdapter;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -88,8 +83,6 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
 
         foryouRecyclerView = view.findViewById(R.id.foryou_recycler);
-//        foryou_recycler_egptian = view.findViewById(R.id.foryou_recycler_egptian);
-//        foryou_recycler_vegan = view.findViewById(R.id.foryou_recycler_vegan);
         foryou_recycler_recommended = view.findViewById(R.id.foryou_recycler_recommended);
 
 
@@ -104,8 +97,7 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         foryouRecyclerView. setAdapter(bannerAdapter);
 
 
-//        setupRecyclerView(foryou_recycler_egptian);
-//        setupRecyclerView(foryou_recycler_vegan);
+
         setupRecyclerView(foryou_recycler_recommended);
 
 
@@ -120,14 +112,14 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
 
     @Override
-    public void showData(List<Meal> Meal) {
-        Log.i(TAG, "showData: " + Meal);
-        for (int i = 0; i  < 10 ; i++)
-            Log.i(TAG, "showData: mael " + i  + ":  "+ Meal.get(i).getStrCategory());
+    public void showData(Meal meal) {
+        if (meal != null)
+        {
+            Log.i(TAG, "showData: " + meal.getStrMeal());
+            bannerAdapter.updateDataMeal(meal);
+            bannerAdapter.notifyDataSetChanged();
 
-
-        bannerAdapter.updateData(Meal);
-        bannerAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -136,9 +128,13 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
             @Override
             public void onChanged(List<Meal> mealsList) {
                 Log.i(TAG, "onChanged: ");
-                bannerAdapter.setSavedMeals(mealsList);
-                forYouAdapter.get(0).setSavedMeals(mealsList);
-               meals.removeObserver(this);
+                if (mealsList != null)
+                {
+                    bannerAdapter.setSavedMeals(mealsList);
+                    forYouAdapter.setSavedMeals(mealsList);
+                }
+
+                meals.removeObserver(this);
             }
         };
 
@@ -147,7 +143,15 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
     @Override
     public void showResult(List<Meal> mealsList) {
-        forYouAdapter.get(0).updateData(mealsList);
+        if (mealsList != null)
+        {
+            Log.i(TAG, "showResult: ");
+            for (Meal meal : mealsList)
+            {
+                Log.i(TAG, "showResult: " + meal.getStrMeal());
+                forYouAdapter.updateData(mealsList);
+            }
+        }
     }
 
 
@@ -176,7 +180,7 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         LinearLayoutManager layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
         recyclerView. setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
-        forYouAdapter.add(adapter);
+        forYouAdapter = adapter;
     }
 
 
@@ -198,7 +202,6 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
     @Override
     public void onPause() {
         super.onPause();
-        forYouAdapter.clear();
     }
 }
 

@@ -25,8 +25,7 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     private int randomRecipesCnt;
     private static final int MAX_RANDOM_MEAL = 10;
     private List<Meal> randomMealsList = new ArrayList<>();
-    /* Meals List that fetched using Id according to the filtered type (Area, Ingredient, Category) */
-    private final List<Meal> Meals = new ArrayList<>();
+
 
 
     public ForYouPresenterImpl(ForYouView view, MealRepository mealRepository) {
@@ -45,12 +44,19 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     @Override
     public void addToFavourite(Meal meal) {
-        mealRepository.insertMeal(meal);
+        if (meal != null)
+        {
+            Log.i(TAG, "addToFavourite: " + meal.getStrMeal());
+            mealRepository.insertMeal(meal);
+        }
     }
 
     @Override
     public void addToMealPlan(Meal meal, String day) {
-        mealRepository.insertPlanMealForDay(meal, day);
+        if (meal != null)
+        {
+            mealRepository.insertPlanMealForDay(meal, day);
+        }
     }
 
     @Override
@@ -60,7 +66,7 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     }
 
     @Override
-    public void deleteMeal(Meal meal) {mealRepository.deleteMeal(meal);}
+    public void deleteMeal(Meal meal) { if (meal != null) {mealRepository.deleteMeal(meal);}}
 
     @Override
     public void getMealByName(String mealName) {
@@ -75,18 +81,21 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
-         view.showResult(mealsList);
+        if (mealsList != null)
+        {
+            view.showResult(mealsList);
+        }
     }
 
     @Override
     public void onSuccessRandomMeals(List<Meal> mealsList) {
-        Log.i(TAG, "onSuccessMeals: " + mealsList.get(0) + " randomRecipesCnt = "+ randomRecipesCnt);
-        randomMealsList.add(mealsList.get(0));
-        randomRecipesCnt++;
-        if (randomRecipesCnt >= MAX_RANDOM_MEAL) {
-            view.showData(randomMealsList);
+        if (mealsList != null)
+        {
+            view.showData(mealsList.get(0));
 
         }
+
+
     }
 
     @Override

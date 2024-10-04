@@ -7,7 +7,7 @@ import com.example.dishdash.model.Meal;
 import java.util.List;
 
 public interface ForYouView {
-    void showData(List<Meal> Meal);
+    void showData(Meal meal);
     void markSavedMeals(LiveData<List<Meal>> meals);
     void showResult(List<Meal> mealsList);
     void showErrMsg(String error);

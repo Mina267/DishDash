@@ -32,6 +32,8 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
     private List<Meal> mealsList;
     private OnMealClickListener listener;
     private List<Meal> savedMeals = new ArrayList<>();
+    private int randomRecipesCnt;
+    private static final int MAX_RANDOM_MEAL = 10;
 
 
     public BannerAdapter(Context context, List<Meal> mealsList, OnMealClickListener listener) {
@@ -132,6 +134,17 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
         this.mealsList.addAll(mealsList);
         notifyDataSetChanged();
     }
+
+    public void updateDataMeal(Meal meal) {
+        this.mealsList.add(meal);
+        randomRecipesCnt++;
+        if (randomRecipesCnt == MAX_RANDOM_MEAL)
+        {
+            //this.mealsList.clear();
+        }
+        notifyDataSetChanged();
+    }
+
 
     public void setSavedMeals(List<Meal> savedMeals) {
         Log.i(TAG, "setSavedMeals: ");

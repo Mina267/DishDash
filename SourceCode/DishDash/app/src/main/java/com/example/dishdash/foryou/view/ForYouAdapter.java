@@ -64,7 +64,6 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
                         .error(R.drawable.ic_launcher_foreground))
                 .into(holder.img_card);
         holder.txt_card.setText(meal.getStrMeal());
-        Log.i(TAG, "meal: " + meal.getStrMeal() + " savedMeals: " + savedMeals.get(10).getStrMeal());
         if (savedMeals.contains(meal)) {
             Log.i(TAG, "onBindViewHolder: bookmarkadded ForYouAdapter");
             holder.floatingActionButtonFav.setImageResource(R.drawable.bookmarkadded); // Set the 'saved' bookmark icon
