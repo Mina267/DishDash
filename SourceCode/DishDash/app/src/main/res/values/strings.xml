@@ -9,6 +9,8 @@
     <string name="dishdash">DishDash</string>
     <string name="dailyinspiration">Daily Inspiration</string>
     <string name="thisweek">This Week</string>
+    <string name="nextweek">Next Week</string>
+
     <string name="recipe">RECIPE</string>
     <string name="country">Country</string>
     <string name="ingredients">Ingredients</string>

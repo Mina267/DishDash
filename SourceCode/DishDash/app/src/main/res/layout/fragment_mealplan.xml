@@ -21,7 +21,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/txtViewMealPlan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -45,7 +45,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView3"
+                app:layout_constraintTop_toBottomOf="@id/txtViewMealPlan"
                 tools:text="Day" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -188,6 +188,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/seventhDay" />
+
+            <ImageView
+                android:id="@+id/imgArrowNext"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/arrowforward"
+                app:layout_constraintBottom_toBottomOf="@+id/txtViewMealPlan"
+                app:layout_constraintEnd_toEndOf="@+id/txtViewMealPlan"
+                app:layout_constraintTop_toTopOf="@+id/txtViewMealPlan" />
+
+            <ImageView
+                android:id="@+id/imgArrowBack"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/arrowback"
+                app:layout_constraintBottom_toBottomOf="@+id/txtViewMealPlan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtViewMealPlan" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

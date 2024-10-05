@@ -92,9 +92,9 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.ViewHolder> {
     }
 
     public void updateData(List<MealPlan> mealsList) {
-        this.mealsList.clear();  // Clear the old data
-        this.mealsList.addAll(mealsList);  // Add the new data
-        notifyDataSetChanged();  // Notify the adapter to refresh the view
+        this.mealsList.clear();
+        this.mealsList.addAll(mealsList);
+        notifyDataSetChanged();
         Log.i(TAG, "updateData: " + mealsList);
     }
 

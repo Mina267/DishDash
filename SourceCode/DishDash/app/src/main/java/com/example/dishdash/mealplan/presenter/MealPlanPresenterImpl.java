@@ -1,5 +1,7 @@
 package com.example.dishdash.mealplan.presenter;
 
+import android.widget.TextView;
+
 import androidx.lifecycle.LiveData;
 
 import com.example.dishdash.mealplan.view.MealPlanView;
@@ -11,7 +13,6 @@ import com.example.dishdash.model.MealRepository;
 import java.util.List;
 
 public class MealPlanPresenterImpl implements MealPlanPresenter {
-
     MealRepository mealRepository;
     MealPlanView _view;
 
@@ -22,18 +23,22 @@ public class MealPlanPresenterImpl implements MealPlanPresenter {
 
     @Override
     public void deleteMealPlan(MealPlan mealPlan) {
-        mealRepository.deleteMealPlan(mealPlan);
+        if (mealPlan != null) {
+            mealRepository.deleteMealPlan(mealPlan);
+        }
     }
 
     @Override
     public void addToMealPlan(MealPlan mealPlan) {
-        mealRepository.insertPlanMealForDay(MealMapper.mapMealPlanToMeal(mealPlan), mealPlan.getDate());
-    }
+        if (mealPlan.getStrMeal() != null) {
+            mealRepository.insertPlanMealForDay(MealMapper.mapMealPlanToMeal(mealPlan), mealPlan.getDate());
 
+        }
+    }
 
     @Override
     public LiveData<List<MealPlan>> getMealPlanByDate(String date) {
-        return mealRepository.getMealsOfTheDay(date);
+            return mealRepository.getMealsOfTheDay(date);
     }
 
 }

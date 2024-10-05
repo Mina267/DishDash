@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,7 +52,12 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     private RecyclerView recyclerViewSixthDay;
     private RecyclerView recyclerViewSeventhDay;
 
+    private ImageView imgArrowBack;
+    private ImageView imgArrowNext;
+    TextView txtViewMealPlan;
 
+    private int currentWeekOffset = 0;
+    static private final String CURRENT_DAY = "currentDay";
     /* List of days adapters that use to save days adapters for each day */
     List<DaysAdapter> daysAdapters = new ArrayList<DaysAdapter>();
 
@@ -61,7 +67,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        Log.i(TAG, "onCreateView: ");
         binding = FragmentMealplanBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         firstDay = view.findViewById(R.id.firstDay);
@@ -78,7 +84,9 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         recyclerViewFivethDay = view.findViewById(R.id.recyclerViewFivethDay);
         recyclerViewSixthDay = view.findViewById(R.id.recyclerViewSixthDay);
         recyclerViewSeventhDay = view.findViewById(R.id.recyclerViewSeventhDay);
-
+        imgArrowBack = view.findViewById(R.id.imgArrowBack);
+        imgArrowNext = view.findViewById(R.id.imgArrowNext);
+        txtViewMealPlan = view.findViewById(R.id.txtViewMealPlan);
         /* Set days names on text view start from today name to the next six days */
         setDayNames();
 
@@ -91,6 +99,16 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.i(TAG, "onViewCreated: ");
+
+
+        if (savedInstanceState != null) {
+            currentWeekOffset = savedInstanceState.getInt(CURRENT_DAY);
+        }
+        if (!daysAdapters.isEmpty())
+        {
+            daysAdapters.clear();
+        }
 
         /* Create days adapters for each Day */
         setupRecyclerView(recyclerViewFirstDay);
@@ -101,11 +119,54 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         setupRecyclerView(recyclerViewSixthDay);
         setupRecyclerView(recyclerViewSeventhDay);
 
+
+
+
+        imgArrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentWeekOffset--;
+                if (currentWeekOffset == -1)
+                {
+                    currentWeekOffset = 3;
+                }
+                updateMealPlansForCurrentWeek();
+
+                if (currentWeekOffset == 0)
+                {
+                    txtViewMealPlan.setText(R.string.thisweek);
+                }
+                else {
+                    txtViewMealPlan.setText(R.string.nextweek);
+                }
+            }
+        });
+
+        imgArrowNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentWeekOffset = (currentWeekOffset + 1) % 4;
+                updateMealPlansForCurrentWeek();
+                if (currentWeekOffset == 0)
+                {
+                    txtViewMealPlan.setText(R.string.thisweek);
+                }
+                else {
+                    txtViewMealPlan.setText(R.string.nextweek);
+                }
+            }
+        });
+
         /* Presenter */
         mealPlanPresenter = new MealPlanPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
 
-        /* Fetch meals from data base table */
-        fetchMealPlansForSevenDays();
+
+        if (daysAdapters.isEmpty()) {
+
+            fetchMealPlansForSevenDays(currentWeekOffset);
+        } else {
+            updateMealPlansForCurrentWeek();
+        }
 
     }
 
@@ -150,8 +211,13 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         daysAdapters.add(adapter);
     }
 
-    private void fetchMealPlansForSevenDays() {
+    private void fetchMealPlansForSevenDays(int weekOffset) {
         Calendar calendar = Calendar.getInstance();
+
+
+
+        // Adjust the calendar to start from today or the same day in the upcoming week(s)
+        calendar.add(Calendar.WEEK_OF_YEAR, weekOffset);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
 
@@ -162,21 +228,28 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
             Log.i(TAG, "onViewCreated: " + date);
             int indx = i;
             mealPlanPresenter.getMealPlanByDate(date).observe(getViewLifecycleOwner(), mealPlans -> {
-                Log.i(TAG, "fetchMealPlansForSevenDays:   "  + mealPlans);
+                Log.i(TAG, "fetchMealPlansForSevenDays:   " + mealPlans);
 
                 daysAdapters.get(indx).updateData(mealPlans);
                 daysAdapters.get(indx).notifyDataSetChanged();
-
             });
 
-            /* the next day */
+            /* Move to the next day */
             calendar.add(Calendar.DAY_OF_YEAR, 1);
-
         } /* End of for loop */
-
     }
 
-        @Override
+    /* Clear adapters and fetch new data for the updated week */
+    private void updateMealPlansForCurrentWeek() {
+        for (DaysAdapter adapter : daysAdapters) {
+            adapter.updateData(new ArrayList<>());
+        }
+
+        fetchMealPlansForSevenDays(currentWeekOffset);
+    }
+
+
+    @Override
     public void onMealPlanClick(MealPlan mealPlan) {
             mealPlanPresenter.deleteMealPlan(mealPlan);
 
@@ -198,13 +271,28 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
 
     @Override
     public void onDestroy() {
+        Log.i(TAG, "onDestroy: ");
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: ");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        daysAdapters.clear();
+        Log.i(TAG, "onPause: ");
+        //daysAdapters.clear();
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState: ");
+        outState.putInt(CURRENT_DAY, currentWeekOffset);
     }
 }
