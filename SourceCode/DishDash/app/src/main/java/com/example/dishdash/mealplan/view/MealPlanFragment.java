@@ -52,7 +52,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     private RecyclerView recyclerViewSeventhDay;
 
 
-
+    /* List of days adapters that use to save days adapters for each day */
     List<DaysAdapter> daysAdapters = new ArrayList<DaysAdapter>();
 
 
@@ -92,7 +92,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /* First Day */
+        /* Create days adapters for each Day */
         setupRecyclerView(recyclerViewFirstDay);
         setupRecyclerView(recyclerViewSecondDay);
         setupRecyclerView(recyclerViewThirdDay);
@@ -104,7 +104,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         /* Presenter */
         mealPlanPresenter = new MealPlanPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
 
-
+        /* Fetch meals from data base table */
         fetchMealPlansForSevenDays();
 
     }
@@ -155,7 +155,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
 
-
+        /* Start of for loop to fetch meals for each day */
         for (int i = 0; i < 7; i++) {
             String date = dateFormat.format(calendar.getTime());
             // Fetch meals for the day
@@ -172,7 +172,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
             /* the next day */
             calendar.add(Calendar.DAY_OF_YEAR, 1);
 
-        }
+        } /* End of for loop */
 
     }
 

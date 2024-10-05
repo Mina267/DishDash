@@ -38,7 +38,6 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
     private ImageView img_selectDay;
     private TextView txt_selectDay;
     private Meal meal;
-    String dayName;
     SelectDayPresenter selectDayPresenter;
     Communicator communicator;
     Calendar calendar;
@@ -58,6 +57,7 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_select_day, container, false);
+
         btnContinue = view.findViewById(R.id.btnContinue);
         img_selectDay = view.findViewById(R.id.img_selectDay);
         txt_selectDay  = view.findViewById(R.id.txt_selectDay);
@@ -93,13 +93,15 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
                 .into(img_selectDay);
         txt_selectDay.setText(meal.getStrMeal());
 
+        /* Use this to communicate with the MainActivity to pop up snake bar */
         communicator = (Communicator) getActivity();
-        /* Continue */
+        /* Continue button */
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /* add Meal to meal plan data base */
                 selectDayPresenter.addToMealPlan(meal, mealSelectedDate);
-
+                /* to Show date and day in snake bar */
                 communicator.viewData(mealSelectedDate);
                 /* Close the fragment and return to previous fragment */
                 getParentFragmentManager().popBackStack();
@@ -119,13 +121,12 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
          */
         calendar = Calendar.getInstance();
         /* adds 1 month to the current date, moving the calendar forward by one month. */
-        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.DAY_OF_YEAR, 30);
         /*
-         * getLeastMaximum: Returns the lowest maximum value for the given calendar field of this Calendar instance
+         * then in sets the last date in the Calendar View to the computed date
          */
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        /* then in sets the last date in the Calendar View to the computed date */
-        calendarView.setMaxDate(calendar.getTimeInMillis());
+        calendarView.setMaxDate(calendar.getTimeInMillis()); // Set max date to 30 days from today
+
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -134,12 +135,6 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
                 String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                 mealSelectedDate = selectedDate;
 
-                /* to print data and day in toast */
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                dayName = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
             }
         });
 

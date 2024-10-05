@@ -104,7 +104,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         });
     }
 
-    // method to lookup a random meal
+    /* lookup a random meal */
     @Override
     public void lookupRandomMeal(NetworkDelegate networkCallback) {
         mealService.lookupRandomMeal().enqueue(new Callback<MealsRoot>() {
@@ -125,7 +125,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         });
     }
 
-    // method to list all meal categories
+    /*  list all meal categories */
     @Override
     public void listAllCategories(NetworkDelegate networkCallback) {
         Log.i(TAG, "listAllCategories: ");
@@ -146,7 +146,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             }
         });
     }
-
+   /*  list all meal categories simple */
     @Override
     public void listAllCategoriesSimple(NetworkDelegate networkCallback) {
         mealService.listAllCategoriesSimple().enqueue(new Callback<ListAllCategoriesRoot>() {
@@ -168,7 +168,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
     }
 
 
-
+    /*  list all areas */
     @Override
     public void listAllAreas(NetworkDelegate networkCallback) {
         mealService.listAllAreas().enqueue(new Callback<ListAllAreaRoot>() {
@@ -189,6 +189,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         });
     }
 
+    /*  list all ingredients */
     @Override
     public void listAllIngredients(NetworkDelegate networkCallback) {
         mealService.listAllIngredients().enqueue(new Callback<ListAllIngredientRoot>() {
@@ -209,11 +210,13 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         });
     }
 
+    /*  filter meals by category */
     @Override
     public void filterMealsByCategory(String category, NetworkDelegate networkCallback) {
         mealService.filterMealsByCategory(category).enqueue(new Callback<FilterMealsRoot>() {
             @Override
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
+                /* check if the response is successful and the body is not null and the meals list is not null */
                 if (response.body() != null && response.body().getMeals() != null) {
                     Log.i(TAG, "filterMealsByCategory found: " + response.body().getMeals().size());
                     networkCallback.onSuccessFilteredMeals(response.body().getMeals(), CATOGERY_TYPE);
@@ -230,11 +233,13 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         });
     }
 
+    /*  filter meals by area */
     @Override
     public void filterMealsByArea(String area, NetworkDelegate networkCallback) {
         mealService.filterMealsByArea(area).enqueue(new Callback<FilterMealsRoot>() {
             @Override
             public void onResponse(Call<FilterMealsRoot> call, Response<FilterMealsRoot> response) {
+                /* check if the response is successful and the body is not null and the meals list is not null */
                 if (response.body() != null && response.body().getMeals() != null) {
                     Log.i(TAG, "filterMealsByArea found: " + response.body().getMeals().size());
                     networkCallback.onSuccessFilteredMeals(response.body().getMeals(), AREA_TYPE);
@@ -250,6 +255,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         });
     }
 
+    /*  filter meals by ingredient */
     @Override
     public void filterMealsByIngredient(String ingredient, NetworkDelegate networkCallback) {
         mealService.filterMealsByIngredient(ingredient).enqueue(new Callback<FilterMealsRoot>() {
@@ -271,27 +277,24 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         });
     }
 
-
+    /*  fetch ingredient image use for ingredient image */
     public void fetchIngredientImage(String ingredientName, NetworkDelegate networkCallback) {
         String imageUrl = "https://www.themealdb.com/images/ingredients/" + ingredientName + "-Small.png";
 
         mealService.getIngredientImage(imageUrl).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    ResponseBody body = response.body();
-                    if (body != null) {
-                        Bitmap bitmap = BitmapFactory.decodeStream(body.byteStream());
-                        networkCallback.onSuccessIngredientImage(bitmap, ingredientName);
-                    }
+                if (response.body() != null ) {
+                    Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
+                    networkCallback.onSuccessIngredientImage(bitmap, ingredientName);
                 } else {
-                    Log.e("MealRepository", "Failed to fetch image: " + response.message());
+                    Log.e(TAG, "fetchIngredientImage:Failed to fetch image: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-                Log.e("MealRepository", "Error: " + throwable.getMessage());
+                Log.e(TAG, "Error: " + throwable.getMessage());
                 networkCallback.onFailureResult(throwable.getMessage());
             }
         });

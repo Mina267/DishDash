@@ -32,13 +32,14 @@ public class SearchResultPresenterImpl implements SearchResultPresenter, Network
     public void addToFavourite(Meal meal) {
         if (meal != null)
         {
+            /* add to favorite data base */
             mealRepository.insertMeal(meal);
         }
     }
 
     @Override
     public void getSavedMeals() {
-
+        /* Get the saved meals from the local data base to use with the favorite floating button */
         _view.markSavedMeals(mealRepository.getStoredMeals());
     }
 
@@ -48,7 +49,11 @@ public class SearchResultPresenterImpl implements SearchResultPresenter, Network
 
     @Override
     public void getMealByName(String mealName) {
-        mealRepository.getMealsByName(mealName, this);
+        if (mealName != null || !mealName.isEmpty())
+        {
+            /* Get the meals from the remote data source by name */
+            mealRepository.getMealsByName(mealName, this);
+        }
     }
 
     @Override
@@ -58,7 +63,11 @@ public class SearchResultPresenterImpl implements SearchResultPresenter, Network
 
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
-        _view.showSearchResult(mealsList);
+        if (mealsList != null || !mealsList.isEmpty())
+        {
+            /* Show the search result in recycler view */
+            _view.showSearchResult(mealsList);
+        }
 
     }
 

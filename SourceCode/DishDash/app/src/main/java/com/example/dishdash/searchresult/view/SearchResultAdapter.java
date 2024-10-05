@@ -55,7 +55,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int currentPosition = holder.getAdapterPosition();
         Meal meal = mealsList.get(currentPosition);
-
+        /* set image */
         Glide.with(context)
                 .load(meal.getStrMealThumb())
                 .apply(new RequestOptions().override(200, 200)
@@ -66,7 +66,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
 
 
-
+        /* set favorite button shape according to if the meal is saved or not */
         if (savedMeals.contains(meal)) {
             Log.i(TAG, "onBindViewHolder: onAddFromFavoriteClick");
             holder.floatingActionButton.setImageResource(R.drawable.bookmarkadded);
@@ -121,9 +121,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     public void updateData(List<Meal> mealsList) {
-        this.mealsList.clear();  // Clear the old data
-        this.mealsList.addAll(mealsList);  // Add the new data
-        notifyDataSetChanged();  // Notify the adapter to refresh the view
+        this.mealsList.clear();
+        this.mealsList.addAll(mealsList);
+        notifyDataSetChanged();
     }
 
     public void setSavedMeals(List<Meal> savedMeals) {

@@ -549,10 +549,12 @@ public class Meal implements Parcelable {
         return dateModified;
     }
 
-    // Constructor
     public Meal() {}
 
-    // Parcelable constructor
+    /* Parcelable constructor : This constructor is called when reconstructing a Meal object from a Parcel.
+     * It reads the data back in the same order it was written
+     * deserialize
+     */
     protected Meal(Parcel in) {
         idMeal = in.readString();
         strMeal = in.readString();
@@ -610,6 +612,7 @@ public class Meal implements Parcelable {
 
     }
 
+    /* responsible for writing the Meal object’s data into a Parcel serializing  */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(idMeal);
@@ -671,7 +674,7 @@ public class Meal implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
+    /* create new instances of the Meal class from a Parcel */
     public static final Creator<Meal> CREATOR = new Creator<Meal>() {
         @Override
         public Meal createFromParcel(Parcel in) {
@@ -689,7 +692,7 @@ public class Meal implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Meal meal = (Meal) o;
-        return strMeal.equals(meal.strMeal); 
+        return strMeal.equals(meal.strMeal);
     }
 
     @Override

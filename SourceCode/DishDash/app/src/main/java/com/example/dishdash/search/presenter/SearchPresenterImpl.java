@@ -219,8 +219,11 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
             if (Meals != null) {
                 _view.showSearchResult(Meals);
             }
+        } else if (filterMealsList == null) {
+            Log.e(TAG, "Error: filterMealsList is null: " + errorMsg);
+            _view.showSearchResult(Meals);
         }
-        Log.e(TAG, "Error: filterMealsList is null: " + errorMsg);
+        Log.e(TAG, "Error: onFailureResult Search: " + errorMsg);
 
     }
 }

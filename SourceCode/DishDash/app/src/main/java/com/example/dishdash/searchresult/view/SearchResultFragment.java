@@ -90,8 +90,9 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
 
 
         SearchView searchView = view.findViewById(R.id.search_view);
-
-        /* Keep SearchView expanded by default */
+        /* Sets the default or resting state of the search field.
+         * If true, a single search icon is shown by default and expands to show the text field and other buttons when pressed. */
+        /* Keep SearchView expanded by default by using false */
         searchView.setIconifiedByDefault(false);
         /* Set the hint text */
         searchView.setQueryHint(getString(R.string.search_hint));
@@ -99,6 +100,9 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                /* Returning false here means the search query has not been handled, and the default behavior (such as hiding the keyboard) will occur.
+                 * no action will happen in the submits
+                 */
                 return false;
             }
 
@@ -106,10 +110,13 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
             public boolean onQueryTextChange(String newText) {
                 /* Check if the input is not empty before making a network call */
                 if (!newText.isEmpty()) {
-                    // Call the presenter to fetch meals as the user types
+                    /* Call the presenter to fetch meals as the user types */
                     searchResultPresenter.getMealByName(newText);
                 }
-                return true; // Return true to indicate the query has been handled
+                /* Return true to indicate the query has been handled
+                 * Means I handle the logic of the search not use the default behavior
+                 */
+                return true;
             }
         });
 
@@ -128,7 +135,7 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
         recyclerViewSearchResult.setAdapter(searchResultAdapter);
 
 
-        /* Check if meals list is empty or null */
+        /* Check if meals list is empty or null so that Show the text "No Search result" */
         if (mealsList == null || mealsList.isEmpty()) {
             txtSearchResult.setVisibility(View.VISIBLE);
             recyclerViewSearchResult.setVisibility(View.GONE);
@@ -138,6 +145,7 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
             searchStatus = true;
         }
 
+        /* Initialize the presenter */
         searchResultPresenter = new SearchResultPresenterImpl(
                 this, MealRepositoryImpl.getInstance(
                 MealRemoteDataSourceImpl.getInstance(),
@@ -145,6 +153,7 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
                 MealPlanLocalDataSourceImpl.getInstance(getContext())
         ));
 
+        /* Mark the saved meals for the adapter to use with favorite floating button */
         searchResultPresenter.getSavedMeals();
 
     }
@@ -153,9 +162,13 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
     public void showSearchResult(List<Meal> meals) {
         Log.i(TAG, "showSearchResult: " + meals);
          if (!searchStatus) {
+             /* Check if meals list is empty or null so that remove the text "No Search result" */
             txtSearchResult.setVisibility(View.GONE);
+            /* Show the recycler view */
             recyclerViewSearchResult.setVisibility(View.VISIBLE);
+            /* Update the adapter with the new search results */
             searchResultAdapter.updateData(meals);
+            /* Set the search status to true so that text "No Search result" is not shown */
             searchStatus = true;
         }
         else {
@@ -166,10 +179,12 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
 
     @Override
     public void onFailureSearch(String errorMsg) {
+        /* Hide the recycler view */
         txtSearchResult.setVisibility(View.VISIBLE);
+        /* Show the text "No Search result" */
         recyclerViewSearchResult.setVisibility(View.GONE);
+        /* Set the search status to false so that text "No Search result" is shown */
         searchStatus = false;
-
     }
 
     public void markSavedMeals(LiveData<List<Meal>> meals) {
@@ -180,6 +195,7 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
                 Log.i(TAG, "onChanged: ");
                 if (mealsList != null)
                 {
+                    /* Mark the saved meals for the adapter to use with favorite floating button */
                     searchResultAdapter.setSavedMeals(mealsList);
                 }
 
@@ -192,7 +208,17 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
 
 
 
+    @Override
+    public void onAddToFavoriteClick(Meal meal) {
+        searchResultPresenter.addToFavourite(meal);
+        Toast.makeText(getContext(), meal.getStrMeal() + "Add to Favorite", Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void onRemoveFromFavoriteClick(Meal meal) {
+        searchResultPresenter.deleteMeal(meal);
+        Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Removed from Favorites", Toast.LENGTH_SHORT).show();
+    }
 
 
 
@@ -208,15 +234,5 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
         return super.onOptionsItemSelected(item); // Let other menu items be handled normally
     }
 
-    @Override
-    public void onAddToFavoriteClick(Meal meal) {
-        searchResultPresenter.addToFavourite(meal);
-        Toast.makeText(getContext(), meal.getStrMeal() + "Add to Favorite", Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onRemoveFromFavoriteClick(Meal meal) {
-        searchResultPresenter.deleteMeal(meal);
-        Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Removed from Favorites", Toast.LENGTH_SHORT).show();
-    }
 }

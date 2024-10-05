@@ -5,7 +5,6 @@ public class MealMapper {
 
 
 
-    // Method to map MealPlan (which extends Meal) to a database MealPlan entity
     public static MealPlan mapMealToMealPlan(Meal response, String date) {
         MealPlan mealPlan = new MealPlan();
         mealPlan.setIdMeal(response.getIdMeal());
@@ -18,7 +17,6 @@ public class MealMapper {
         mealPlan.setStrTags(response.getStrTags());
         mealPlan.setStrYoutube(response.getStrYoutube());
 
-        // Map all ingredients
         mealPlan.setStrIngredient1(response.getStrIngredient1());
         mealPlan.setStrIngredient2(response.getStrIngredient2());
         mealPlan.setStrIngredient3(response.getStrIngredient3());
@@ -40,7 +38,6 @@ public class MealMapper {
         mealPlan.setStrIngredient19(response.getStrIngredient19());
         mealPlan.setStrIngredient20(response.getStrIngredient20());
 
-        // Map all measures
         mealPlan.setStrMeasure1(response.getStrMeasure1());
         mealPlan.setStrMeasure2(response.getStrMeasure2());
         mealPlan.setStrMeasure3(response.getStrMeasure3());
@@ -67,14 +64,12 @@ public class MealMapper {
         mealPlan.setStrCreativeCommonsConfirmed(response.getStrCreativeCommonsConfirmed());
         mealPlan.setDateModified(response.getDateModified());
 
-        // Set the date for MealPlan
         mealPlan.setDate(date);
 
         return mealPlan;
     }
 
 
-    // Method to map MealPlan entity to a Meal object
     public static Meal mapMealPlanToMeal(MealPlan mealPlan) {
         Meal meal = new Meal();
 
@@ -88,7 +83,6 @@ public class MealMapper {
         meal.setStrTags(mealPlan.getStrTags());
         meal.setStrYoutube(mealPlan.getStrYoutube());
 
-        // Map all ingredients
         meal.setStrIngredient1(mealPlan.getStrIngredient1());
         meal.setStrIngredient2(mealPlan.getStrIngredient2());
         meal.setStrIngredient3(mealPlan.getStrIngredient3());
@@ -110,7 +104,6 @@ public class MealMapper {
         meal.setStrIngredient19(mealPlan.getStrIngredient19());
         meal.setStrIngredient20(mealPlan.getStrIngredient20());
 
-        // Map all measures
         meal.setStrMeasure1(mealPlan.getStrMeasure1());
         meal.setStrMeasure2(mealPlan.getStrMeasure2());
         meal.setStrMeasure3(mealPlan.getStrMeasure3());

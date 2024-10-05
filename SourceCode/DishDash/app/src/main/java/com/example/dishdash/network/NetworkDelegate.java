@@ -11,6 +11,7 @@ import com.example.dishdash.model.Meal;
 
 import java.util.List;
 
+/* CallBack for network request */
 public interface NetworkDelegate {
     void onSuccessMealId(Meal meal);
     void onSuccessMeals(List<Meal> mealsList);

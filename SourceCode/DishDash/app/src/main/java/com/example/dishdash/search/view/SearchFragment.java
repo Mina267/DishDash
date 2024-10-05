@@ -69,7 +69,6 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
         txtViewAllSearch = view.findViewById(R.id.txtViewAllSearch);
 
 

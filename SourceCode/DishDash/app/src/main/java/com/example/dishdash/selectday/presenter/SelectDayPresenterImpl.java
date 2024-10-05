@@ -35,6 +35,7 @@ public class SelectDayPresenterImpl implements NetworkDelegate, SelectDayPresent
 
     @Override
     public void addToMealPlan(Meal meal, String date) {
+        /* add Meal to meal plan data base */
         mealRepository.insertPlanMealForDay(meal, date);
     }
 

@@ -13,30 +13,33 @@ public class NetworkConnectionStatus {
     private boolean isRegistered = false;
 
     private NetworkConnectionStatus(Context context) {
+        /*  first obtain an instance of ConnectivityManager: */
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
      /* Singleton */
     public static synchronized NetworkConnectionStatus getInstance(Context context) {
         if (instance == null) {
-            /*  first obtain an instance of ConnectivityManager: */
             instance = new NetworkConnectionStatus(context.getApplicationContext());
         }
         return instance;
     }
 
+    /* Check if network is available and can access or not */
     public boolean isNetworkAvailable() {
-        /* use this instance to get a reference to the current default network for your app: */
+        /* Second: use this instance to get a reference to the current default network for your app: */
         Network network = connectivityManager.getActiveNetwork();
         if (network == null)
         { return false;}
-        /* With a reference to a network, your app can request information about it: */
+        /* Third: With a reference to a network, your app can request information about it: */
         NetworkCapabilities caps  = connectivityManager.getNetworkCapabilities(network);
         /*
             NET_CAPABILITY_INTERNET: indicates that the network is set up to access the internet.
             This is about setup and not actual ability to reach public servers
+            NET_CAPABILITY_VALIDATED: indicates that the network provides actual access to the public internet when it is probed.
+            A network behind a captive portal or a network that doesn't provide domain name resolution doesn't have this capability.
          */
-        if (caps != null && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+        if (caps != null && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED))
         {
             return true;
         }
@@ -50,7 +53,7 @@ public class NetworkConnectionStatus {
     public void registerNetworkCallback(NetworkChangeListener listener) {
         if (!isRegistered) {
             NetworkRequest networkRequest = new NetworkRequest.Builder()
-                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
                     .build();
 
             networkCallback = new ConnectivityManager.NetworkCallback() {
