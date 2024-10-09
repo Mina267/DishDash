@@ -8,6 +8,12 @@ public interface ForYouPresenter {
     /* For getting products by name for recommended Meals */
     void getMealByName(String mealName);
 
+    /* For getting products by area */
+    void getMealByArea(String area);
+
+    /* For getting products by category */
+    void getMealByCategory(String category);
+
     /* For getting Meals and store it in database */
     void addToFavourite(Meal meal);
     void getSavedMeals();

@@ -136,7 +136,10 @@ public class MealRepositoryImpl implements MealRepository {
     }
 
 
-
+    @Override
+    public LiveData<Boolean> isMealPlanExists(String idMeal, String date) {
+        return mealPlanLocalDataSource.isMealExists(idMeal, date);
+    }
 
 
 

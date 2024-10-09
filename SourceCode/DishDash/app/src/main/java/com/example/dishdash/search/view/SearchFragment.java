@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +33,7 @@ import com.example.dishdash.model.ListAllArea;
 import com.example.dishdash.model.ListAllIngredient;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepositoryImpl;
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 import com.example.dishdash.search.presenter.SearchPresenter;
 import com.example.dishdash.search.presenter.SearchPresenterImpl;
@@ -165,38 +165,49 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
     /* View CallBack */
     @Override
     public void showAllCategories(List<Categories> categoriesList) {
-        /* Update the adapter with the new data of categories */
-        categoriesSearchAdapter.updateData(categoriesList);
+        if (categoriesList != null) {
+            /* Update the adapter with the new data of categories */
+            categoriesSearchAdapter.updateData(categoriesList);
+        }
     }
 
     /* View CallBack */
     @Override
     public void showAllAreas(List<ListAllArea> areasList) {
-        /* Update the adapter with the new data of Areas */
-        areasSearchAdapter.updateData(areasList);
+        if (areasList != null) {
+            /* Update the adapter with the new data of Areas */
+            areasSearchAdapter.updateData(areasList);
+        }
     }
 
     /* View CallBack */
     @Override
     public void showAllIngredients(List<ListAllIngredient> ingredientList) {
-        /* Update the adapter with the new data of Ingredients */
-        ingredientsSearchAdapter.updateData(ingredientList);
+        if (ingredientList != null) {
+            /* Update the adapter with the new data of Ingredients */
+            ingredientsSearchAdapter.updateData(ingredientList);
+        }
     }
 
     /* View CallBack */
     @Override
     public void showSearchResult(List<Meal> meals) {
-        /* Navigate to SearchResultFragment to result of search */
-        Log.i(TAG, "showSearchResult: ");
-        NavController navController = Navigation.findNavController((Activity) getActivity(), R.id.nav_host_fragment_activity_main);
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("meals", new ArrayList<>(meals));
-        navController.navigate(R.id.action_navigation_search_to_searchResultFragment, bundle);
+        if (meals != null) {
+            /* Navigate to SearchResultFragment to result of search */
+            Log.i(TAG, "showSearchResult: ");
+            NavController navController = Navigation.findNavController((Activity) getActivity(), R.id.nav_host_fragment_activity_main);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("meals", new ArrayList<>(meals));
+            if (navController.getCurrentDestination().getId() == R.id.navigation_search) {
+                navController.navigate(R.id.action_navigation_search_to_searchResultFragment, bundle);
+            }
+        }
     }
 
     @Override
     public void onStartNoNetwork() {
-        Toast.makeText(getContext(), "No Connection", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "No Connection", "", v1 -> {
+        }, R.drawable.wifi_off_24px);
         showAlertDialog();
 
     }
@@ -230,7 +241,8 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
 
     @Override
     public void newtworkAvailable() {
-        Toast.makeText(getContext().getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Connected", "", v1 -> {
+        }, R.drawable.wifi_24px);
         /* start fetching data */
         searchPresenter.getMealCategories();
         searchPresenter.getMealAreas();
@@ -240,26 +252,33 @@ public class SearchFragment extends Fragment implements SearchMealsView, onSearc
 
     @Override
     public void networkLost() {
-        Toast.makeText(getContext().getApplicationContext(), "Network Lost", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Network Lost", "", v1 -> {
+        }, R.drawable.wifi_off_24px);
 
     }
 
     /* Listener CallBack */
     @Override
     public void onAreaClickListener(String area) {
-        searchPresenter.getMealByArea(area);
+        if (area != null) {
+            searchPresenter.getMealByArea(area);
+        }
     }
 
     /* Listener CallBack */
     @Override
     public void onIngredientClickListener(String ingredient) {
-        searchPresenter.getMealByIngredient(ingredient);
+        if (ingredient != null) {
+            searchPresenter.getMealByIngredient(ingredient);
+        }
     }
 
     /* Listener CallBack */
     @Override
     public void onCategoryClickListener(String category) {
-        searchPresenter.getMealByCategory(category);
+        if (category != null) {
+            searchPresenter.getMealByCategory(category);
+        }
     }
 
     /* Utils onResume and onPuase to make sure that it will check for Network every time return to fragment */

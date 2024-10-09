@@ -15,6 +15,7 @@ import java.util.List;
 public interface NetworkDelegate {
     void onSuccessMealId(Meal meal);
     void onSuccessMeals(List<Meal> mealsList);
+    void onSuccessMealsByFirstLetter(List<Meal> mealsList);
     void onSuccessRandomMeals(List<Meal> mealsList);
     void onSuccessCategories(List<Categories> categoriesList);
 

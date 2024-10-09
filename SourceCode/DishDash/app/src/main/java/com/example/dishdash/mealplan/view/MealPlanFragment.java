@@ -24,6 +24,7 @@ import com.example.dishdash.mealplan.presenter.MealPlanPresenterImpl;
 
 import com.example.dishdash.model.MealPlan;
 import com.example.dishdash.model.MealRepositoryImpl;
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -43,7 +44,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     private TextView fivethDay;
     private TextView sixthDay;
     private TextView seventhDay;
-
+    private TextView txtDate;
     private RecyclerView recyclerViewFirstDay;
     private RecyclerView recyclerViewSecondDay;
     private RecyclerView recyclerViewThirdDay;
@@ -77,6 +78,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         fivethDay = view.findViewById(R.id.fivethDay);
         sixthDay = view.findViewById(R.id.sixthDay);
         seventhDay = view.findViewById(R.id.seventhDay);
+        txtDate = view.findViewById(R.id.txtDate);
         recyclerViewFirstDay = view.findViewById(R.id.recyclerViewFirstDay);
         recyclerViewSecondDay = view.findViewById(R.id.recyclerViewSecondDay);
         recyclerViewThirdDay = view.findViewById(R.id.recyclerViewThirdDay);
@@ -105,6 +107,10 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         if (savedInstanceState != null) {
             currentWeekOffset = savedInstanceState.getInt(CURRENT_DAY);
         }
+
+
+
+
         if (!daysAdapters.isEmpty())
         {
             daysAdapters.clear();
@@ -118,7 +124,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         setupRecyclerView(recyclerViewFivethDay);
         setupRecyclerView(recyclerViewSixthDay);
         setupRecyclerView(recyclerViewSeventhDay);
-
+        txtDate.setText(getDateWithWeekOffset(0));
 
 
 
@@ -130,11 +136,14 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
                 {
                     currentWeekOffset = 3;
                 }
+                txtDate.setText(getDateWithWeekOffset(currentWeekOffset));
+
                 updateMealPlansForCurrentWeek();
 
                 if (currentWeekOffset == 0)
                 {
                     txtViewMealPlan.setText(R.string.thisweek);
+
                 }
                 else {
                     txtViewMealPlan.setText(R.string.nextweek);
@@ -146,6 +155,7 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
             @Override
             public void onClick(View view) {
                 currentWeekOffset = (currentWeekOffset + 1) % 4;
+                txtDate.setText(getDateWithWeekOffset(currentWeekOffset));
                 updateMealPlansForCurrentWeek();
                 if (currentWeekOffset == 0)
                 {
@@ -199,7 +209,23 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     }
 
     private String getDayName(Calendar calendar) {
+        /* SimpleDateFormat is used to create a specific date format.
+         * "EEEE" is the pattern used to extract the full day name (e.g., "Monday").
+         * Locale.getDefault() A locale represents a specific geographical, political, or cultural region
+         * Format defines the programming interface for formatting locale-sensitive objects into Strings
+         * (the format method) and for parsing Strings back into objects (the parseObject method).
+         * public final Date getTime ()
+         * Returns a Date object representing this Calendar's time value (millisecond offset from the Epoch").
+         */
         return new SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.getTime());
+    }
+
+
+    private String getDateWithWeekOffset(int weekOffset) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.WEEK_OF_YEAR, weekOffset);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return dateFormat.format(calendar.getTime());
     }
 
 
@@ -216,11 +242,10 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
 
 
 
-        // Adjust the calendar to start from today or the same day in the upcoming week(s)
+        /* Adjust the calendar to start from today or the same day in the upcoming week(s) */
         calendar.add(Calendar.WEEK_OF_YEAR, weekOffset);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
-
         /* Start of for loop to fetch meals for each day */
         for (int i = 0; i < 7; i++) {
             String date = dateFormat.format(calendar.getTime());
@@ -253,20 +278,17 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
     public void onMealPlanClick(MealPlan mealPlan) {
             mealPlanPresenter.deleteMealPlan(mealPlan);
 
-            /* Show a Snackbar with undo option */
-            Snackbar snackbar = Snackbar.make(getView(), mealPlan.getStrMeal() + " Deleted", Snackbar.LENGTH_LONG);
 
-            snackbar.setAction("Undo", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /* Undo the delete action  */
-                    mealPlanPresenter.addToMealPlan(mealPlan);
+        /* Show a Snackbar with undo option */
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Removed from Plan", "Undo", v1 -> {
+            /* Undo the delete action  */
+            mealPlanPresenter.addToMealPlan(mealPlan);
+            ShowSnakeBar.customSnackbar(getContext() ,getView(), "Restored", "", v2 -> {
+            }, R.drawable.check_circle_24px);
+        }, R.drawable.ic_delete);
 
-                }
-            });
 
-            /* Display the Snackbar */
-            snackbar.show();
+
     }
 
     @Override
@@ -287,6 +309,11 @@ public class MealPlanFragment extends Fragment implements MealPlanView, OnMealPl
         Log.i(TAG, "onPause: ");
         //daysAdapters.clear();
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override

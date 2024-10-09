@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface FavRecipesView {
     void showData(LiveData<List<Meal>> meals);;
-    public void removeMeals (Meal meals);
 }

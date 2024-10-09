@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,14 +22,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dishdash.R;
 import com.example.dishdash.db.MealLocalDataSourceImpl;
 import com.example.dishdash.db.MealPlanLocalDataSourceImpl;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepositoryImpl;
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 import com.example.dishdash.searchresult.presenter.SearchResultPresenter;
 import com.example.dishdash.searchresult.presenter.SearchResultPresenterImpl;
@@ -39,7 +41,7 @@ import java.util.List;
 
 public class SearchResultFragment extends Fragment implements SearchResultView, OnSearchResultClickListener {
     private static final String TAG = "SearchResultFragment";
-
+    private Button btnIngredients;
     private List<Meal> mealsList;
     private SearchResultAdapter searchResultAdapter;
     private RecyclerView recyclerViewSearchResult;
@@ -70,6 +72,8 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
 
         /* Retrieve the meal list passed from the previous fragment*/
         mealsList = getArguments().getParcelableArrayList("meals");
+
+        btnIngredients = view.findViewById(R.id.btnIngredients);
 
         /* Get Fragment manager*/
         mgr = getChildFragmentManager();
@@ -153,6 +157,21 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
                 MealPlanLocalDataSourceImpl.getInstance(getContext())
         ));
 
+
+        btnIngredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+
+                NavOptions navOptionsSearch = new NavOptions.Builder()
+                        .setPopUpTo(R.id.searchResultFragment, true)  // This will pop searchResultFragment
+                        .build();
+                navController.navigate(R.id.ingredientsFragment, null, navOptionsSearch);
+
+            }
+        });
+
+
         /* Mark the saved meals for the adapter to use with favorite floating button */
         searchResultPresenter.getSavedMeals();
 
@@ -211,13 +230,24 @@ public class SearchResultFragment extends Fragment implements SearchResultView, 
     @Override
     public void onAddToFavoriteClick(Meal meal) {
         searchResultPresenter.addToFavourite(meal);
-        Toast.makeText(getContext(), meal.getStrMeal() + "Add to Favorite", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Added to Favorites", "VIEW", v1 -> {
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);;
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_home, true)
+                    .build();
+            navController.navigate(R.id.navigation_fav, null, navOptions);
+        }, R.drawable.check_circle_24px);
+
     }
 
     @Override
     public void onRemoveFromFavoriteClick(Meal meal) {
         searchResultPresenter.deleteMeal(meal);
-        Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Removed from Favorites", Toast.LENGTH_SHORT).show();
+
+
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), " Removed from Favorites", "Undo", v1 -> {
+            searchResultPresenter.addToFavourite(meal);
+        }, R.drawable.ic_delete);
     }
 
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -22,6 +22,7 @@ import com.example.dishdash.db.MealLocalDataSourceImpl;
 import com.example.dishdash.db.MealPlanLocalDataSourceImpl;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepositoryImpl;
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 import com.example.dishdash.selectday.presenter.SelectDayPresenter;
 import com.example.dishdash.selectday.presenter.SelectDayPresenterImpl;
@@ -99,12 +100,23 @@ public class SelectDayFragment extends Fragment implements SelectDayView {
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /* add Meal to meal plan data base */
-                selectDayPresenter.addToMealPlan(meal, mealSelectedDate);
-                /* to Show date and day in snake bar */
-                communicator.viewData(mealSelectedDate);
-                /* Close the fragment and return to previous fragment */
-                getParentFragmentManager().popBackStack();
+                LiveData<Boolean> mealExistsLiveData = selectDayPresenter.isMealPlanExists(meal, mealSelectedDate);
+
+                mealExistsLiveData.observe(getViewLifecycleOwner(), aBoolean -> {
+                    if (aBoolean) {
+
+                        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Meal already exists in plan", "", v1 -> {
+                        }, R.drawable.ic_delete);
+                    } else {
+                        /* add Meal to meal plan data base */
+                        selectDayPresenter.addToMealPlan(meal, mealSelectedDate);
+                        /* to Show date and day in snake bar */
+                        communicator.viewData(mealSelectedDate);
+                        /* Close the fragment and return to previous fragment */
+                        getParentFragmentManager().popBackStack();
+                    }
+                    mealExistsLiveData.removeObservers(getViewLifecycleOwner());
+                });
             }
         });
 

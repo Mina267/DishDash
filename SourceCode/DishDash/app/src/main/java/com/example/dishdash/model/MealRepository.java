@@ -41,6 +41,7 @@ public interface MealRepository {
     void deleteMealPlan(MealPlan mealPlan);
     void insertPlanMealForDay(Meal meal, String date);
 
+    LiveData<Boolean> isMealPlanExists(String idMeal, String date);
 
     void getIngredientImg(String ingredientName, NetworkDelegate networkCallback);
 }

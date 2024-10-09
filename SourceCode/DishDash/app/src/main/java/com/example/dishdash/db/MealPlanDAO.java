@@ -27,4 +27,8 @@ public interface MealPlanDAO {
     /* Retrieve meals for a specific date */
     @Query("SELECT * FROM mealplan_table WHERE Date = :date")
     LiveData<List<MealPlan>> getMealsOfDay(String date);
+
+
+    @Query("SELECT EXISTS(SELECT 1 FROM mealplan_table WHERE idMeal = :idMeal AND Date = :date)")
+    LiveData<Boolean> isMealExists(String idMeal, String date);
 }

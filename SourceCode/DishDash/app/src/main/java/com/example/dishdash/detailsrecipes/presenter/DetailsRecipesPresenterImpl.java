@@ -92,6 +92,11 @@ public class DetailsRecipesPresenterImpl implements DetailsRecipesPresenter, Net
     public void onSuccessMeals(List<Meal> mealsList) {}
 
     @Override
+    public void onSuccessMealsByFirstLetter(List<Meal> mealsList) {
+
+    }
+
+    @Override
     public void onSuccessRandomMeals(List<Meal> mealsList) {
 
     }

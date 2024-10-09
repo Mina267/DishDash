@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +34,9 @@ import com.example.dishdash.foryou.presenter.ForYouPresenter;
 import com.example.dishdash.foryou.presenter.ForYouPresenterImpl;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepositoryImpl;
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
+import com.example.dishdash.network.NetworkConnectionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +48,16 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
     BannerAdapter bannerAdapter;
     RecyclerView foryouRecyclerView;
     RecyclerView foryou_recycler_recommended;
-
+    RecyclerView foryou_recycler_egptian;
+    RecyclerView foryou_recycler_vegan;
 
     LinearLayoutManager layoutManager;
     FragmentManager mgr;
     ForYouPresenter forYouPresenter;
-    ForYouAdapter forYouAdapter;
+    ForYouAdapter recommendedAdapter;
+    ForYouAdapter areaAdapter;
+    ForYouAdapter categoryAdapter;
+    NetworkConnectionStatus connectionStatus;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -65,7 +70,8 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
         foryouRecyclerView = view.findViewById(R.id.foryou_recycler);
         foryou_recycler_recommended = view.findViewById(R.id.foryou_recycler_recommended);
-
+        foryou_recycler_egptian = view.findViewById(R.id.foryou_recycler_egptian);
+        foryou_recycler_vegan = view.findViewById(R.id.foryou_recycler_vegan);
         /* get Fragment manager */
         mgr = getChildFragmentManager();
         return view;
@@ -87,7 +93,9 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         bannerAdapter = new BannerAdapter(getContext(), new ArrayList<>(), this);
         layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
         /* Initialize presenter */
-        forYouPresenter = new ForYouPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ), getContext());
+        connectionStatus = NetworkConnectionStatus.getInstance(getContext());
+
+        forYouPresenter = new ForYouPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ), connectionStatus);
 
         /* set recycler banner view Adapter */
         foryouRecyclerView.setLayoutManager(layoutManager);
@@ -95,10 +103,14 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
 
         /* set recycler foryou view Adapter init */
-        setupRecyclerView(foryou_recycler_recommended);
+        recommendedAdapter = setupRecyclerView(foryou_recycler_recommended);
+        areaAdapter = setupRecyclerView(foryou_recycler_egptian);
+        categoryAdapter = setupRecyclerView(foryou_recycler_vegan);
 
         /* start fetching data */
-        forYouPresenter.getMealByName("Al");
+        forYouPresenter.getMealByName("pr");
+        forYouPresenter.getMealByArea("Egyptian");
+        forYouPresenter.getMealByCategory("Veg");
         forYouPresenter.getRandomProduct();
         forYouPresenter.getSavedMeals();
 
@@ -130,7 +142,7 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
                 if (mealsList != null)
                 {
                     bannerAdapter.setSavedMeals(mealsList);
-                    forYouAdapter.setSavedMeals(mealsList);
+                    recommendedAdapter.setSavedMeals(mealsList);
                 }
             }
         };
@@ -139,16 +151,42 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
     }
 
     @Override
-    public void showResult(List<Meal> mealsList) {
+    public void showResultName(List<Meal> mealsList) {
         if (mealsList != null)
         {
-            Log.i(TAG, "showResult: ");
+            Log.i(TAG, "showResultName: ");
             for (Meal meal : mealsList)
             {
-                Log.i(TAG, "showResult: " + meal.getStrMeal());
+                Log.i(TAG, "showResultName: " + meal.getStrMeal());
             }
 
-            forYouAdapter.updateData(mealsList);
+            recommendedAdapter.updateData(mealsList);
+
+        }
+    }
+
+    @Override
+    public void showResultArea(Meal meal) {
+        if (meal != null)
+        {
+            Log.i(TAG, "showData: " + meal.getStrMeal());
+            areaAdapter.updateDataMeal(meal);
+            areaAdapter.notifyDataSetChanged();
+
+        }
+    }
+
+    @Override
+    public void showResultCategory(List<Meal> mealsList) {
+        if (mealsList != null)
+        {
+            Log.i(TAG, "showResultName: ");
+            for (Meal meal : mealsList)
+            {
+                Log.i(TAG, "showResultName: " + meal.getStrMeal());
+            }
+
+            categoryAdapter.updateData(mealsList);
 
         }
     }
@@ -159,12 +197,14 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
         foryouRecyclerView.setVisibility(View.GONE);
 
         Log.i(TAG, "onFailureResult: ");
-        Toast.makeText(getContext().getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), error, "", v1 -> {
+        }, R.drawable.info_24px);
     }
 
     @Override
     public void onStartNoNetwork() {
-        Toast.makeText(getContext(), "No Connection", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "No Connection", "", v1 -> {
+        }, R.drawable.wifi_off_24px);
         showAlertDialog();
 
     }
@@ -198,7 +238,8 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
     @Override
     public void newtworkAvailable() {
-        Toast.makeText(getContext().getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Connected", "", v1 -> {
+        }, R.drawable.wifi_24px);
         /* start fetching data */
         forYouPresenter.getMealByName("Al");
         forYouPresenter.getRandomProduct();
@@ -207,28 +248,36 @@ public class ForYouFragment extends Fragment  implements OnMealClickListener, Fo
 
     @Override
     public void networkLost() {
-        Toast.makeText(getContext().getApplicationContext(), "Network Lost", Toast.LENGTH_SHORT).show();
-
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Network Lost", "", v1 -> {
+        }, R.drawable.wifi_off_24px);
     }
 
     @Override
     public void onAddToFavoriteClick(Meal meal) {
         forYouPresenter.addToFavourite(meal);
-        Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Addded to Favorites", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Added to Favorites", "VIEW", v1 -> {
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);;
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_home, true)
+                    .build();
+            navController.navigate(R.id.navigation_fav, null, navOptions);
+        }, R.drawable.check_circle_24px);
     }
 
     @Override
     public void onRemoveFromFavoriteClick(Meal meal) {
         forYouPresenter.deleteMeal(meal);
-        Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Removed from Favorites", Toast.LENGTH_SHORT).show();
+        ShowSnakeBar.customSnackbar(getContext() ,getView(), "Removed from Favorites", "Undo", v1 -> {
+            forYouPresenter.addToFavourite(meal);
+        }, R.drawable.ic_delete);
     }
 
-    private void setupRecyclerView(RecyclerView recyclerView) {
+    private ForYouAdapter setupRecyclerView(RecyclerView recyclerView) {
         ForYouAdapter adapter = new ForYouAdapter(getContext(), new ArrayList<>(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.HORIZONTAL, false);
         recyclerView. setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
-        forYouAdapter = adapter;
+        return adapter;
     }
 
     /* Utils onResume and onPuase to make sure that it will check for Network every time return to fragment */

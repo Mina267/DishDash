@@ -68,7 +68,9 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     public void getMealByArea(String area) {
         if (connectionStatus.isNetworkAvailable())
         {
-            mealRepository.getMealsByArea(area, this);
+            if (area != null) {
+                mealRepository.getMealsByArea(area, this);
+            }
         }
     }
 
@@ -114,7 +116,9 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
     }
     @Override
     public void getMealByIngredient(String ingredient) {
-        mealRepository.getMealsByIngredient(ingredient,this);
+        if (ingredient != null) {
+            mealRepository.getMealsByIngredient(ingredient, this);
+        }
     }
 
     @Override
@@ -148,6 +152,11 @@ public class SearchPresenterImpl implements NetworkDelegate, SearchPresenter {
             _view.showSearchResult(mealsList);
 
         }
+
+    }
+
+    @Override
+    public void onSuccessMealsByFirstLetter(List<Meal> mealsList) {
 
     }
 

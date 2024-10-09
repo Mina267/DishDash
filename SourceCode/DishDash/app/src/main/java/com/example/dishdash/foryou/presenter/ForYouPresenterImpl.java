@@ -32,10 +32,10 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     private Boolean startNetworkStatus = false;
 
 
-    public ForYouPresenterImpl(ForYouView view, MealRepository mealRepository, Context context) {
+    public ForYouPresenterImpl(ForYouView view, MealRepository mealRepository, NetworkConnectionStatus connectionStatus) {
         this.view = view;
         this.mealRepository = mealRepository;
-        this.connectionStatus = NetworkConnectionStatus.getInstance(context);
+        this.connectionStatus = connectionStatus;
 
     }
 
@@ -104,21 +104,63 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
     @Override
     public void getMealByName(String mealName) {
         if (connectionStatus.isNetworkAvailable()) {
-            mealRepository.getMealsByName(mealName, this);
+            Log.i(TAG, "getMealByName: ");
+            mealRepository.getMealsByFirstLetter('p', this);
 
         }
     }
 
     @Override
-    public void onSuccessMealId(Meal meal) {
+    public void getMealByArea(String area) {
+        if (connectionStatus.isNetworkAvailable()) {
+            Log.i(TAG, "getMealByArea: " + area);
+            if (area != null)
+            {
+                mealRepository.getMealsByArea(area, this);
+            }
+        }
+    }
 
+    @Override
+    public void getMealByCategory(String category) {
+       if (connectionStatus.isNetworkAvailable()) {
+            Log.i(TAG, "getMealByArea: " + category);
+            if (category != null)
+            {
+                mealRepository.getMealsByName(category, this);
+            }
+        }
+    }
+
+    @Override
+    public void onSuccessMealId(Meal meal) {
+        if (meal != null)
+        {
+            view.showResultArea(meal);
+        }
     }
 
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
         if (mealsList != null)
         {
-            view.showResult(mealsList);
+            for (Meal meal : mealsList)
+            {
+                Log.i(TAG, "onSuccessMealsByFirstLetter: " + meal.getStrMeal());
+            }
+            view.showResultCategory(mealsList);
+        }
+    }
+
+    @Override
+    public void onSuccessMealsByFirstLetter(List<Meal> mealsList) {
+        if (mealsList != null)
+        {
+            for (Meal meal : mealsList)
+            {
+                Log.i(TAG, "onSuccessMealsByFirstLetter: " + meal.getStrMeal());
+            }
+            view.showResultName(mealsList);
         }
     }
 
@@ -155,6 +197,14 @@ public class ForYouPresenterImpl implements NetworkDelegate, ForYouPresenter {
 
     @Override
     public void onSuccessFilteredMeals(List<FilterMeals> filterMealsList, String filterType) {
+        if (filterMealsList != null)
+        {
+            for (FilterMeals meal : filterMealsList)
+            {
+                Log.i(TAG, "onSuccessFilteredMeals: " + meal.getStrMeal());
+                mealRepository.getMealById(meal.getIdMeal(), this);
+            }
+        }
 
     }
     @Override

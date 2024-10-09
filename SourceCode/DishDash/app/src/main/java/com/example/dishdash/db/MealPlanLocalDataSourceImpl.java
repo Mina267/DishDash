@@ -41,12 +41,15 @@ public class MealPlanLocalDataSourceImpl implements MealPlanLocalDataSource {
         new Thread(() -> mealPlanDAO.deleteMeal(mealPlan)).start();
     }
 
-    // Use MealMapper to map Meal to MealPlan and insert with date
     @Override
     public void insertPlanMealForDay(Meal meal, String date) {
         new Thread(() -> {
-            MealPlan mealPlan = MealMapper.mapMealToMealPlan(meal, date); // Map Meal to MealPlan
+            MealPlan mealPlan = MealMapper.mapMealToMealPlan(meal, date);
             mealPlanDAO.insertDay(mealPlan);
         }).start();
+    }
+
+    public LiveData<Boolean> isMealExists(String idMeal, String date) {
+        return mealPlanDAO.isMealExists(idMeal, date);
     }
 }

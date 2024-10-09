@@ -3,6 +3,8 @@ package com.example.dishdash.selectday.presenter;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.dishdash.foryou.presenter.ForYouPresenter;
 import com.example.dishdash.foryou.view.ForYouView;
 import com.example.dishdash.model.Categories;
@@ -39,6 +41,13 @@ public class SelectDayPresenterImpl implements NetworkDelegate, SelectDayPresent
         mealRepository.insertPlanMealForDay(meal, date);
     }
 
+    @Override
+    public LiveData<Boolean> isMealPlanExists(Meal meal, String date)
+    {
+        LiveData<Boolean> isMealExists = mealRepository.isMealPlanExists(meal.getIdMeal(), date);
+        Log.i(TAG, "isMealPlanExists: " + isMealExists);
+        return isMealExists;
+    }
 
     @Override
     public void onSuccessMealId(Meal meal) {
@@ -47,6 +56,11 @@ public class SelectDayPresenterImpl implements NetworkDelegate, SelectDayPresent
 
     @Override
     public void onSuccessMeals(List<Meal> mealsList) {
+
+    }
+
+    @Override
+    public void onSuccessMealsByFirstLetter(List<Meal> mealsList) {
 
     }
 

@@ -24,22 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
-                android:text="@string/search"
-                android:textAllCaps="false"
-                android:textColor="@color/COLOR_text"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
@@ -54,7 +38,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
+                app:layout_constraintTop_toTopOf="parent">
 
             </androidx.appcompat.widget.SearchView>
 
@@ -85,6 +69,8 @@
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:drawableStart="@drawable/travel_explore_24px"
+
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search_view" />
@@ -98,6 +84,8 @@
                 android:textColor="@color/COLOR_text2"
                 android:textColorLink="@color/COLOR_text2"
                 android:textSize="22sp"
+                android:drawableStart="@drawable/grocery_24px"
+
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerViewSearchCategories" />
@@ -112,6 +100,8 @@
                 android:textColorLink="@color/COLOR_text2"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:drawableStart="@drawable/category_search_24px"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"

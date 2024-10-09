@@ -1,5 +1,7 @@
 package com.example.dishdash;
 
+import static java.security.AccessController.getContext;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.NetworkConnectionStatus;
 import com.example.dishdash.selectday.view.Communicator;
 import com.example.dishdash.selectday.view.SelectDayFragment;
@@ -113,21 +116,14 @@ public class MainActivity extends AppCompatActivity implements Communicator {
          * Snackbar.LENGTH_LONG: Specifies that the Snackbar will be shown for a long duration (about 3.5 seconds).
          */
 
-        Snackbar.make(rootView, "Meal added to " + info, Snackbar.LENGTH_LONG)
-                .setAction("view meal plan", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NavOptions navOptions = new NavOptions.Builder()
-                                .setPopUpTo(R.id.navigation_home, true)
-                                .build();
-
-                        navController.navigate(R.id.navigation_mealplan, null, navOptions);
 
 
-                    } /* from material begin website */
-                }).setBackgroundTint(getResources().getColor(R.color.cyan_900)) // Set custom background color
-                .setActionTextColor(getResources().getColor(R.color.blue_grey_50)) // Set custom action text color
-                .show();
+        ShowSnakeBar.customSnackbar(this , rootView, "Meal added to " + info, "VIEW", v1 -> {
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_home, true)
+                    .build();
+            navController.navigate(R.id.navigation_mealplan, null, navOptions);
+        }, R.drawable.check_circle_24px);
     }
 
 

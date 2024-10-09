@@ -66,6 +66,11 @@ public class IngredientsPresenterImpl implements NetworkDelegate, IngredientsPre
     }
 
     @Override
+    public void onSuccessMealsByFirstLetter(List<Meal> mealsList) {
+
+    }
+
+    @Override
     public void onSuccessRandomMeals(List<Meal> mealsList) {
 
     }

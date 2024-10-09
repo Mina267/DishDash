@@ -25,6 +25,7 @@ import com.example.dishdash.favrecipes.presenter.FavRecipesPresenterImpl;
 
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealRepositoryImpl;
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -107,10 +108,7 @@ public class FavRecipesFragment extends Fragment implements FavRecipesView, OnFa
         meals.observe(this, observer);
     }
 
-    @Override
-    public void removeMeals(Meal meals) {
 
-    }
 
     @Override
     public void onFavMealClick(Meal meal) {
@@ -118,20 +116,18 @@ public class FavRecipesFragment extends Fragment implements FavRecipesView, OnFa
         favRecipesPresenter.deleteMeal(meal);
         favRecipesAdapter.notifyDataSetChanged();
 
+
         /* Show a Snackbar with undo option */
-        Snackbar snackbar = Snackbar.make(getView(), meal.getStrMeal() + " Deleted", Snackbar.LENGTH_LONG);
+        ShowSnakeBar.customSnackbar(getContext() ,getView(),   "Meal Deleted", "Undo", v1 -> {
+            /* Undo the delete action  */
+            favRecipesPresenter.addToFav(meal);
+            favRecipesAdapter.notifyDataSetChanged();
+            ShowSnakeBar.customSnackbar(getContext() ,getView(),   "Meal Restored", "", v2 -> {
+            }, R.drawable.check_circle_24px);
+        }, R.drawable.ic_delete);
 
-        snackbar.setAction("Undo", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* Undo the delete action  */
-                favRecipesPresenter.addToFav(meal);
-                favRecipesAdapter.notifyDataSetChanged();
-            }
-        });
 
-        /* Display the Snackbar */
-        snackbar.show();
+
     }
 
 

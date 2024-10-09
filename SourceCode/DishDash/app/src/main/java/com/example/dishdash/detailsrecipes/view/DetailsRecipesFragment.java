@@ -3,19 +3,23 @@ package com.example.dishdash.detailsrecipes.view;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +28,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +44,10 @@ import com.example.dishdash.model.Ingredients;
 import com.example.dishdash.model.Meal;
 import com.example.dishdash.model.MealMapper;
 import com.example.dishdash.model.MealRepositoryImpl;
+import com.example.dishdash.model.ShowSnakeBar;
 import com.example.dishdash.network.MealRemoteDataSourceImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +66,8 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
     private WebView webViewDetails;
     private Meal meal;
     private DetailsRecipesPresenter detailsRecipesPresenter;
-    private List<Ingredients> ListIngredients  = new ArrayList<>();;
+    private List<Ingredients> ListIngredients = new ArrayList<>();
+    ;
     private List<Meal> savedMeals = new ArrayList<>();
     private Map<String, Bitmap> bitmapList;
 
@@ -137,7 +145,6 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         super.onViewCreated(view, savedInstanceState);
 
 
-
         // Handle back button action
         setHasOptionsMenu(true);
 
@@ -168,10 +175,9 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
 
 
         /* meal description */
-        if (meal.getStrTags() == null){
+        if (meal.getStrTags() == null) {
             textRecipeDescription.setText(meal.getStrCategory());
-        }
-        else {
+        } else {
             textRecipeDescription.setText(meal.getStrCategory() + " - " + meal.getStrTags());
         }
 
@@ -179,20 +185,19 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         textStepsDescription.setText(meal.getStrInstructions());
 
         /* Initialize presenter */
-        detailsRecipesPresenter = new DetailsRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
+        detailsRecipesPresenter = new DetailsRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext())));
         /* Initialize adapter */
         detailsIngredientAdapter = new DetailsIngredientAdapter(getContext(), new ArrayList<>(), new HashMap<>());
 
 
-
-        layoutManager = new LinearLayoutManager(  getContext(), RecyclerView.VERTICAL, false);
-        detailsRecipesPresenter = new DetailsRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext()) ));
+        layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        detailsRecipesPresenter = new DetailsRecipesPresenterImpl(this, MealRepositoryImpl.getInstance(MealRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext()), MealPlanLocalDataSourceImpl.getInstance(getContext())));
 
 
         detailsRecipesPresenter.getSavedMeals();
         /* Initialize adapter */
         recyclerViewIngredients.setLayoutManager(layoutManager);
-        recyclerViewIngredients. setAdapter(detailsIngredientAdapter);
+        recyclerViewIngredients.setAdapter(detailsIngredientAdapter);
 
         /* Initialize ingredient list */
         detailsRecipesPresenter.getImgOfIngredient(meal);
@@ -217,24 +222,36 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
                 detailsRecipesPresenter.deleteMeal(meal);
                 floatingActionButtonFav.setImageResource(R.drawable.bookmarkadd);
                 Log.i(TAG, "this.savedMeals.remove(meal); ");
-                Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + " Removed from Favorites", Toast.LENGTH_SHORT).show();
                 this.savedMeals.remove(meal);
+
+
+                ShowSnakeBar.customSnackbar(getContext() ,view, "Removed from Favorites", "Undo", v1 -> {
+                    detailsRecipesPresenter.AddMealToFav(meal);
+                    floatingActionButtonFav.setImageResource(R.drawable.bookmarkadded);
+                    this.savedMeals.add(meal);
+                }, R.drawable.ic_delete);
+
 
             } else {
                 /* Meal is not saved, add it to favorites to add to favorites */
                 detailsRecipesPresenter.AddMealToFav(meal);
                 floatingActionButtonFav.setImageResource(R.drawable.bookmarkadded);
-                Toast.makeText(getContext().getApplicationContext(), meal.getStrMeal() + "Add to Favorite", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "this.savedMeals.add(meal); ");
                 this.savedMeals.add(meal);
+
+
+
+                ShowSnakeBar.customSnackbar(getContext() ,view, "Added to Favorites", "VIEW", v1 -> {
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);;
+                    NavOptions navOptions = new NavOptions.Builder()
+                            .setPopUpTo(R.id.navigation_home, true)
+                            .build();
+                    navController.navigate(R.id.navigation_fav, null, navOptions);
+                }, R.drawable.check_circle_24px);
+                Log.i(TAG, "this.savedMeals.add(meal); ");
 
 
             }
         });
-
-
-
-
 
 
     }
@@ -251,8 +268,6 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
     @Override
@@ -292,6 +307,10 @@ public class DetailsRecipesFragment extends Fragment implements DetailsRecipesVi
 
         meals.observe(this, observer);
     }
+
+
+
+
 
 
 

@@ -146,6 +146,12 @@ public class ForYouAdapter extends RecyclerView.Adapter<ForYouAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void updateDataMeal(Meal meal) {
+        this.mealsList.add(meal);
+        notifyDataSetChanged();
+    }
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView img_card;
         private TextView txt_card;

@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/navigation_fav"
         android:name="com.example.dishdash.favrecipes.view.FavRecipesFragment"
-        android:label="Favourite"
+        android:label="My Favourite"
         tools:layout="@layout/fragment_fav_recipes" >
         <action
             android:id="@+id/action_navigation_fav_to_detailsRecipesFragment"

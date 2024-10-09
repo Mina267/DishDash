@@ -10,6 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -208,6 +209,17 @@
                 app:layout_constraintBottom_toBottomOf="@+id/txtViewMealPlan"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtViewMealPlan" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/COLOR_text2"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/txtViewMealPlan"
+                app:layout_constraintEnd_toStartOf="@+id/imgArrowNext"
+                tools:text="6/10/2024" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

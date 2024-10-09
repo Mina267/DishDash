@@ -69,9 +69,10 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
         mealService.searchMealsByFirstLetter(firstLetter).enqueue(new Callback<MealsRoot>() {
             @Override
             public void onResponse(Call<MealsRoot> call, Response<MealsRoot> response) {
+                Log.i(TAG, "Meals found: searchMealsByFirstLetter" + response.body().getMeals().size());
+
                 if (response.body() != null && response.body().getMeals() != null) {
-                    Log.i(TAG, "Meals found: " + response.body().getMeals().size());
-                    networkCallback.onSuccessMeals(response.body().getMeals());
+                    networkCallback.onSuccessMealsByFirstLetter(response.body().getMeals());
                 } else {
                     networkCallback.onFailureResult("No meals found.");
                 }
@@ -80,6 +81,7 @@ public class MealRemoteDataSourceImpl implements MealRemoteDataSource {
             @Override
             public void onFailure(Call<MealsRoot> call, Throwable throwable) {
                 networkCallback.onFailureResult(throwable.getMessage());
+                Log.i(TAG, "onFailure: searchMealsByFirstLetter");
             }
         });
     }

@@ -24,12 +24,14 @@
     <color name="MENU_ICON_COLOR">#E3E1D9</color>
     <color name="COLOR_text">#01404F</color>
     <color name="COLOR_text2">#025063</color>
+    <color name="snackbar_background">#0B5C70</color>
 
     <color name="COLOR_DARK_GREEN">#01404F</color>
 
     <color name="background_color">#F5F5F5</color>
     <color name="gray">#808080</color>
 
+    <color name="accent_color">#FFFFFF</color>
 
 
 

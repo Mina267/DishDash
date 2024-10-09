@@ -15,4 +15,6 @@ public interface MealPlanLocalDataSource {
     void deleteMeal(MealPlan mealPlan);
 
     void insertPlanMealForDay(Meal meal, String date);
+
+    LiveData<Boolean> isMealExists(String idMeal, String date);
 }

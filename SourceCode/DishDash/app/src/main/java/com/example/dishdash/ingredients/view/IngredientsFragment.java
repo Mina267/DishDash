@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import com.example.dishdash.R;
 import com.example.dishdash.db.MealLocalDataSourceImpl;
@@ -95,10 +94,10 @@ public class IngredientsFragment extends Fragment implements IngredientsMealsVie
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Retrieve the selected item as a String (assuming it's a String)
+
                 String selectedIngredient = (String) adapterView.getItemAtPosition(i);
 
-                // Pass the selected ingredient to the presenter
+
                 ingredientsPresenter.getMealByIngredient(selectedIngredient);
             }
         });
