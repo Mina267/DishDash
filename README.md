@@ -80,14 +80,16 @@ With this feature, users can:
 - **Online Sync**: Favorites are synchronized when online, ensuring up-to-date data across devices.
 
 
-
-<table align="center" style="border-collapse: collapse; border: none;">
+<table align="center" style="border-collapse: collapse; margin: 0 auto;">
   <tr>
-    <td style="border: none;"><img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" width="200px" /></td>
-    <td style="border: none;"><img src="https://github.com/user-attachments/assets/569f1161-29a3-4f8d-917e-05b20ce0cf5a" width="200px" /></td>
+    <td style="border: 0; padding: 0;">
+      <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" width="200px" />
+    </td>
+    <td style="border: 0; padding: 0;">
+      <img src="https://github.com/user-attachments/assets/569f1161-29a3-4f8d-917e-05b20ce0cf5a" width="200px" />
+    </td>
   </tr>
 </table>
-
 
 
 ---
