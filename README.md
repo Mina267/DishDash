@@ -61,6 +61,8 @@ The interface is designed for **user-friendliness**, with an intuitive layout an
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <img src="https://github.com/user-attachments/assets/ba853e0d-90f9-4ef0-aae1-a776ca813bd7" height="400px" style="display: inline-block; vertical-align: middle;" />
 </p>
+
+
 ---
 
 
@@ -277,3 +279,8 @@ DishDash is built using the **MVP (Model-View-Presenter)** architecture, which e
 - **Navigation Component**: To handle screen transitions and navigation flow within the app.
 - **LiveData**: For observing changes in the data and updating the UI in real-time.
 
+<br>
+
+<p align="center">
+	<img src="https://github.com/user-attachments/assets/57d6e356-1cc2-4116-ac4f-c972218ed74c" width=70% height=70% />
+</p>
