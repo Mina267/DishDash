@@ -52,12 +52,11 @@ The interface is designed for **user-friendliness**, with an intuitive layout an
 
 
 
-<table align="center" style="border-collapse: collapse; border: none;">
-  <tr>
-    <td style="border: none;"><img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" height="240px" /></td>
-    <td style="border: none;"><img src="https://github.com/user-attachments/assets/569f1161-29a3-4f8d-917e-05b20ce0cf5a" height="330px" /></td>
-  </tr>
-</table>
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" height="240px" style="display: inline-block; margin-right: 10px; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/569f1161-29a3-4f8d-917e-05b20ce0cf5a" height="330px" style="display: inline-block; vertical-align: middle;" />
+</p>
+
 
 ---
 
@@ -80,16 +79,12 @@ With this feature, users can:
 - **Online Sync**: Favorites are synchronized when online, ensuring up-to-date data across devices.
 
 
-<table align="center" style="border-collapse: collapse; margin: 0 auto;">
-  <tr>
-    <td style="border: 0; padding: 0;">
-      <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" width="200px" />
-    </td>
-    <td style="border: 0; padding: 0;">
-      <img src="https://github.com/user-attachments/assets/569f1161-29a3-4f8d-917e-05b20ce0cf5a" width="200px" />
-    </td>
-  </tr>
-</table>
+
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" height="240px" style="display: inline-block; margin-right: 10px; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/087be6e0-986d-40a2-adf2-26d371f74baf" height="330px" style="display: inline-block; vertical-align: middle;" />
+</p>
+
 
 
 ---
