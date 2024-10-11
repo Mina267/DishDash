@@ -23,7 +23,7 @@ To enhance the user experience, smooth animations were implemented using **Anini
 - **Aninix**: For animation and transitions.
 
 <p align="center">
-	<img src="https://github.com/user-attachments/assets/8104eb92-ab78-4ed5-a1bd-290ac05c0817" width=70% height=70% />
+	<img src="https://github.com/user-attachments/assets/f5f79b4f-4bbf-44f3-99b8-7cf47b03567f" width=20% height=20% />
 </p>
 
 
@@ -55,16 +55,12 @@ The interface is designed for **user-friendliness**, with an intuitive layout an
 
 
 
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-    <div style="flex: 1; text-align: center;">
-        <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" height="400px" />
-    </div>
-    <div style="flex: 1; text-align: center;">
-        <img src="https://github.com/user-attachments/assets/ba853e0d-90f9-4ef0-aae1-a776ca813bd7" height="400px" />
-    </div>
-</div>
-
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" height="400px" style="display: inline-block; margin-right: 20px; vertical-align: middle;" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="https://github.com/user-attachments/assets/ba853e0d-90f9-4ef0-aae1-a776ca813bd7" height="400px" style="display: inline-block; vertical-align: middle;" />
+</p>
 ---
 
 
@@ -86,15 +82,12 @@ With this feature, users can:
 - **Online Sync**: Favorites are synchronized when online, ensuring up-to-date data across devices.
 
 
-<div style="display: flex; justify-content: space-between; align-items: center;">
-    <div style="flex: 1; text-align: center;">
-        <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" height="400px" />
-    </div>
-    <div style="flex: 1; text-align: center;">
-        <img src="https://github.com/user-attachments/assets/f2946805-d416-4aca-91cc-996d0005ca6c" height="400px" />
-    </div>
-</div>
-
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" height="400px" style="display: inline-block; vertical-align: middle;" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="https://github.com/user-attachments/assets/f2946805-d416-4aca-91cc-996d0005ca6c" height="400px" style="display: inline-block; vertical-align: middle;" />
+</p>
 
 ---
 
@@ -113,3 +106,33 @@ Users can:
 **Technologies Used:**
 - **LiveData**: Used to dynamically update the meal plan in real time.
 - **RecyclerViews**: For displaying the weekly meal plan in a structured, responsive layout.
+
+
+
+---
+
+### 5. Search
+
+The **Search** feature in DishDash is designed to offer users an intuitive and versatile way to discover meals, recipes, and ingredients. With a focus on ease of use and quick access to information, this feature incorporates several powerful search options to help users find exactly what they are looking for.
+
+**Key Search Options:**
+- **Live Search by Meal Name**: The search bar supports live search functionality, allowing users to quickly find meals as they type, with instant results displayed for easy selection.
+- **Country-Specific Recipes**: Users can browse meals by country using a **RecyclerView** that provides a list of countries. Selecting a country will display all recipes associated with that cuisine, giving users a rich culinary experience.
+- **Category Search**: Users can search for meals by category, exploring different meal types such as vegan, desserts, or main courses.
+- **Ingredient Search**: A dedicated search bar allows users to find meals based on specific ingredients, streamlining meal discovery based on available ingredients.
+
+**View All Ingredients**: In addition to the ingredient search, users have the option to "View All" ingredients in a structured list, making it easier to explore recipes by key components.
+
+**Key Highlights:**
+- **Live Meal Search**: Fast, real-time search results for meals.
+- **Country, Category, and Ingredient Search**: Offers flexible options for users to explore meals based on origin, type, or ingredients.
+- **"View All" Ingredients**: Easy browsing of all available ingredients for recipe discovery.
+
+**Technologies Used:**
+- **RecyclerView**: For country, category, and ingredient selection, ensuring a responsive and interactive experience.
+- **SearchView**: Integrated with live search functionality to provide instant results.
+
+
+<p align="center">
+	<img src="https://github.com/user-attachments/assets/1eddd1aa-7cb2-4c10-8246-73a6edb3c08e" width=70% height=70% />
+</p>
