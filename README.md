@@ -81,10 +81,9 @@ With this feature, users can:
 
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" height="240px" style="display: inline-block; margin-right: 10px; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" height="240px" style="display: inline-block; margin-right: 10px; vertical-align: middle; position: relative; top: 45px;" />
     <img src="https://github.com/user-attachments/assets/087be6e0-986d-40a2-adf2-26d371f74baf" height="330px" style="display: inline-block; vertical-align: middle;" />
 </p>
-
 
 
 ---
