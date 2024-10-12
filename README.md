@@ -54,15 +54,15 @@ The interface is designed for **user-friendliness**, with an intuitive layout an
 
 
 
-
-
-
 <p align="center">
     <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <img src="https://github.com/user-attachments/assets/ba853e0d-90f9-4ef0-aae1-a776ca813bd7" style="width: 16%; display: inline-block; vertical-align: middle;" />
 </p>
+
+
+
 ---
 
 
@@ -86,12 +86,20 @@ With this feature, users can:
 <br>
 
 
+
+
+
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/user-attachments/assets/f2946805-d416-4aca-91cc-996d0005ca6c" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/f2946805-d416-4aca-91cc-996d0005ca6c" style="width: 16%; display: inline-block; vertical-align: middle;" />
 </p>
+
+
+
+
+
 
 ---
 
@@ -112,12 +120,19 @@ Users can:
 - **RecyclerViews**: For displaying the weekly meal plan in a structured, responsive layout.
 
 <br>
+
+
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/4f2e33f4-3f34-4005-ab33-ea957af3b913" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/4f2e33f4-3f34-4005-ab33-ea957af3b913" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/user-attachments/assets/0224aa62-7701-4374-b17e-2ecd35dd92e6" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/0224aa62-7701-4374-b17e-2ecd35dd92e6" style="width: 16%; display: inline-block; vertical-align: middle;" />
 </p>
+
+
+
+
+
 
 ---
 
@@ -172,12 +187,18 @@ Additionally, if a video tutorial is available for the recipe, it will be includ
 
 <br>
 
+
+
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/f72e74df-df49-48a2-b2b1-539c9c5a7d5f" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/f72e74df-df49-48a2-b2b1-539c9c5a7d5f" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/user-attachments/assets/76e5db5e-4b1c-4502-a82e-80b1c9b49b2c" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/76e5db5e-4b1c-4502-a82e-80b1c9b49b2c" style="width: 16%; display: inline-block; vertical-align: middle;" />
 </p>
+
+
+
+
 
 
 ---
@@ -199,12 +220,21 @@ By using this feature, users can ensure that they are well-prepared for the days
 
 <br>
 
+
+
+
+
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/7255719a-b75f-4c57-baa6-9e59c24122b4" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/7255719a-b75f-4c57-baa6-9e59c24122b4" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/user-attachments/assets/19515416-c13b-4209-88e2-f095ae3c0db3" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/19515416-c13b-4209-88e2-f095ae3c0db3" style="width: 16%; display: inline-block; vertical-align: middle;" />
 </p>
+
+
+
+
+
 
 ---
 
@@ -228,12 +258,20 @@ When a network connection is lost or unavailable, the app prompts the user with 
 - **Local Storage**: Ensures data for meal plans and favorites is available offline and updated locally.
 
 
+
+
+
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/ed1eea02-9e43-46e4-8840-973361e1b86d" height="400px" style="display: inline-block; margin-right: 20px; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/ed1eea02-9e43-46e4-8840-973361e1b86d" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/user-attachments/assets/527d61fd-2f43-4155-ace0-ee859f8933da" height="400px" style="display: inline-block; vertical-align: middle;" />
+    <img src="https://github.com/user-attachments/assets/527d61fd-2f43-4155-ace0-ee859f8933da" style="width: 16%; display: inline-block; vertical-align: middle;" />
 </p>
+
+
+
+
+
 
 ---
 
