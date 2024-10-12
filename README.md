@@ -90,7 +90,7 @@ With this feature, users can:
 
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
+    <img src="https://github.com/user-attachments/assets/0cd4de6d-c105-4607-a98b-41b3630440e2" style="width: 21%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <img src="https://github.com/user-attachments/assets/f2946805-d416-4aca-91cc-996d0005ca6c" style="width: 16%; display: inline-block; vertical-align: middle;" />
@@ -123,7 +123,7 @@ Users can:
 
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/4f2e33f4-3f34-4005-ab33-ea957af3b913" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
+    <img src="https://github.com/user-attachments/assets/4f2e33f4-3f34-4005-ab33-ea957af3b913" style="width: 22%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <img src="https://github.com/user-attachments/assets/0224aa62-7701-4374-b17e-2ecd35dd92e6" style="width: 16%; display: inline-block; vertical-align: middle;" />
@@ -190,7 +190,7 @@ Additionally, if a video tutorial is available for the recipe, it will be includ
 
 
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/f72e74df-df49-48a2-b2b1-539c9c5a7d5f" style="width: 20%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
+    <img src="https://github.com/user-attachments/assets/f72e74df-df49-48a2-b2b1-539c9c5a7d5f" style="width: 19%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <img src="https://github.com/user-attachments/assets/76e5db5e-4b1c-4502-a82e-80b1c9b49b2c" style="width: 16%; display: inline-block; vertical-align: middle;" />
