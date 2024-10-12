@@ -55,11 +55,12 @@ The interface is designed for **user-friendliness**, with an intuitive layout an
 
 
 
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" style="width: 45%; display: inline-block; vertical-align: middle; margin-right: 2%;" />
-    <img src="https://github.com/user-attachments/assets/ba853e0d-90f9-4ef0-aae1-a776ca813bd7" style="width: 45%; display: inline-block; vertical-align: middle;" />
+align="center">
+    <img src="https://github.com/user-attachments/assets/559e8274-896d-4bc5-9b2e-cce224263f5a" height="400px" style="display: inline-block; margin-right: 20px; vertical-align: middle;" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="https://github.com/user-attachments/assets/ba853e0d-90f9-4ef0-aae1-a776ca813bd7" height="400px" style="display: inline-block; vertical-align: middle;" />
 </p>
-
 
 ---
 
