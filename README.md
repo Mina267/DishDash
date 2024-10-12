@@ -328,5 +328,5 @@ DishDash is built using the **MVP (Model-View-Presenter)** architecture, which e
 
 <h2>🚀 Demo</h2>
 
-[DishDash App]([https://drive.google.com/drive/u/0/folders/1wXkt2K9xu4MFUkso8Qdb8Xw_Cet7fETH](https://drive.google.com/file/d/1ZScHE60ECWnHE3j2rkNZlen7VJnyHkbt/view?usp=sharing))
+[DishDash App]([https://drive.google.com/drive/u/0/folders/1wXkt2K9xu4MFUkso8Qdb8Xw_Cet7fETH](https://drive.google.com/file/d/1ZScHE60ECWnHE3j2rkNZlen7VJnyHkbt/view?usp=sharing)
 
